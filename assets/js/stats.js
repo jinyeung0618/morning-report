@@ -163,21 +163,23 @@
         },
         scales: {
           x: {
-            // autoSkip이 마지막 tick을 자를 수 있어 강제 추가
+            // autoSkip 끄고 직접 8개 균등 + 마지막은 항상 포함
             afterBuildTicks: (axis) => {
               const labels = axis.chart.data.labels;
               if (!labels || labels.length === 0) return;
               const lastIndex = labels.length - 1;
-              if (!axis.ticks.some(t => t.value === lastIndex)) {
-                axis.ticks.push({ value: lastIndex });
-              }
+              const desired = 7;
+              const step = Math.max(1, Math.floor(lastIndex / (desired - 1)));
+              const ticks = [];
+              for (let i = 0; i < lastIndex; i += step) ticks.push({ value: i });
+              ticks.push({ value: lastIndex });
+              axis.ticks = ticks;
             },
             ticks: {
               color: c.text,
               font: { size: 10, family: 'SF Mono, Fira Code, monospace' },
               maxRotation: 0,
-              autoSkip: true,
-              maxTicksLimit: 8,
+              autoSkip: false,
               callback: function (val) {
                 const label = this.getLabelForValue(val);
                 if (label === lastLabel) return '현재';
@@ -188,12 +190,13 @@
           },
           y: {
             type: 'logarithmic',
-            // 10의 거듭제곱만 표시 (0.1 / 1 / 10 / 100 / 1000 ...)
+            // 주요 레벨만 표시 (0.1, 0.5, 1, 5, 10, 50, 100, 200, 500, 1000)
             afterBuildTicks: (axis) => {
-              axis.ticks = axis.ticks.filter(t => {
-                const log = Math.log10(t.value);
-                return Math.abs(log - Math.round(log)) < 0.001;
-              });
+              const allowed = [0.1, 0.5, 1, 5, 10, 50, 100, 200, 500, 1000];
+              const min = axis.min, max = axis.max;
+              axis.ticks = allowed
+                .filter(v => v >= min && v <= max)
+                .map(v => ({ value: v }));
             },
             ticks: {
               color: c.text,
