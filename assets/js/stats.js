@@ -97,7 +97,18 @@
     const data = expandToMonthly(stock.refs);
     const c = getThemeColors();
 
+    // 이벤트 룩업 — 차트 포인트에 마커·툴팁 표시용
+    const eventMap = {};
+    (stock.events || []).forEach(e => { eventMap[e.date] = e.title; });
+
+    const pointRadii = data.map(p => eventMap[p.x] ? 5 : 0);
+    const pointHoverRadii = data.map(p => eventMap[p.x] ? 7 : 4);
+    const pointBgs = data.map(p => eventMap[p.x] ? c.line : 'transparent');
+    const pointBorders = data.map(p => eventMap[p.x] ? c.tooltipBg : 'transparent');
+
     if (chart) chart.destroy();
+
+    const lastLabel = data[data.length - 1].x;
 
     chart = new Chart(ctx, {
       type: 'line',
@@ -110,8 +121,12 @@
           backgroundColor: c.fill,
           borderWidth: 1.5,
           fill: true,
-          pointRadius: 0,
-          pointHoverRadius: 4,
+          pointRadius: pointRadii,
+          pointHoverRadius: pointHoverRadii,
+          pointBackgroundColor: pointBgs,
+          pointBorderColor: pointBorders,
+          pointBorderWidth: 2,
+          pointHitRadius: 12,
           tension: 0.15,
         }],
       },
@@ -130,9 +145,15 @@
             padding: 10,
             displayColors: false,
             titleFont: { size: 12, weight: '600' },
-            bodyFont: { size: 13, weight: '600' },
+            bodyFont: { size: 13 },
             callbacks: {
-              label: (ctx) => `${stock.currency}${ctx.parsed.y.toFixed(2)}`,
+              title: (items) => items[0] ? items[0].label : '',
+              label: (item) => {
+                const date = data[item.dataIndex].x;
+                const price = `${stock.currency}${item.parsed.y.toFixed(2)}`;
+                const ev = eventMap[date];
+                return ev ? [price, `📌 ${ev}`] : price;
+              },
             },
           },
         },
@@ -146,6 +167,7 @@
               maxTicksLimit: 9,
               callback: function (val) {
                 const label = this.getLabelForValue(val);
+                if (label === lastLabel) return '현재';
                 return label ? label.split('-')[0] : label;
               },
             },
@@ -165,21 +187,6 @@
     });
   }
 
-  function renderEvents(ticker) {
-    const stock = STOCKS[ticker];
-    const list = document.getElementById('statsEvents');
-    if (!stock || !list) return;
-    list.innerHTML = stock.events.map(e => `
-      <li class="stats-event">
-        <span class="stats-event-date">${e.date}</span>
-        <div class="stats-event-content">
-          <div class="stats-event-title">${escapeHtml(e.title)}</div>
-          <div class="stats-event-desc">${escapeHtml(e.desc)}</div>
-        </div>
-      </li>
-    `).join('');
-  }
-
   function escapeHtml(s) {
     return s.replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   }
@@ -190,18 +197,15 @@
       b.classList.toggle('active', b.dataset.ticker === ticker);
     });
     renderChart(ticker);
-    renderEvents(ticker);
   }
 
   function clearChartAndEvents() {
     if (chart) { chart.destroy(); chart = null; }
-    const list = document.getElementById('statsEvents');
-    if (list) list.innerHTML = '';
     currentTicker = null;
   }
 
   function setStatsBodyVisible(visible) {
-    document.querySelectorAll('.stats-chart-wrap, .stats-events-heading, .stats-events, .stats-disclaimer')
+    document.querySelectorAll('.stats-chart-wrap, .stats-disclaimer')
       .forEach(el => { el.style.display = visible ? '' : 'none'; });
   }
 
@@ -242,7 +246,6 @@
 
     // 첫 렌더
     renderChart(currentTicker);
-    renderEvents(currentTicker);
 
     // 다크모드 변경 감지 → 차트 재렌더 (활성 종목 있을 때만)
     new MutationObserver(() => {

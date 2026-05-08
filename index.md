@@ -26,9 +26,7 @@ charts: true
     <canvas id="stocksChart"></canvas>
   </div>
 
-  <h3 class="stats-events-heading">주요 변곡점</h3>
-  <ul class="stats-events" id="statsEvents"></ul>
-
+  <p class="stats-hint">변곡점에 마커가 표시됩니다. 호버·터치하면 그 시점의 사건이 툴팁에 함께 떠요.</p>
   <p class="stats-disclaimer">차트 데이터는 데모용 근사치입니다. 실시간 데이터 연동은 다음 단계.</p>
 </section>
 

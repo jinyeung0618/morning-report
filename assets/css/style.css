@@ -711,8 +711,14 @@ hr {
   .stats-event-date { min-width: 0; }
 }
 
+.stats-hint {
+  margin-top: var(--space-3);
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+}
+
 .stats-disclaimer {
-  margin-top: var(--space-5);
+  margin-top: var(--space-2);
   font-size: var(--text-xs);
   color: var(--text-tertiary);
   font-style: italic;
