@@ -20,18 +20,19 @@
         ['2020-12', 132.00], ['2022-01', 182.00], ['2022-12', 125.00],
         ['2024-06', 225.00], ['2026-05', 278.00],
       ],
+      // 실제 차트 변곡점(고점·저점)에서 방향을 바꾼 트리거만 표기
       events: [
-        { date: '1985-09', title: '스티브 잡스 애플 떠남', desc: 'Macintosh 출시 후 경영진 갈등으로 잡스가 사임. 회사는 이후 10여 년 부진.' },
-        { date: '1997-09', title: '잡스 임시 CEO 복귀', desc: 'NeXT 인수와 함께 잡스가 돌아옴. iMac, iPod로 이어지는 부활의 시작.' },
-        { date: '2001-10', title: 'iPod 출시', desc: '"1,000 songs in your pocket". 음악 산업과 애플의 운명을 바꾼 제품.' },
-        { date: '2007-06', title: 'iPhone 출시', desc: '스마트폰 시장 자체를 재정의. 이후 10년간 애플 성장의 중심.' },
-        { date: '2008-10', title: '글로벌 금융위기', desc: '리먼 사태로 시장 전반 폭락. 이후 V자 회복.' },
-        { date: '2010-04', title: 'iPad 출시', desc: '태블릿 시장 개창. 새로운 기기 카테고리 정착.' },
-        { date: '2014-09', title: 'iPhone 6 (대화면)', desc: '대화면 트렌드 수용. 중국 시장 공략 가속.' },
-        { date: '2018-08', title: '시가총액 1조 달러 돌파', desc: '미국 상장사 최초 1조달러 진입.' },
-        { date: '2020-03', title: 'COVID-19 폭락', desc: '팬데믹 초기 시장 공포로 모든 자산 급락. 빠른 V자 회복.' },
-        { date: '2022-01', title: '시총 3조 달러 (일시)', desc: '인플레이션·금리 우려로 이후 조정.' },
-        { date: '2024-06', title: 'Apple Intelligence 발표', desc: 'WWDC에서 자체 AI 시스템 공개. 디바이스 기반 AI 통합 노선.' },
+        { date: '1997-09', title: '잡스 복귀 — 부활의 시작 (저점)' },
+        { date: '2000-03', title: '닷컴 버블 정점' },
+        { date: '2002-09', title: '닷컴 버블 저점 — 회복 시작' },
+        { date: '2007-06', title: 'iPhone 출시 — 슈퍼사이클 가속' },
+        { date: '2008-12', title: '글로벌 금융위기 저점' },
+        { date: '2012-09', title: '1차 정점 — 차세대 우려로 조정' },
+        { date: '2018-10', title: '2차 정점 — 매출 둔화 우려' },
+        { date: '2020-03', title: 'COVID-19 저점 — 빠른 V자 회복' },
+        { date: '2022-01', title: '시총 3조 달러 정점' },
+        { date: '2022-12', title: '인플레·금리 우려 저점' },
+        { date: '2024-06', title: 'Apple Intelligence 발표' },
       ],
     },
   };
@@ -162,12 +163,21 @@
         },
         scales: {
           x: {
+            // autoSkip이 마지막 tick을 자를 수 있어 강제 추가
+            afterBuildTicks: (axis) => {
+              const labels = axis.chart.data.labels;
+              if (!labels || labels.length === 0) return;
+              const lastIndex = labels.length - 1;
+              if (!axis.ticks.some(t => t.value === lastIndex)) {
+                axis.ticks.push({ value: lastIndex });
+              }
+            },
             ticks: {
               color: c.text,
               font: { size: 10, family: 'SF Mono, Fira Code, monospace' },
               maxRotation: 0,
               autoSkip: true,
-              maxTicksLimit: 9,
+              maxTicksLimit: 8,
               callback: function (val) {
                 const label = this.getLabelForValue(val);
                 if (label === lastLabel) return '현재';
