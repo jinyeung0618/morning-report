@@ -163,7 +163,8 @@
         },
         scales: {
           x: {
-            // autoSkip 끄고 직접 8개 균등 + 마지막은 항상 포함
+            // autoSkip 끄고 직접 ~7개 균등 + 마지막은 항상 포함
+            // 마지막과 너무 가까운 직전 tick은 스킵 (라벨 겹침 방지)
             afterBuildTicks: (axis) => {
               const labels = axis.chart.data.labels;
               if (!labels || labels.length === 0) return;
@@ -171,7 +172,10 @@
               const desired = 7;
               const step = Math.max(1, Math.floor(lastIndex / (desired - 1)));
               const ticks = [];
-              for (let i = 0; i < lastIndex; i += step) ticks.push({ value: i });
+              for (let i = 0; i < lastIndex; i += step) {
+                if (lastIndex - i < step * 0.6) break;
+                ticks.push({ value: i });
+              }
               ticks.push({ value: lastIndex });
               axis.ticks = ticks;
             },
@@ -182,7 +186,6 @@
               autoSkip: false,
               callback: function (val) {
                 const label = this.getLabelForValue(val);
-                if (label === lastLabel) return '현재';
                 return label ? label.split('-')[0] : label;
               },
             },
