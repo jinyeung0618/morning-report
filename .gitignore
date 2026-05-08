@@ -3,3 +3,9 @@ _site/
 .jekyll-cache/
 .jekyll-metadata
 .DS_Store
+
+# Reference only — not for public repo (company IP)
+designSystem/
+
+# Local backups
+*.bak

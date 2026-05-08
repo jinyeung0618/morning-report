@@ -3,15 +3,20 @@ layout: default
 title: 모닝 리포트
 ---
 
-매일 오전 10시 자동 발행. 시장 흐름과 watchlist 종목 정리.
+<section class="hero">
+  <h1>📰 모닝 리포트</h1>
+  <p class="subtitle">매일 오전 10시 자동 발행. 시장 흐름과 watchlist 종목 정리.</p>
+</section>
 
-## 최근 리포트
+<h2>최근 리포트</h2>
 
+<ul class="report-list">
 {% for post in site.posts %}
-- **[{{ post.date | date: "%Y-%m-%d" }}]({{ post.url | relative_url }})** — {{ post.title }}
+  <li>
+    <a href="{{ post.url | relative_url }}">
+      <span class="date">{{ post.date | date: "%Y-%m-%d" }}</span>
+      <span class="title-text">{{ post.title | replace: "모닝 리포트 — ", "" | replace: "모닝 리포트 ", "" }}</span>
+    </a>
+  </li>
 {% endfor %}
-
----
-
-> 본 리포트는 학습·정보 공유 목적이며 매수·매도 추천이 아닙니다.
-> 모든 결정은 본인 판단입니다.
+</ul>

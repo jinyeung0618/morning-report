@@ -1,9 +1,10 @@
 title: 📰 모닝 리포트
 description: 매일 10시 자동 발행되는 시장·뉴스 리포트
-theme: jekyll-theme-cayman
+author: 최진영(Kcarl)
+
 permalink: /:year/:month/:day/
 
-show_downloads: false
+# 커스텀 레이아웃 사용 (cayman 테마 제거)
 
 defaults:
   - scope:
@@ -11,3 +12,12 @@ defaults:
       type: "posts"
     values:
       layout: default
+
+exclude:
+  - designSystem/
+  - README.md
+  - .gitignore
+  - Gemfile
+  - Gemfile.lock
+  - vendor/
+  - "*.bak"
