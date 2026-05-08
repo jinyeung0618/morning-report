@@ -14,8 +14,9 @@ title: 모닝 리포트
 {% for post in site.posts %}
   <li>
     <a href="{{ post.url | relative_url }}">
-      <span class="date">{{ post.date | date: "%Y-%m-%d" }}</span>
-      <span class="title-text">{{ post.title | replace: "모닝 리포트 — ", "" | replace: "모닝 리포트 ", "" }}</span>
+      <span class="date">{{ post.date | date: "%Y. %-m. %-d" }}</span>
+      <span class="weekday">{{ post.date | date: "%a" | replace: "Mon", "월요일" | replace: "Tue", "화요일" | replace: "Wed", "수요일" | replace: "Thu", "목요일" | replace: "Fri", "금요일" | replace: "Sat", "토요일" | replace: "Sun", "일요일" }}</span>
+      <span class="arrow" aria-hidden="true">→</span>
     </a>
   </li>
 {% endfor %}
