@@ -193,11 +193,22 @@
     renderEvents(ticker);
   }
 
+  function clearChartAndEvents() {
+    if (chart) { chart.destroy(); chart = null; }
+    const list = document.getElementById('statsEvents');
+    if (list) list.innerHTML = '';
+    currentTicker = null;
+  }
+
+  function setStatsBodyVisible(visible) {
+    document.querySelectorAll('.stats-chart-wrap, .stats-events-heading, .stats-events, .stats-disclaimer')
+      .forEach(el => { el.style.display = visible ? '' : 'none'; });
+  }
+
   function selectRegion(region) {
     document.querySelectorAll('.stats-region-tab').forEach(b => {
       b.classList.toggle('active', b.dataset.region === region);
     });
-    // 종목 탭 필터링
     const tickerWrap = document.getElementById('statsTickers');
     if (!tickerWrap) return;
 
@@ -207,14 +218,15 @@
 
     if (visibleTickers.length === 0) {
       tickerWrap.innerHTML = '<p class="stats-empty">아직 등록된 종목이 없습니다.</p>';
+      clearChartAndEvents();
+      setStatsBodyVisible(false);
       return;
     }
 
+    setStatsBodyVisible(true);
     tickerWrap.innerHTML = visibleTickers.map((key, i) => `
       <button class="stats-tab${i === 0 ? ' active' : ''}" data-ticker="${key}" type="button">${escapeHtml(STOCKS[key].label)}</button>
     `).join('');
-
-    // 첫 번째 종목 자동 선택
     selectTicker(visibleTickers[0]);
   }
 
@@ -232,9 +244,9 @@
     renderChart(currentTicker);
     renderEvents(currentTicker);
 
-    // 다크모드 변경 감지 → 차트 재렌더
+    // 다크모드 변경 감지 → 차트 재렌더 (활성 종목 있을 때만)
     new MutationObserver(() => {
-      renderChart(currentTicker);
+      if (currentTicker) renderChart(currentTicker);
     }).observe(document.documentElement, {
       attributes: true,
       attributeFilter: ['data-theme'],
