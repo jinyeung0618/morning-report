@@ -1,0 +1,13 @@
+title: 📰 모닝 리포트
+description: 매일 10시 자동 발행되는 시장·뉴스 리포트
+theme: jekyll-theme-cayman
+permalink: /:year/:month/:day/
+
+show_downloads: false
+
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: default
