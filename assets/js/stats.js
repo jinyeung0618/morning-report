@@ -103,9 +103,11 @@
     (stock.events || []).forEach(e => { eventMap[e.date] = e.title; });
 
     const pointRadii = data.map(p => eventMap[p.x] ? 5 : 0);
-    const pointHoverRadii = data.map(p => eventMap[p.x] ? 7 : 4);
+    const pointHoverRadii = data.map(p => eventMap[p.x] ? 8 : 0);
     const pointBgs = data.map(p => eventMap[p.x] ? c.line : 'transparent');
     const pointBorders = data.map(p => eventMap[p.x] ? c.tooltipBg : 'transparent');
+    // 변곡점에서만 hover 활성 — 나머지는 hit 0
+    const pointHitRadii = data.map(p => eventMap[p.x] ? 20 : 0);
 
     if (chart) chart.destroy();
 
@@ -127,14 +129,14 @@
           pointBackgroundColor: pointBgs,
           pointBorderColor: pointBorders,
           pointBorderWidth: 2,
-          pointHitRadius: 12,
+          pointHitRadius: pointHitRadii,
           tension: 0.15,
         }],
       },
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        interaction: { mode: 'index', intersect: false },
+        interaction: { mode: 'nearest', intersect: true },
         plugins: {
           legend: { display: false },
           tooltip: {
@@ -176,6 +178,13 @@
           },
           y: {
             type: 'logarithmic',
+            // 10의 거듭제곱만 표시 (0.1 / 1 / 10 / 100 / 1000 ...)
+            afterBuildTicks: (axis) => {
+              axis.ticks = axis.ticks.filter(t => {
+                const log = Math.log10(t.value);
+                return Math.abs(log - Math.round(log)) < 0.001;
+              });
+            },
             ticks: {
               color: c.text,
               font: { size: 10, family: 'SF Mono, Fira Code, monospace' },
