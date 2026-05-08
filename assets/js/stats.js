@@ -38,20 +38,21 @@
 
   // ---- 유틸: 참조점 → 월별 series (로그 보간) ----
   function expandToMonthly(refs) {
+    // UTC로 일관 처리 (toISOString() 타임존 시프트 방지)
     const points = refs.map(([d, c]) => {
       const [y, m] = d.split('-').map(Number);
-      return { date: new Date(y, m - 1, 1), close: c };
+      return { date: new Date(Date.UTC(y, m - 1, 1)), close: c };
     });
     points.sort((a, b) => a.date - b.date);
 
     const result = [];
     for (let i = 0; i < points.length - 1; i++) {
       const a = points[i], b = points[i + 1];
-      const months = (b.date.getFullYear() - a.date.getFullYear()) * 12 +
-                     (b.date.getMonth() - a.date.getMonth());
+      const months = (b.date.getUTCFullYear() - a.date.getUTCFullYear()) * 12 +
+                     (b.date.getUTCMonth() - a.date.getUTCMonth());
       for (let m = 0; m < months; m++) {
         const d = new Date(a.date);
-        d.setMonth(d.getMonth() + m);
+        d.setUTCMonth(d.getUTCMonth() + m);
         const t = m / months;
         const lc = Math.log(a.close) * (1 - t) + Math.log(b.close) * t;
         result.push({
