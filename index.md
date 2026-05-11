@@ -47,7 +47,8 @@ charts: true
   </div>
 
   <div class="stats-chart-wrap">
-    <canvas id="stocksChart"></canvas>
+    <div id="stocksChart"></div>
+    <div class="chart-tooltip" id="chartTooltip"></div>
   </div>
 
   <p class="stats-hint">변곡점 마커에 호버·터치하면 그 시점의 사건이 툴팁으로 떠요.</p>

@@ -1,16 +1,15 @@
-// 재테크 — 종목 통계 차트 (데모)
-// Chart.js 기반. 종목 추가 시 STOCKS 객체에 항목 추가.
+// 재테크 — 종목 통계 차트 (TradingView Lightweight Charts 기반)
+// 종목 추가 시 STOCKS 객체에 항목 추가.
 
 (function () {
-  if (typeof Chart === 'undefined') return;
+  if (typeof LightweightCharts === 'undefined') return;
 
-  // ---- 데이터: 참조점에서 월별 시계열로 확장 (split-adjusted 근사치) ----
+  // ---- 데이터 ----
   const STOCKS = {
     AAPL: {
       label: 'AAPL · Apple',
       region: 'us',
       currency: '$',
-      // 주요 참조 가격 (대략, 분할 조정 기준)
       refs: [
         ['1985-01', 0.07], ['1990-01', 0.32], ['1995-01', 0.30],
         ['1997-09', 0.20], ['2000-03', 1.30], ['2002-09', 0.25],
@@ -20,7 +19,6 @@
         ['2020-12', 132.00], ['2022-01', 182.00], ['2022-12', 125.00],
         ['2024-06', 225.00], ['2026-05', 278.00],
       ],
-      // 실제 차트 변곡점(고점·저점)에서 방향을 바꾼 트리거만 표기
       events: [
         { date: '1997-09', title: '잡스 복귀 — 부활의 시작 (저점)' },
         { date: '2000-03', title: '닷컴 버블 정점' },
@@ -37,9 +35,8 @@
     },
   };
 
-  // ---- 유틸: 참조점 → 월별 series (로그 보간) ----
+  // ---- 유틸 ----
   function expandToMonthly(refs) {
-    // UTC로 일관 처리 (toISOString() 타임존 시프트 방지)
     const points = refs.map(([d, c]) => {
       const [y, m] = d.split('-').map(Number);
       return { date: new Date(Date.UTC(y, m - 1, 1)), close: c };
@@ -56,183 +53,206 @@
         d.setUTCMonth(d.getUTCMonth() + m);
         const t = m / months;
         const lc = Math.log(a.close) * (1 - t) + Math.log(b.close) * t;
-        result.push({
-          x: d.toISOString().slice(0, 7),
-          y: Math.exp(lc),
-        });
+        result.push({ time: d.toISOString().slice(0, 10), value: Math.exp(lc) });
       }
     }
     const last = points[points.length - 1];
-    result.push({
-      x: last.date.toISOString().slice(0, 7),
-      y: last.close,
-    });
+    result.push({ time: last.date.toISOString().slice(0, 10), value: last.close });
     return result;
   }
 
-  // ---- 차트 ----
-  let chart = null;
-  let currentTicker = 'AAPL';
-
-  function getThemeColors() {
-    const isDark = document.documentElement.dataset.theme === 'dark';
-    return {
-      isDark,
-      line: isDark ? '#2997FF' : '#0071E3',
-      fill: isDark ? 'rgba(41,151,255,0.10)' : 'rgba(0,113,227,0.06)',
-      grid: isDark ? '#48484A' : '#E8E8ED',
-      gridSoft: isDark ? '#2C2C2E' : '#F5F5F7',
-      text: isDark ? '#AEAEB2' : '#636366',
-      tooltipBg: isDark ? '#1C1C1E' : '#FFFFFF',
-      tooltipText: isDark ? '#F5F5F7' : '#1C1C1E',
-      tooltipBorder: isDark ? '#48484A' : '#E8E8ED',
-    };
+  function cssVar(name) {
+    return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
   }
 
-  function renderChart(ticker) {
-    const stock = STOCKS[ticker];
-    if (!stock) return;
-
-    const canvas = document.getElementById('stocksChart');
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    const data = expandToMonthly(stock.refs);
-    const c = getThemeColors();
-
-    // 이벤트 룩업 — 차트 포인트에 마커·툴팁 표시용
-    const eventMap = {};
-    (stock.events || []).forEach(e => { eventMap[e.date] = e.title; });
-
-    const pointRadii = data.map(p => eventMap[p.x] ? 5 : 0);
-    const pointHoverRadii = data.map(p => eventMap[p.x] ? 8 : 0);
-    const pointBgs = data.map(p => eventMap[p.x] ? c.line : 'transparent');
-    const pointBorders = data.map(p => eventMap[p.x] ? c.tooltipBg : 'transparent');
-    // 변곡점에서만 hover 활성 — 나머지는 hit 0
-    const pointHitRadii = data.map(p => eventMap[p.x] ? 20 : 0);
-
-    if (chart) chart.destroy();
-
-    const lastLabel = data[data.length - 1].x;
-
-    chart = new Chart(ctx, {
-      type: 'line',
-      data: {
-        labels: data.map(p => p.x),
-        datasets: [{
-          label: stock.label,
-          data: data.map(p => p.y),
-          borderColor: c.line,
-          backgroundColor: c.fill,
-          borderWidth: 1.5,
-          fill: true,
-          pointRadius: pointRadii,
-          pointHoverRadius: pointHoverRadii,
-          pointBackgroundColor: pointBgs,
-          pointBorderColor: pointBorders,
-          pointBorderWidth: 2,
-          pointHitRadius: pointHitRadii,
-          tension: 0.15,
-        }],
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        interaction: { mode: 'nearest', intersect: true },
-        plugins: {
-          legend: { display: false },
-          tooltip: {
-            backgroundColor: c.tooltipBg,
-            titleColor: c.tooltipText,
-            bodyColor: c.text,
-            borderColor: c.tooltipBorder,
-            borderWidth: 1,
-            padding: 10,
-            displayColors: false,
-            titleFont: { size: 12, weight: '600' },
-            bodyFont: { size: 13 },
-            callbacks: {
-              title: (items) => items[0] ? items[0].label : '',
-              label: (item) => {
-                const date = data[item.dataIndex].x;
-                const price = `${stock.currency}${item.parsed.y.toFixed(2)}`;
-                const ev = eventMap[date];
-                return ev ? [price, `📌 ${ev}`] : price;
-              },
-            },
-          },
-        },
-        scales: {
-          x: {
-            // autoSkip 끄고 직접 ~7개 균등 + 마지막은 항상 포함
-            // 마지막과 너무 가까운 직전 tick은 스킵 (라벨 겹침 방지)
-            afterBuildTicks: (axis) => {
-              const labels = axis.chart.data.labels;
-              if (!labels || labels.length === 0) return;
-              const lastIndex = labels.length - 1;
-              const desired = 7;
-              const step = Math.max(1, Math.floor(lastIndex / (desired - 1)));
-              const ticks = [];
-              for (let i = 0; i < lastIndex; i += step) {
-                if (lastIndex - i < step * 0.6) break;
-                ticks.push({ value: i });
-              }
-              ticks.push({ value: lastIndex });
-              axis.ticks = ticks;
-            },
-            ticks: {
-              color: c.text,
-              font: { size: 10, family: 'SF Mono, Fira Code, monospace' },
-              maxRotation: 0,
-              autoSkip: false,
-              callback: function (val) {
-                const label = this.getLabelForValue(val);
-                return label ? label.split('-')[0] : label;
-              },
-            },
-            grid: { display: false },
-          },
-          y: {
-            type: 'logarithmic',
-            // 주요 레벨만 표시 (0.1, 0.5, 1, 5, 10, 50, 100, 200, 500, 1000)
-            afterBuildTicks: (axis) => {
-              const allowed = [0.1, 0.5, 1, 5, 10, 50, 100, 200, 500, 1000];
-              const min = axis.min, max = axis.max;
-              axis.ticks = allowed
-                .filter(v => v >= min && v <= max)
-                .map(v => ({ value: v }));
-            },
-            ticks: {
-              color: c.text,
-              font: { size: 10, family: 'SF Mono, Fira Code, monospace' },
-              callback: (v) => stock.currency + v,
-            },
-            grid: { color: c.gridSoft },
-          },
-        },
-      },
-    });
+  function getThemeColors() {
+    return {
+      text: cssVar('--text-secondary') || '#636366',
+      grid: cssVar('--border-color') || '#E8E8ED',
+      gridSoft: cssVar('--bg-tertiary') || '#F5F5F7',
+      line: cssVar('--color-primary') || '#0071E3',
+      fillTop: 'rgba(0, 113, 227, 0.18)',
+      fillBottom: 'rgba(0, 113, 227, 0.00)',
+    };
   }
 
   function escapeHtml(s) {
     return s.replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   }
 
+  // ---- 차트 상태 ----
+  let chart = null;
+  let series = null;
+  let currentTicker = 'AAPL';
+  let currentEventMap = {};
+  let tooltipEl = null;
+
+  // ---- 차트 렌더 ----
+  function renderChart(ticker) {
+    const stock = STOCKS[ticker];
+    if (!stock) return;
+    const container = document.getElementById('stocksChart');
+    if (!container) return;
+
+    const data = expandToMonthly(stock.refs);
+    const colors = getThemeColors();
+
+    // 이벤트 룩업 (YYYY-MM 단위)
+    currentEventMap = {};
+    (stock.events || []).forEach(e => { currentEventMap[e.date] = e.title; });
+
+    // 기존 차트 제거
+    if (chart) {
+      chart.remove();
+      chart = null;
+      series = null;
+    }
+
+    chart = LightweightCharts.createChart(container, {
+      width: container.clientWidth,
+      height: container.clientHeight || 300,
+      layout: {
+        background: { type: 'solid', color: 'transparent' },
+        textColor: colors.text,
+        fontSize: 11,
+        fontFamily: '-apple-system, BlinkMacSystemFont, "SF Mono", monospace',
+      },
+      grid: {
+        vertLines: { visible: false },
+        horzLines: { color: colors.gridSoft, style: 0 },
+      },
+      rightPriceScale: {
+        mode: LightweightCharts.PriceScaleMode.Logarithmic,
+        borderVisible: false,
+        scaleMargins: { top: 0.1, bottom: 0.08 },
+      },
+      timeScale: {
+        borderVisible: false,
+        timeVisible: false,
+        secondsVisible: false,
+        fixLeftEdge: true,
+        fixRightEdge: true,
+      },
+      crosshair: {
+        mode: LightweightCharts.CrosshairMode.Magnet,
+        vertLine: { color: colors.grid, width: 1, style: 2, labelVisible: false },
+        horzLine: { color: colors.grid, width: 1, style: 2, labelVisible: false },
+      },
+      handleScale: { mouseWheel: true, pinch: true, axisPressedMouseMove: false },
+      handleScroll: { mouseWheel: false, pressedMouseMove: true, horzTouchDrag: true, vertTouchDrag: false },
+    });
+
+    series = chart.addAreaSeries({
+      lineColor: colors.line,
+      topColor: colors.fillTop,
+      bottomColor: colors.fillBottom,
+      lineWidth: 2,
+      priceLineVisible: false,
+      lastValueVisible: false,
+      crosshairMarkerVisible: true,
+      crosshairMarkerRadius: 4,
+      crosshairMarkerBorderColor: colors.line,
+      crosshairMarkerBackgroundColor: cssVar('--bg-primary') || '#FFFFFF',
+      priceFormat: {
+        type: 'price',
+        precision: 2,
+        minMove: 0.01,
+      },
+    });
+
+    series.setData(data);
+
+    // 변곡점 마커
+    series.setMarkers((stock.events || []).map(e => ({
+      time: e.date + '-01',
+      position: 'aboveBar',
+      color: colors.line,
+      shape: 'circle',
+      size: 1.2,
+    })));
+
+    chart.timeScale().fitContent();
+
+    // ---- 툴팁 ----
+    tooltipEl = document.getElementById('chartTooltip');
+    if (!tooltipEl) return;
+
+    chart.subscribeCrosshairMove((param) => {
+      if (!param || !param.time || !param.point) {
+        tooltipEl.style.opacity = '0';
+        return;
+      }
+      const ts = typeof param.time === 'string' ? param.time : '';
+      const ym = ts.slice(0, 7); // YYYY-MM
+      const eventTitle = currentEventMap[ym];
+
+      const dataPoint = param.seriesData.get(series);
+      if (!dataPoint) {
+        tooltipEl.style.opacity = '0';
+        return;
+      }
+
+      // 변곡점 근처에서만 툴팁 표시 (이벤트 dates만)
+      if (!eventTitle) {
+        tooltipEl.style.opacity = '0';
+        return;
+      }
+
+      const price = stock.currency + dataPoint.value.toFixed(2);
+      tooltipEl.innerHTML = `
+        <div class="chart-tooltip__date">${escapeHtml(ym)}</div>
+        <div class="chart-tooltip__price">${escapeHtml(price)}</div>
+        <div class="chart-tooltip__event">📌 ${escapeHtml(eventTitle)}</div>
+      `;
+      tooltipEl.style.opacity = '1';
+
+      // 위치 — 마커 위쪽에 떠 있게
+      const rect = container.getBoundingClientRect();
+      const tooltipW = tooltipEl.offsetWidth;
+      const tooltipH = tooltipEl.offsetHeight;
+      let left = param.point.x - tooltipW / 2;
+      let top = param.point.y - tooltipH - 12;
+      // boundary 클램프
+      left = Math.max(8, Math.min(rect.width - tooltipW - 8, left));
+      if (top < 8) top = param.point.y + 16;
+      tooltipEl.style.left = left + 'px';
+      tooltipEl.style.top = top + 'px';
+    });
+
+    // 리사이즈 대응
+    const ro = new ResizeObserver(() => {
+      if (chart && container.clientWidth > 0) {
+        chart.applyOptions({ width: container.clientWidth, height: container.clientHeight });
+      }
+    });
+    ro.observe(container);
+    chart._ro = ro;
+  }
+
+  // ---- 빈 상태 / 가시성 ----
+  function clearChart() {
+    if (chart) {
+      if (chart._ro) chart._ro.disconnect();
+      chart.remove();
+      chart = null;
+      series = null;
+    }
+    if (tooltipEl) tooltipEl.style.opacity = '0';
+    currentTicker = null;
+  }
+
+  function setStatsBodyVisible(visible) {
+    document.querySelectorAll('.stats-chart-wrap, .stats-disclaimer, .stats-hint')
+      .forEach(el => { el.style.display = visible ? '' : 'none'; });
+  }
+
+  // ---- 종목/지역 선택 ----
   function selectTicker(ticker) {
     currentTicker = ticker;
     document.querySelectorAll('[data-ticker]').forEach(b => {
       b.classList.toggle('is-active', b.dataset.ticker === ticker);
     });
     renderChart(ticker);
-  }
-
-  function clearChartAndEvents() {
-    if (chart) { chart.destroy(); chart = null; }
-    currentTicker = null;
-  }
-
-  function setStatsBodyVisible(visible) {
-    document.querySelectorAll('.stats-chart-wrap, .stats-disclaimer')
-      .forEach(el => { el.style.display = visible ? '' : 'none'; });
   }
 
   function selectRegion(region) {
@@ -248,7 +268,7 @@
 
     if (visibleTickers.length === 0) {
       tickerWrap.innerHTML = '<p class="chip-empty">아직 등록된 종목이 없습니다.</p>';
-      clearChartAndEvents();
+      clearChart();
       setStatsBodyVisible(false);
       return;
     }
@@ -262,7 +282,7 @@
 
   // ---- 초기화 ----
   function init() {
-    // 종목·지역 탭 클릭 (이벤트 위임)
+    // 이벤트 위임
     document.addEventListener('click', (e) => {
       const ticker = e.target.closest('[data-ticker]');
       if (ticker) selectTicker(ticker.dataset.ticker);
@@ -270,21 +290,21 @@
       if (region) selectRegion(region.dataset.region);
     });
 
-    // 첫 렌더 — 통계 패널이 *지금 보이는 경우*에만 (탭 전환 시엔 외부에서 호출)
-    const canvas = document.getElementById('stocksChart');
-    if (canvas && canvas.offsetParent !== null) {
+    // 첫 렌더 — 컨테이너가 보이는 경우만
+    const container = document.getElementById('stocksChart');
+    if (container && container.offsetParent !== null) {
       renderChart(currentTicker);
     }
 
-    // 외부(탭 스위처)에서 호출할 재렌더 핸들
+    // 탭 스위처에서 호출
     window._statsRender = () => {
       if (currentTicker) renderChart(currentTicker);
     };
 
-    // 다크모드 변경 감지 → 차트 재렌더 (활성 종목 + 보이는 상태일 때만)
+    // 다크모드 변경 → 차트 재렌더
     new MutationObserver(() => {
-      const cv = document.getElementById('stocksChart');
-      if (currentTicker && cv && cv.offsetParent !== null) renderChart(currentTicker);
+      const c = document.getElementById('stocksChart');
+      if (currentTicker && c && c.offsetParent !== null) renderChart(currentTicker);
     }).observe(document.documentElement, {
       attributes: true,
       attributeFilter: ['data-theme'],
