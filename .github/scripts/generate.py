@@ -1,8 +1,8 @@
 """
-Morning Report Generator (GitHub Actions)
+Morning Report Generator (GitHub Actions, Gemini)
 
 매일 평일 10:03 KST에 GitHub Actions가 호출.
-Claude Opus 4.7 + web_search 로 어제~오늘 뉴스 검색 후 markdown 생성.
+Gemini 2.5 Flash + Google Search grounding 으로 뉴스 검색 후 markdown 생성.
 _posts/YYYY-MM-DD-morning-report.md 로 저장.
 """
 
@@ -12,7 +12,8 @@ import re
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
-import anthropic
+from google import genai
+from google.genai import types
 
 KST = timezone(timedelta(hours=9))
 TODAY = datetime.now(KST).strftime("%Y-%m-%d")
@@ -27,7 +28,7 @@ SYSTEM_PROMPT = f"""너는 사용자의 주식 리서치 보조다. 사용자는
 오늘 날짜: {TODAY} ({WEEKDAY_KO}요일, KST)
 
 ## 절대 원칙
-1. web_search 도구로 직접 검색한 내용만 사용. 추측·예측·"~할 가능성이 높다" 금지.
+1. Google Search 도구로 직접 검색한 내용만 사용. 추측·예측·"~할 가능성이 높다" 금지.
 2. 매수·매도 추천 금지.
 3. 수치는 꼭 필요한 1-2개만. 매출 디테일·EPS·capex 같은 분석가용 숫자 제외.
 4. 출처 URL은 본문에 박지 말 것.
@@ -49,10 +50,10 @@ SYSTEM_PROMPT = f"""너는 사용자의 주식 리서치 보조다. 사용자는
 
 ## 작업 절차
 
-### Step 1 — 거시 뉴스 검색 (web_search 3-4회)
-검색어: "stock market news today", "Fed policy news", "AI chip industry news", "geopolitics economy news"
+### Step 1 — 거시 뉴스 검색
+"stock market news today", "Fed policy news", "AI chip industry news", "geopolitics economy news"
 
-### Step 2 — Watchlist 종목별 검색 (각 1회)
+### Step 2 — Watchlist 종목별 검색
 "[종목명] news today" 또는 "[ticker] news today"
 
 ### Step 3 — 정보 압축
@@ -61,7 +62,7 @@ SYSTEM_PROMPT = f"""너는 사용자의 주식 리서치 보조다. 사용자는
 
 ### Step 4 — Markdown 출력
 
-**중요: 아래 형식의 markdown만 출력. 설명·전제·주석 없이 `---` 부터 시작.**
+**중요: 아래 형식의 markdown만 출력. 설명·전제·주석·코드펜스 없이 `---` 부터 시작.**
 
 ---
 layout: default
@@ -110,39 +111,27 @@ date: {TODAY} 10:03:00 +0900
 출근길 5분 내 통독 가능한 길이. 검색 결과 부실하면 "오늘은 큰 뉴스 없음"도 정직한 답.
 """
 
-USER_PROMPT = f"오늘({TODAY} {WEEKDAY_KO}요일) 모닝 리포트를 작성해줘. 위 절차대로 web_search 도구로 직접 뉴스를 검색한 뒤 markdown 본문만 출력해."
+USER_PROMPT = f"오늘({TODAY} {WEEKDAY_KO}요일) 모닝 리포트를 작성해줘. 위 절차대로 Google Search 로 직접 뉴스를 검색한 뒤 markdown 본문만 출력해."
 
 
 def generate():
-    client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
+    client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
 
-    messages = [{"role": "user", "content": USER_PROMPT}]
+    response = client.models.generate_content(
+        model="gemini-2.5-flash",
+        contents=USER_PROMPT,
+        config=types.GenerateContentConfig(
+            system_instruction=SYSTEM_PROMPT,
+            tools=[types.Tool(google_search=types.GoogleSearch())],
+            temperature=0.7,
+        ),
+    )
 
-    # 한 번 호출 후 pause_turn 이면 이어서 호출
-    for attempt in range(5):
-        with client.messages.stream(
-            model="claude-opus-4-7",
-            max_tokens=16000,
-            system=SYSTEM_PROMPT,
-            thinking={"type": "adaptive"},
-            tools=[{"type": "web_search_20260209", "name": "web_search", "max_uses": 12}],
-            messages=messages,
-        ) as stream:
-            response = stream.get_final_message()
+    full_text = (response.text or "").strip()
 
-        # assistant turn 을 history 에 추가
-        messages.append({"role": "assistant", "content": response.content})
-
-        if response.stop_reason == "pause_turn":
-            # 그대로 이어서 호출
-            continue
-        break
-    else:
-        raise RuntimeError("Too many pause_turn loops")
-
-    # text 블록만 추출
-    text_parts = [b.text for b in response.content if getattr(b, "type", None) == "text"]
-    full_text = "\n".join(text_parts).strip()
+    # 모델이 코드펜스로 감싸는 경우 제거
+    full_text = re.sub(r"^```(?:markdown|md)?\s*\n", "", full_text)
+    full_text = re.sub(r"\n```\s*$", "", full_text)
 
     # 첫 `---` 부터가 jekyll frontmatter
     fm_match = re.search(r"^---\s*$", full_text, re.MULTILINE)
