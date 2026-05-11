@@ -1,9 +1,7 @@
-// 재테크 — 종목 통계 차트 (TradingView Lightweight Charts 기반)
-// 종목 추가 시 STOCKS 객체에 항목 추가.
+// 재테크 — 종목 통계 차트 (Custom SVG, 디자인 시스템 100% 적용)
+// 종속성 없음. 종목 추가 시 STOCKS 객체에 항목 추가.
 
 (function () {
-  if (typeof LightweightCharts === 'undefined') return;
-
   // ---- 데이터 ----
   const STOCKS = {
     AAPL: {
@@ -42,7 +40,6 @@
       return { date: new Date(Date.UTC(y, m - 1, 1)), close: c };
     });
     points.sort((a, b) => a.date - b.date);
-
     const result = [];
     for (let i = 0; i < points.length - 1; i++) {
       const a = points[i], b = points[i + 1];
@@ -65,180 +62,242 @@
     return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
   }
 
-  function getThemeColors() {
-    return {
-      text: cssVar('--text-secondary') || '#636366',
-      grid: cssVar('--border-color') || '#E8E8ED',
-      gridSoft: cssVar('--bg-tertiary') || '#F5F5F7',
-      line: cssVar('--color-primary') || '#0071E3',
-      fillTop: 'rgba(0, 113, 227, 0.18)',
-      fillBottom: 'rgba(0, 113, 227, 0.00)',
-    };
-  }
-
   function escapeHtml(s) {
     return s.replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   }
 
-  // ---- 차트 상태 ----
-  let chart = null;
-  let series = null;
+  // 스케일 (vanilla)
+  function scaleLinear(domain, range) {
+    const [d0, d1] = domain, [r0, r1] = range;
+    return v => r0 + (v - d0) / (d1 - d0) * (r1 - r0);
+  }
+  function scaleLog(domain, range) {
+    const [d0, d1] = domain, [r0, r1] = range;
+    const ld0 = Math.log(d0), ld1 = Math.log(d1);
+    return v => r0 + (Math.log(v) - ld0) / (ld1 - ld0) * (r1 - r0);
+  }
+
+  // Catmull-Rom → Cubic Bezier (부드러운 곡선)
+  function smoothPath(pts) {
+    if (!pts.length) return '';
+    if (pts.length === 1) return `M ${pts[0].x} ${pts[0].y}`;
+    let d = `M ${pts[0].x.toFixed(2)} ${pts[0].y.toFixed(2)}`;
+    for (let i = 0; i < pts.length - 1; i++) {
+      const p0 = pts[i - 1] || pts[i];
+      const p1 = pts[i];
+      const p2 = pts[i + 1];
+      const p3 = pts[i + 2] || p2;
+      const c1x = p1.x + (p2.x - p0.x) / 6;
+      const c1y = p1.y + (p2.y - p0.y) / 6;
+      const c2x = p2.x - (p3.x - p1.x) / 6;
+      const c2y = p2.y - (p3.y - p1.y) / 6;
+      d += ` C ${c1x.toFixed(2)} ${c1y.toFixed(2)}, ${c2x.toFixed(2)} ${c2y.toFixed(2)}, ${p2.x.toFixed(2)} ${p2.y.toFixed(2)}`;
+    }
+    return d;
+  }
+
+  function svg(tag, attrs = {}) {
+    const el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+    for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, v);
+    return el;
+  }
+
+  // ---- 상태 ----
   let currentTicker = 'AAPL';
-  let currentEventMap = {};
-  let tooltipEl = null;
+  let resizeObs = null;
+  const gradientId = 'chart-area-gradient-' + Math.random().toString(36).slice(2, 8);
 
   // ---- 차트 렌더 ----
   function renderChart(ticker) {
-    const stock = STOCKS[ticker];
-    if (!stock) return;
     const container = document.getElementById('stocksChart');
     if (!container) return;
+    const svgEl = container.querySelector('.chart-svg');
+    if (!svgEl) return;
+
+    const stock = STOCKS[ticker];
+    if (!stock) return;
 
     const data = expandToMonthly(stock.refs);
-    const colors = getThemeColors();
+    const eventMap = {};
+    (stock.events || []).forEach(e => { eventMap[e.date] = e.title; });
 
-    // 이벤트 룩업 (YYYY-MM 단위)
-    currentEventMap = {};
-    (stock.events || []).forEach(e => { currentEventMap[e.date] = e.title; });
+    const W = container.clientWidth;
+    const H = container.clientHeight;
+    if (W <= 0 || H <= 0) return;
 
-    // 기존 차트 제거
-    if (chart) {
-      chart.remove();
-      chart = null;
-      series = null;
+    const pad = { top: 18, right: 48, bottom: 30, left: 12 };
+    const plotW = W - pad.left - pad.right;
+    const plotH = H - pad.top - pad.bottom;
+
+    // 토큰 → 실제 값
+    const c = {
+      line: cssVar('--color-primary') || '#0071E3',
+      text: cssVar('--text-secondary') || '#636366',
+      muted: cssVar('--text-tertiary') || '#AEAEB2',
+      grid: cssVar('--border-color') || '#E8E8ED',
+      bg: cssVar('--bg-secondary') || '#FAFAFA',
+    };
+
+    // 스케일
+    const xScale = scaleLinear([0, data.length - 1], [pad.left, pad.left + plotW]);
+    const yVals = data.map(d => d.value);
+    const yMin = Math.min(...yVals);
+    const yMax = Math.max(...yVals);
+    const yDomain = [yMin * 0.7, yMax * 1.15];
+    const yScale = scaleLog(yDomain, [pad.top + plotH, pad.top]);
+
+    // 데이터 포인트
+    const pts = data.map((d, i) => ({ x: xScale(i), y: yScale(d.value) }));
+
+    // Y축 눈금 (주요 레벨만)
+    const allowedY = [0.1, 0.2, 0.5, 1, 2, 5, 10, 20, 50, 100, 200, 500, 1000];
+    const yTicks = allowedY.filter(v => v >= yDomain[0] && v <= yDomain[1]);
+
+    // X축 눈금 (균등 + 마지막)
+    const total = data.length - 1;
+    const desired = 7;
+    const step = Math.max(1, Math.floor(total / (desired - 1)));
+    const xTicks = [];
+    for (let i = 0; i < total; i += step) {
+      if (total - i < step * 0.6) break;
+      xTicks.push(i);
     }
+    xTicks.push(total);
 
-    chart = LightweightCharts.createChart(container, {
-      width: container.clientWidth,
-      height: container.clientHeight || 300,
-      layout: {
-        background: { type: 'solid', color: 'transparent' },
-        textColor: colors.text,
-        fontSize: 11,
-        fontFamily: '-apple-system, BlinkMacSystemFont, "SF Mono", monospace',
-      },
-      grid: {
-        vertLines: { visible: false },
-        horzLines: { color: colors.gridSoft, style: 0 },
-      },
-      rightPriceScale: {
-        mode: LightweightCharts.PriceScaleMode.Logarithmic,
-        borderVisible: false,
-        scaleMargins: { top: 0.1, bottom: 0.08 },
-      },
-      timeScale: {
-        borderVisible: false,
-        timeVisible: false,
-        secondsVisible: false,
-        fixLeftEdge: true,
-        fixRightEdge: true,
-      },
-      crosshair: {
-        mode: LightweightCharts.CrosshairMode.Magnet,
-        vertLine: { color: colors.grid, width: 1, style: 2, labelVisible: false },
-        horzLine: { color: colors.grid, width: 1, style: 2, labelVisible: false },
-      },
-      handleScale: { mouseWheel: true, pinch: true, axisPressedMouseMove: false },
-      handleScroll: { mouseWheel: false, pressedMouseMove: true, horzTouchDrag: true, vertTouchDrag: false },
+    // SVG 초기화
+    svgEl.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    svgEl.setAttribute('preserveAspectRatio', 'none');
+    svgEl.innerHTML = '';
+
+    // defs (gradient)
+    const defs = svg('defs');
+    const grad = svg('linearGradient', { id: gradientId, x1: '0', y1: '0', x2: '0', y2: '1' });
+    grad.appendChild(svg('stop', { offset: '0%', 'stop-color': c.line, 'stop-opacity': '0.18' }));
+    grad.appendChild(svg('stop', { offset: '100%', 'stop-color': c.line, 'stop-opacity': '0' }));
+    defs.appendChild(grad);
+    svgEl.appendChild(defs);
+
+    // 그리드 (수평선)
+    const gGrid = svg('g');
+    yTicks.forEach(v => {
+      const y = yScale(v);
+      gGrid.appendChild(svg('line', {
+        x1: pad.left, x2: pad.left + plotW,
+        y1: y, y2: y,
+        stroke: c.grid, 'stroke-width': '1', 'stroke-dasharray': '2 4',
+      }));
     });
+    svgEl.appendChild(gGrid);
 
-    series = chart.addAreaSeries({
-      lineColor: colors.line,
-      topColor: colors.fillTop,
-      bottomColor: colors.fillBottom,
-      lineWidth: 2,
-      priceLineVisible: false,
-      lastValueVisible: false,
-      crosshairMarkerVisible: true,
-      crosshairMarkerRadius: 4,
-      crosshairMarkerBorderColor: colors.line,
-      crosshairMarkerBackgroundColor: cssVar('--bg-primary') || '#FFFFFF',
-      priceFormat: {
-        type: 'price',
-        precision: 2,
-        minMove: 0.01,
-      },
-    });
+    // Area + Line
+    const linePath = smoothPath(pts);
+    const baseY = pad.top + plotH;
+    const areaD = linePath + ` L ${pts[pts.length - 1].x.toFixed(2)} ${baseY} L ${pts[0].x.toFixed(2)} ${baseY} Z`;
 
-    series.setData(data);
+    svgEl.appendChild(svg('path', { d: areaD, fill: `url(#${gradientId})`, stroke: 'none' }));
+    svgEl.appendChild(svg('path', {
+      d: linePath,
+      fill: 'none', stroke: c.line, 'stroke-width': '2',
+      'stroke-linecap': 'round', 'stroke-linejoin': 'round',
+    }));
 
     // 변곡점 마커
-    series.setMarkers((stock.events || []).map(e => ({
-      time: e.date + '-01',
-      position: 'aboveBar',
-      color: colors.line,
-      shape: 'circle',
-      size: 1.2,
-    })));
-
-    chart.timeScale().fitContent();
-
-    // ---- 툴팁 ----
-    tooltipEl = document.getElementById('chartTooltip');
-    if (!tooltipEl) return;
-
-    chart.subscribeCrosshairMove((param) => {
-      if (!param || !param.time || !param.point) {
-        tooltipEl.style.opacity = '0';
-        return;
-      }
-      const ts = typeof param.time === 'string' ? param.time : '';
-      const ym = ts.slice(0, 7); // YYYY-MM
-      const eventTitle = currentEventMap[ym];
-
-      const dataPoint = param.seriesData.get(series);
-      if (!dataPoint) {
-        tooltipEl.style.opacity = '0';
-        return;
-      }
-
-      // 변곡점 근처에서만 툴팁 표시 (이벤트 dates만)
-      if (!eventTitle) {
-        tooltipEl.style.opacity = '0';
-        return;
-      }
-
-      const price = stock.currency + dataPoint.value.toFixed(2);
-      tooltipEl.innerHTML = `
-        <div class="chart-tooltip__date">${escapeHtml(ym)}</div>
-        <div class="chart-tooltip__price">${escapeHtml(price)}</div>
-        <div class="chart-tooltip__event">📌 ${escapeHtml(eventTitle)}</div>
-      `;
-      tooltipEl.style.opacity = '1';
-
-      // 위치 — 마커 위쪽에 떠 있게
-      const rect = container.getBoundingClientRect();
-      const tooltipW = tooltipEl.offsetWidth;
-      const tooltipH = tooltipEl.offsetHeight;
-      let left = param.point.x - tooltipW / 2;
-      let top = param.point.y - tooltipH - 12;
-      // boundary 클램프
-      left = Math.max(8, Math.min(rect.width - tooltipW - 8, left));
-      if (top < 8) top = param.point.y + 16;
-      tooltipEl.style.left = left + 'px';
-      tooltipEl.style.top = top + 'px';
+    const gMarkers = svg('g');
+    const eventPts = [];
+    data.forEach((d, i) => {
+      const ym = d.time.slice(0, 7);
+      const title = eventMap[ym];
+      if (!title) return;
+      const x = pts[i].x, y = pts[i].y;
+      // halo
+      gMarkers.appendChild(svg('circle', {
+        cx: x, cy: y, r: 9, fill: c.line, 'fill-opacity': '0.14',
+      }));
+      // dot with border
+      gMarkers.appendChild(svg('circle', {
+        cx: x, cy: y, r: 4.5, fill: c.line, stroke: c.bg, 'stroke-width': '2.5',
+      }));
+      eventPts.push({ x, y, date: ym, title, value: d.value });
     });
+    svgEl.appendChild(gMarkers);
 
-    // 리사이즈 대응
-    const ro = new ResizeObserver(() => {
-      if (chart && container.clientWidth > 0) {
-        chart.applyOptions({ width: container.clientWidth, height: container.clientHeight });
-      }
+    // Y축 라벨 (우측)
+    const gY = svg('g');
+    yTicks.forEach(v => {
+      const t = svg('text', {
+        x: pad.left + plotW + 10,
+        y: yScale(v) + 4,
+        fill: c.muted,
+        'font-size': '11',
+        'font-family': "'SF Mono', 'Fira Code', monospace",
+      });
+      t.textContent = stock.currency + v;
+      gY.appendChild(t);
     });
-    ro.observe(container);
-    chart._ro = ro;
+    svgEl.appendChild(gY);
+
+    // X축 라벨 (하단)
+    const gX = svg('g');
+    xTicks.forEach(i => {
+      const t = svg('text', {
+        x: pts[i].x,
+        y: baseY + 20,
+        fill: c.muted,
+        'font-size': '11',
+        'font-family': "'SF Mono', 'Fira Code', monospace",
+        'text-anchor': 'middle',
+      });
+      t.textContent = data[i].time.slice(0, 4);
+      gX.appendChild(t);
+    });
+    svgEl.appendChild(gX);
+
+    // 호버 타깃 — 변곡점에만
+    const tooltip = document.getElementById('chartTooltip');
+    const gHover = svg('g');
+    eventPts.forEach(ev => {
+      const target = svg('circle', {
+        cx: ev.x, cy: ev.y, r: 18,
+        fill: 'transparent', style: 'cursor: pointer',
+      });
+      const show = () => showTooltip(tooltip, ev, container, stock);
+      const hide = () => hideTooltip(tooltip);
+      target.addEventListener('mouseenter', show);
+      target.addEventListener('mouseleave', hide);
+      target.addEventListener('touchstart', (e) => { e.preventDefault(); show(); });
+      gHover.appendChild(target);
+    });
+    svgEl.appendChild(gHover);
   }
 
-  // ---- 빈 상태 / 가시성 ----
+  function showTooltip(el, ev, container, stock) {
+    if (!el) return;
+    el.innerHTML = `
+      <div class="chart-tooltip__date">${ev.date}</div>
+      <div class="chart-tooltip__price">${stock.currency}${ev.value.toFixed(2)}</div>
+      <div class="chart-tooltip__event">📌 ${escapeHtml(ev.title)}</div>
+    `;
+    el.style.opacity = '1';
+    const rect = container.getBoundingClientRect();
+    const tw = el.offsetWidth, th = el.offsetHeight;
+    let left = ev.x - tw / 2;
+    let top = ev.y - th - 14;
+    left = Math.max(8, Math.min(rect.width - tw - 8, left));
+    if (top < 8) top = ev.y + 22;
+    el.style.left = left + 'px';
+    el.style.top = top + 'px';
+  }
+
+  function hideTooltip(el) { if (el) el.style.opacity = '0'; }
+
   function clearChart() {
-    if (chart) {
-      if (chart._ro) chart._ro.disconnect();
-      chart.remove();
-      chart = null;
-      series = null;
-    }
-    if (tooltipEl) tooltipEl.style.opacity = '0';
+    const container = document.getElementById('stocksChart');
+    if (!container) return;
+    const svgEl = container.querySelector('.chart-svg');
+    if (svgEl) svgEl.innerHTML = '';
+    hideTooltip(document.getElementById('chartTooltip'));
     currentTicker = null;
+    if (resizeObs) { resizeObs.disconnect(); resizeObs = null; }
   }
 
   function setStatsBodyVisible(visible) {
@@ -246,7 +305,6 @@
       .forEach(el => { el.style.display = visible ? '' : 'none'; });
   }
 
-  // ---- 종목/지역 선택 ----
   function selectTicker(ticker) {
     currentTicker = ticker;
     document.querySelectorAll('[data-ticker]').forEach(b => {
@@ -259,56 +317,58 @@
     document.querySelectorAll('[data-region]').forEach(b => {
       b.classList.toggle('is-active', b.dataset.region === region);
     });
-    const tickerWrap = document.getElementById('statsTickers');
-    if (!tickerWrap) return;
-
-    const visibleTickers = Object.entries(STOCKS)
-      .filter(([_, s]) => s.region === region)
-      .map(([key]) => key);
-
-    if (visibleTickers.length === 0) {
-      tickerWrap.innerHTML = '<p class="chip-empty">아직 등록된 종목이 없습니다.</p>';
+    const wrap = document.getElementById('statsTickers');
+    if (!wrap) return;
+    const visible = Object.entries(STOCKS).filter(([_, s]) => s.region === region).map(([k]) => k);
+    if (!visible.length) {
+      wrap.innerHTML = '<p class="chip-empty">아직 등록된 종목이 없습니다.</p>';
       clearChart();
       setStatsBodyVisible(false);
       return;
     }
-
     setStatsBodyVisible(true);
-    tickerWrap.innerHTML = visibleTickers.map((key, i) => `
-      <button class="chip${i === 0 ? ' is-active' : ''}" data-ticker="${key}" type="button" role="tab">${escapeHtml(STOCKS[key].label)}</button>
+    wrap.innerHTML = visible.map((k, i) => `
+      <button class="chip${i === 0 ? ' is-active' : ''}" data-ticker="${k}" type="button" role="tab">${escapeHtml(STOCKS[k].label)}</button>
     `).join('');
-    selectTicker(visibleTickers[0]);
+    selectTicker(visible[0]);
+  }
+
+  function attachResize(container) {
+    if (resizeObs) resizeObs.disconnect();
+    resizeObs = new ResizeObserver(() => {
+      if (currentTicker && container.clientWidth > 0) renderChart(currentTicker);
+    });
+    resizeObs.observe(container);
   }
 
   // ---- 초기화 ----
   function init() {
-    // 이벤트 위임
     document.addEventListener('click', (e) => {
-      const ticker = e.target.closest('[data-ticker]');
-      if (ticker) selectTicker(ticker.dataset.ticker);
-      const region = e.target.closest('[data-region]');
-      if (region) selectRegion(region.dataset.region);
+      const t = e.target.closest('[data-ticker]');
+      if (t) selectTicker(t.dataset.ticker);
+      const r = e.target.closest('[data-region]');
+      if (r) selectRegion(r.dataset.region);
     });
 
-    // 첫 렌더 — 컨테이너가 보이는 경우만
     const container = document.getElementById('stocksChart');
     if (container && container.offsetParent !== null) {
       renderChart(currentTicker);
+      attachResize(container);
     }
 
-    // 탭 스위처에서 호출
     window._statsRender = () => {
-      if (currentTicker) renderChart(currentTicker);
+      if (currentTicker) {
+        renderChart(currentTicker);
+        const c = document.getElementById('stocksChart');
+        if (c) attachResize(c);
+      }
     };
 
-    // 다크모드 변경 → 차트 재렌더
+    // 다크모드 재렌더
     new MutationObserver(() => {
       const c = document.getElementById('stocksChart');
       if (currentTicker && c && c.offsetParent !== null) renderChart(currentTicker);
-    }).observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ['data-theme'],
-    });
+    }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
   }
 
   if (document.readyState === 'loading') {

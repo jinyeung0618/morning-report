@@ -673,18 +673,18 @@ hr {
   background: var(--bg-secondary);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
-  padding: var(--space-4);
   margin-bottom: var(--space-8);
   overflow: hidden;
 }
 
-.stats-chart-wrap > div#stocksChart {
+.stats-chart-wrap .chart-svg {
   width: 100%;
   height: 100%;
+  display: block;
 }
 
 @media (min-width: 768px) {
-  .stats-chart-wrap { height: 420px; padding: var(--space-5); }
+  .stats-chart-wrap { height: 420px; }
 }
 
 /* 차트 위 변곡점 툴팁 */

@@ -46,8 +46,8 @@ charts: true
     <button class="chip is-active" data-ticker="AAPL" type="button" role="tab">AAPL · Apple</button>
   </div>
 
-  <div class="stats-chart-wrap">
-    <div id="stocksChart"></div>
+  <div class="stats-chart-wrap" id="stocksChart">
+    <svg class="chart-svg" aria-label="가격 차트"></svg>
     <div class="chart-tooltip" id="chartTooltip"></div>
   </div>
 
