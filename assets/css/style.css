@@ -537,6 +537,7 @@ hr {
   font-weight: 600;
   flex-shrink: 0;
   letter-spacing: var(--tracking-normal);
+  min-width: 12ch;
 }
 
 .report-list .weekday {
