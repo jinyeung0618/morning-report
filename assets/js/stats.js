@@ -31,6 +31,41 @@
         { date: '2024-06', title: 'Apple Intelligence 발표' },
       ],
     },
+
+    // 국내 ETF
+    '487230': {
+      label: '487230 · 미국AI전력핵심인프라',
+      region: 'kr',
+      currency: '₩',
+      refs: [
+        ['2024-07', 10000], ['2024-10', 11200], ['2024-12', 12000],
+        ['2025-04', 10500], ['2025-09', 16000], ['2026-01', 18120],
+        ['2026-05', 18500],
+      ],
+      events: [
+        { date: '2024-07', title: 'KODEX 상장 — 미국 AI 전력 인프라 (GE Vernova·Vertiv 중심)' },
+        { date: '2025-04', title: '단기 저점' },
+        { date: '2025-09', title: 'AI 데이터센터 전력 수요 폭증으로 반등' },
+        { date: '2026-01', title: '52주 신고가권 진입' },
+      ],
+    },
+
+    '487240': {
+      label: '487240 · AI전력핵심설비',
+      region: 'kr',
+      currency: '₩',
+      refs: [
+        ['2024-07', 10000], ['2024-12', 12000], ['2025-03', 14000],
+        ['2025-09', 25000], ['2025-12', 40000], ['2026-03', 55000],
+        ['2026-05', 61575],
+      ],
+      events: [
+        { date: '2024-07', title: 'KODEX 상장 — 국내 AI 전력 설비 (LS ELECTRIC·효성중공업 중심)' },
+        { date: '2025-09', title: 'AI 전력 설비 수요 본격화' },
+        { date: '2025-12', title: '국내 AI 데이터센터 발주 가속' },
+        { date: '2026-05', title: '52주 신고가 — 1년간 +498%' },
+      ],
+    },
   };
 
   // ---- 유틸 ----
@@ -149,8 +184,11 @@
     // 데이터 포인트
     const pts = data.map((d, i) => ({ x: xScale(i), y: yScale(d.value) }));
 
-    // Y축 눈금 (주요 레벨만)
-    const allowedY = [0.1, 0.2, 0.5, 1, 2, 5, 10, 20, 50, 100, 200, 500, 1000];
+    // Y축 눈금 (주요 레벨만, USD~KRW 둘 다 커버)
+    const allowedY = [
+      0.1, 0.2, 0.5, 1, 2, 5, 10, 20, 50, 100, 200, 500,
+      1000, 2000, 5000, 10000, 20000, 50000, 100000,
+    ];
     const yTicks = allowedY.filter(v => v >= yDomain[0] && v <= yDomain[1]);
 
     // X축 눈금 (균등 + 마지막)
@@ -222,6 +260,10 @@
     svgEl.appendChild(gMarkers);
 
     // Y축 라벨 (우측)
+    const formatPrice = (v) => v >= 1000
+      ? stock.currency + v.toLocaleString('en-US')
+      : stock.currency + v;
+
     const gY = svg('g');
     yTicks.forEach(v => {
       const t = svg('text', {
@@ -231,7 +273,7 @@
         'font-size': '11',
         'font-family': "'SF Mono', 'Fira Code', monospace",
       });
-      t.textContent = stock.currency + v;
+      t.textContent = formatPrice(v);
       gY.appendChild(t);
     });
     svgEl.appendChild(gY);
@@ -272,9 +314,12 @@
 
   function showTooltip(el, ev, container, stock) {
     if (!el) return;
+    const priceStr = ev.value >= 1000
+      ? stock.currency + Math.round(ev.value).toLocaleString('en-US')
+      : stock.currency + ev.value.toFixed(2);
     el.innerHTML = `
       <div class="chart-tooltip__date">${ev.date}</div>
-      <div class="chart-tooltip__price">${stock.currency}${ev.value.toFixed(2)}</div>
+      <div class="chart-tooltip__price">${priceStr}</div>
       <div class="chart-tooltip__event">📌 ${escapeHtml(ev.title)}</div>
     `;
     el.style.opacity = '1';
