@@ -1,0 +1,48 @@
+name: Morning Report
+
+on:
+  schedule:
+    # 10:03 KST 평일 = 01:03 UTC 평일
+    # GitHub Actions cron은 UTC. 최대 15~60분 지연 가능.
+    - cron: '3 1 * * 1-5'
+  workflow_dispatch:  # 수동 트리거 (테스트용)
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        working-directory: .github/scripts
+        run: pip install -r requirements.txt
+
+      - name: Generate morning report
+        working-directory: .github/scripts
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python generate.py
+
+      - name: Commit and push
+        run: |
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "Morning Report Bot"
+          DATE=$(TZ=Asia/Seoul date +%Y-%m-%d)
+          if git status --porcelain _posts/ | grep -q .; then
+            git add _posts/
+            git commit -m "Morning report ${DATE}"
+            git push
+          else
+            echo "No new report to commit"
+            exit 1
+          fi
