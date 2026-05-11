@@ -76,13 +76,13 @@
   <!-- Section tab switcher -->
   <script>
     (function () {
-      const tabs = document.querySelectorAll('.section-tab');
+      const tabs = document.querySelectorAll('[data-section]');
       if (!tabs.length) return;
       const panels = document.querySelectorAll('.section-panel');
 
       function activate(name) {
-        tabs.forEach(t => t.classList.toggle('active', t.dataset.section === name));
-        panels.forEach(p => p.classList.toggle('active', p.id === 'section-' + name));
+        tabs.forEach(t => t.classList.toggle('is-active', t.dataset.section === name));
+        panels.forEach(p => p.classList.toggle('is-active', p.id === 'section-' + name));
         if (location.hash !== '#' + name) {
           history.replaceState(null, '', '#' + name);
         }

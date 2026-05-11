@@ -9,12 +9,14 @@ charts: true
   <p class="subtitle">학습하면서 정리하는 시장·종목 노트.</p>
 </section>
 
-<nav class="section-tabs" role="tablist" aria-label="섹션 선택">
-  <button class="section-tab active" data-section="reports" type="button">📰 모닝 리포트</button>
-  <button class="section-tab" data-section="stats" type="button">📊 지수·종목 통계</button>
+<nav class="section-nav" role="tablist" aria-label="섹션 선택">
+  <div class="tabset tabset--lg">
+    <button class="tabset__btn is-active" data-section="reports" type="button" role="tab">📰 모닝 리포트</button>
+    <button class="tabset__btn" data-section="stats" type="button" role="tab">📊 지수·종목 통계</button>
+  </div>
 </nav>
 
-<section class="section-panel active" id="section-reports" aria-labelledby="section-tab-reports">
+<section class="section-panel is-active" id="section-reports" role="tabpanel" aria-label="모닝 리포트">
   <p class="stats-meta">매일 평일 오전 10시 자동 발행. 시장 흐름과 watchlist 종목 정리.</p>
 
   <ul class="report-list">
@@ -30,16 +32,18 @@ charts: true
   </ul>
 </section>
 
-<section class="section-panel" id="section-stats" aria-labelledby="section-tab-stats">
+<section class="section-panel" id="section-stats" role="tabpanel" aria-label="지수·종목 통계">
   <p class="stats-meta">상장일부터 현재까지의 흐름. 변곡점에 있던 주요 사건 함께 보기.</p>
 
-  <div class="stats-region-tabs" role="tablist">
-    <button class="stats-region-tab active" data-region="us" type="button">해외</button>
-    <button class="stats-region-tab" data-region="kr" type="button">국내</button>
+  <div class="stats-row">
+    <div class="tabset" role="tablist" aria-label="지역">
+      <button class="tabset__btn is-active" data-region="us" type="button" role="tab">해외</button>
+      <button class="tabset__btn" data-region="kr" type="button" role="tab">국내</button>
+    </div>
   </div>
 
-  <div class="stats-tabs" role="tablist" id="statsTickers">
-    <button class="stats-tab active" data-ticker="AAPL" type="button">AAPL · Apple</button>
+  <div class="chip-list" id="statsTickers" role="tablist" aria-label="종목">
+    <button class="chip is-active" data-ticker="AAPL" type="button" role="tab">AAPL · Apple</button>
   </div>
 
   <div class="stats-chart-wrap">

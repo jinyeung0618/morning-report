@@ -219,8 +219,8 @@
 
   function selectTicker(ticker) {
     currentTicker = ticker;
-    document.querySelectorAll('.stats-tab').forEach(b => {
-      b.classList.toggle('active', b.dataset.ticker === ticker);
+    document.querySelectorAll('[data-ticker]').forEach(b => {
+      b.classList.toggle('is-active', b.dataset.ticker === ticker);
     });
     renderChart(ticker);
   }
@@ -236,8 +236,8 @@
   }
 
   function selectRegion(region) {
-    document.querySelectorAll('.stats-region-tab').forEach(b => {
-      b.classList.toggle('active', b.dataset.region === region);
+    document.querySelectorAll('[data-region]').forEach(b => {
+      b.classList.toggle('is-active', b.dataset.region === region);
     });
     const tickerWrap = document.getElementById('statsTickers');
     if (!tickerWrap) return;
@@ -247,7 +247,7 @@
       .map(([key]) => key);
 
     if (visibleTickers.length === 0) {
-      tickerWrap.innerHTML = '<p class="stats-empty">아직 등록된 종목이 없습니다.</p>';
+      tickerWrap.innerHTML = '<p class="chip-empty">아직 등록된 종목이 없습니다.</p>';
       clearChartAndEvents();
       setStatsBodyVisible(false);
       return;
@@ -255,19 +255,19 @@
 
     setStatsBodyVisible(true);
     tickerWrap.innerHTML = visibleTickers.map((key, i) => `
-      <button class="stats-tab${i === 0 ? ' active' : ''}" data-ticker="${key}" type="button">${escapeHtml(STOCKS[key].label)}</button>
+      <button class="chip${i === 0 ? ' is-active' : ''}" data-ticker="${key}" type="button" role="tab">${escapeHtml(STOCKS[key].label)}</button>
     `).join('');
     selectTicker(visibleTickers[0]);
   }
 
   // ---- 초기화 ----
   function init() {
-    // 종목 탭 클릭
+    // 종목·지역 탭 클릭 (이벤트 위임)
     document.addEventListener('click', (e) => {
-      const tab = e.target.closest('.stats-tab');
-      if (tab && tab.dataset.ticker) selectTicker(tab.dataset.ticker);
-      const region = e.target.closest('.stats-region-tab');
-      if (region && region.dataset.region) selectRegion(region.dataset.region);
+      const ticker = e.target.closest('[data-ticker]');
+      if (ticker) selectTicker(ticker.dataset.ticker);
+      const region = e.target.closest('[data-region]');
+      if (region) selectRegion(region.dataset.region);
     });
 
     // 첫 렌더 — 통계 패널이 *지금 보이는 경우*에만 (탭 전환 시엔 외부에서 호출)
