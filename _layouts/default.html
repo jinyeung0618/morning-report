@@ -72,5 +72,32 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <script src="{{ '/assets/js/stats.js' | relative_url }}" defer></script>
   {% endif %}
+
+  <!-- Section tab switcher -->
+  <script>
+    (function () {
+      const tabs = document.querySelectorAll('.section-tab');
+      if (!tabs.length) return;
+      const panels = document.querySelectorAll('.section-panel');
+
+      function activate(name) {
+        tabs.forEach(t => t.classList.toggle('active', t.dataset.section === name));
+        panels.forEach(p => p.classList.toggle('active', p.id === 'section-' + name));
+        if (location.hash !== '#' + name) {
+          history.replaceState(null, '', '#' + name);
+        }
+        // 통계 탭 진입 시 차트 재렌더 (display:none 상태에서 init되면 canvas 0x0)
+        if (name === 'stats' && typeof window._statsRender === 'function') {
+          setTimeout(window._statsRender, 50);
+        }
+      }
+
+      tabs.forEach(tab => tab.addEventListener('click', () => activate(tab.dataset.section)));
+
+      // 초기 활성 탭 — URL hash 우선, 없으면 reports
+      const initial = (location.hash || '').replace('#', '');
+      activate(initial === 'stats' ? 'stats' : 'reports');
+    })();
+  </script>
 </body>
 </html>

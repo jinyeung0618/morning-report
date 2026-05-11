@@ -270,12 +270,21 @@
       if (region && region.dataset.region) selectRegion(region.dataset.region);
     });
 
-    // 첫 렌더
-    renderChart(currentTicker);
+    // 첫 렌더 — 통계 패널이 *지금 보이는 경우*에만 (탭 전환 시엔 외부에서 호출)
+    const canvas = document.getElementById('stocksChart');
+    if (canvas && canvas.offsetParent !== null) {
+      renderChart(currentTicker);
+    }
 
-    // 다크모드 변경 감지 → 차트 재렌더 (활성 종목 있을 때만)
-    new MutationObserver(() => {
+    // 외부(탭 스위처)에서 호출할 재렌더 핸들
+    window._statsRender = () => {
       if (currentTicker) renderChart(currentTicker);
+    };
+
+    // 다크모드 변경 감지 → 차트 재렌더 (활성 종목 + 보이는 상태일 때만)
+    new MutationObserver(() => {
+      const cv = document.getElementById('stocksChart');
+      if (currentTicker && cv && cv.offsetParent !== null) renderChart(currentTicker);
     }).observe(document.documentElement, {
       attributes: true,
       attributeFilter: ['data-theme'],

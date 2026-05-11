@@ -557,6 +557,42 @@ hr {
   transform: translateX(4px);
 }
 
+/* ---------- Section Tabs (top-level) ---------- */
+.section-tabs {
+  display: inline-flex;
+  gap: 2px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-full);
+  padding: 4px;
+  margin: 0 0 var(--space-8);
+}
+
+.section-tab {
+  padding: var(--space-3) var(--space-5);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--text-secondary);
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  font-family: inherit;
+  white-space: nowrap;
+  transition: all var(--duration-fast) var(--easing-default);
+}
+
+.section-tab:hover { color: var(--text-primary); }
+
+.section-tab.active {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  box-shadow: var(--shadow-sm);
+}
+
+.section-panel { display: none; }
+.section-panel.active { display: block; }
+
 /* ---------- Stats Section (chart) ---------- */
 .stats-section {
   margin: var(--space-12) 0;
