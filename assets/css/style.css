@@ -324,7 +324,7 @@ blockquote p { color: inherit; margin-bottom: var(--space-2); }
 blockquote p:last-child { margin-bottom: 0; }
 
 /* ---------- Ticker Logo ---------- */
-/* span 으로 감싼 원형 컨테이너. 어떤 favicon 이든 동일한 모양/크기로 정규화 */
+/* 모든 종목 로고를 동일 크기 원형 컨테이너에. SVG 또는 텍스트 badge */
 .ticker-logo {
   display: inline-flex;
   align-items: center;
@@ -341,11 +341,25 @@ blockquote p:last-child { margin-bottom: 0; }
   box-sizing: border-box;
 }
 .ticker-logo img {
-  width: 16px;
-  height: 16px;
+  width: 14px;
+  height: 14px;
   object-fit: contain;
   display: block;
 }
+
+/* 텍스트 badge 변형 (simple-icons 에 없는 브랜드: UNH, CEG, KODEX) */
+.ticker-logo--badge {
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0;
+  color: #fff;
+  border: none;
+  background: var(--text-tertiary);
+  font-family: var(--font-mono, monospace);
+}
+.ticker-logo--unh { background: #002677; }
+.ticker-logo--ceg { background: #00609c; }
+.ticker-logo--kodex { background: #1428a0; }
 
 /* ---------- Tables ---------- */
 table {

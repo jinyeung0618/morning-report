@@ -132,19 +132,19 @@ date: {TODAY} 10:03:00 +0900
 
 | 종목 | 분위기 | 한 줄 |
 |---|---|---|
-| <span class="ticker-logo"><img src="https://www.google.com/s2/favicons?domain=apple.com&sz=64" alt=""></span> 애플 (AAPL) | 🟢/🟡/🔴 또는 — | 헤드라인 있으면 인용. 없으면 `🤷 뚜렷한 기사 없음` |
-| <span class="ticker-logo"><img src="https://www.google.com/s2/favicons?domain=tesla.com&sz=64" alt=""></span> 테슬라 (TSLA) | ... | ... |
-| <span class="ticker-logo"><img src="https://www.google.com/s2/favicons?domain=nvidia.com&sz=64" alt=""></span> 엔비디아 (NVDA) | ... | ... |
-| <span class="ticker-logo"><img src="https://www.google.com/s2/favicons?domain=unitedhealthgroup.com&sz=64" alt=""></span> UNH 유나이티드헬스 | ... | ... |
-| <span class="ticker-logo"><img src="https://www.google.com/s2/favicons?domain=palantir.com&sz=64" alt=""></span> PLTR 팔란티어 | ... | ... |
-| <span class="ticker-logo"><img src="https://www.google.com/s2/favicons?domain=constellationenergy.com&sz=64" alt=""></span> CEG 컨스텔레이션 | ... | ... |
+| <span class="ticker-logo"><img src="https://cdn.simpleicons.org/apple/000000" alt=""></span> 애플 (AAPL) | 🟢/🟡/🔴 또는 — | 헤드라인 있으면 인용. 없으면 `🤷 뚜렷한 기사 없음` |
+| <span class="ticker-logo"><img src="https://cdn.simpleicons.org/tesla/cc0000" alt=""></span> 테슬라 (TSLA) | ... | ... |
+| <span class="ticker-logo"><img src="https://cdn.simpleicons.org/nvidia/76b900" alt=""></span> 엔비디아 (NVDA) | ... | ... |
+| <span class="ticker-logo ticker-logo--badge ticker-logo--unh">UNH</span> UNH 유나이티드헬스 | ... | ... |
+| <span class="ticker-logo"><img src="https://cdn.simpleicons.org/palantir/000000" alt=""></span> PLTR 팔란티어 | ... | ... |
+| <span class="ticker-logo ticker-logo--badge ticker-logo--ceg">CEG</span> CEG 컨스텔레이션 | ... | ... |
 
 ### 🇰🇷 국내
 
 | 종목 | 분위기 | 한 줄 |
 |---|---|---|
-| <span class="ticker-logo"><img src="https://www.google.com/s2/favicons?domain=kodex.com&sz=64" alt=""></span> 487230 미국AI전력인프라 | 🟢/🟡/🔴 또는 — | 헤드라인 있으면 인용. 없으면 `🤷 뚜렷한 기사 없음` |
-| <span class="ticker-logo"><img src="https://www.google.com/s2/favicons?domain=kodex.com&sz=64" alt=""></span> 487240 AI전력핵심설비 | ... | ... |
+| <span class="ticker-logo ticker-logo--badge ticker-logo--kodex">230</span> 487230 미국AI전력인프라 | 🟢/🟡/🔴 또는 — | 헤드라인 있으면 인용. 없으면 `🤷 뚜렷한 기사 없음` |
+| <span class="ticker-logo ticker-logo--badge ticker-logo--kodex">240</span> 487240 AI전력핵심설비 | ... | ... |
 
 분위기 기준: 헤드라인 내용 자체가 호재면 🟢, 악재면 🔴, 양면이면 🟡. *주가 추세에서 유추하지 말 것.*
 뉴스 없는 종목: 분위기 칸 `—`, 한 줄 칸 `🤷 뚜렷한 기사 없음`.

@@ -6,7 +6,7 @@
   const STOCKS = {
     AAPL: {
       label: 'AAPL · Apple',
-      logo: 'apple.com',
+      iconSlug: 'apple', iconColor: '000000',
       region: 'us',
       currency: '$',
       refs: [
@@ -35,7 +35,7 @@
 
     TSLA: {
       label: 'TSLA · Tesla',
-      logo: 'tesla.com',
+      iconSlug: 'tesla', iconColor: 'cc0000',
       region: 'us',
       currency: '$',
       refs: [
@@ -59,7 +59,7 @@
 
     NVDA: {
       label: 'NVDA · NVIDIA',
-      logo: 'nvidia.com',
+      iconSlug: 'nvidia', iconColor: '76b900',
       region: 'us',
       currency: '$',
       refs: [
@@ -83,7 +83,7 @@
 
     UNH: {
       label: 'UNH · UnitedHealth',
-      logo: 'unitedhealthgroup.com',
+      badge: { cls: 'unh', text: 'UNH' },
       region: 'us',
       currency: '$',
       refs: [
@@ -105,7 +105,7 @@
 
     PLTR: {
       label: 'PLTR · Palantir',
-      logo: 'palantir.com',
+      iconSlug: 'palantir', iconColor: '000000',
       region: 'us',
       currency: '$',
       refs: [
@@ -125,7 +125,7 @@
 
     CEG: {
       label: 'CEG · Constellation Energy',
-      logo: 'constellationenergy.com',
+      badge: { cls: 'ceg', text: 'CEG' },
       region: 'us',
       currency: '$',
       refs: [
@@ -145,7 +145,7 @@
     // 국내 ETF
     '487230': {
       label: '487230 · 미국AI전력핵심인프라',
-      logo: 'kodex.com',
+      badge: { cls: 'kodex', text: '230' },
       region: 'kr',
       currency: '₩',
       refs: [
@@ -163,7 +163,7 @@
 
     '487240': {
       label: '487240 · AI전력핵심설비',
-      logo: 'kodex.com',
+      badge: { cls: 'kodex', text: '240' },
       region: 'kr',
       currency: '₩',
       refs: [
@@ -485,9 +485,15 @@
     }
     setStatsBodyVisible(true);
     wrap.innerHTML = visible.map((k, i) => {
-      const logo = STOCKS[k].logo
-        ? `<span class="ticker-logo"><img src="https://www.google.com/s2/favicons?domain=${STOCKS[k].logo}&sz=64" alt=""></span>`
-        : '';
+      const s = STOCKS[k];
+      let logo = '';
+      if (s.iconSlug) {
+        // simple-icons CDN SVG
+        logo = `<span class="ticker-logo"><img src="https://cdn.simpleicons.org/${s.iconSlug}/${s.iconColor || '000000'}" alt=""></span>`;
+      } else if (s.badge) {
+        // 텍스트 badge
+        logo = `<span class="ticker-logo ticker-logo--badge ticker-logo--${s.badge.cls}">${s.badge.text}</span>`;
+      }
       return `<button class="chip${i === 0 ? ' is-active' : ''}" data-ticker="${k}" type="button" role="tab">${logo}${escapeHtml(STOCKS[k].label)}</button>`;
     }).join('');
     selectTicker(visible[0]);
