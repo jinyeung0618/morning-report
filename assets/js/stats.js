@@ -494,8 +494,6 @@
     setStatsBodyVisible(true);
     wrap.innerHTML = visible.map((k, i) => {
       const s = STOCKS[k];
-      const tipCls = s.nameKo ? ' has-tip' : '';
-      const tipData = s.nameKo ? ` data-tip="${s.nameKo}"` : '';
       const activeCls = i === 0 ? ' is-active' : '';
       let logo = '';
       if (s.iconSlug) {
@@ -503,7 +501,12 @@
       } else if (s.badge) {
         logo = `<span class="ticker-logo ticker-logo--badge ticker-logo--${s.badge.cls}">${s.badge.text}</span>`;
       }
-      return `<button class="chip${activeCls}${tipCls}" data-ticker="${k}" type="button" role="tab"${tipData}>${logo}${escapeHtml(STOCKS[k].label)}</button>`;
+      // 라벨 "AAPL · Apple" → "Apple" 만 분리해서 약어와 함께 2단
+      const labelParts = STOCKS[k].label.split('·').map(x => x.trim());
+      const sym = labelParts[0] || k;
+      const ko = s.nameKo || labelParts[1] || '';
+      const textBlock = `<span class="ticker-text"><span class="ticker-text__ko">${escapeHtml(ko)}</span><span class="ticker-text__sym">(${escapeHtml(sym)})</span></span>`;
+      return `<button class="chip${activeCls}" data-ticker="${k}" type="button" role="tab">${logo}${textBlock}</button>`;
     }).join('');
     selectTicker(visible[0]);
   }

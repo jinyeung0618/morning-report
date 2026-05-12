@@ -30,12 +30,12 @@ AI 시장 커지면서 반도체 경쟁도 더 빡세짐. 엔비디아는 AI 메
 
 | 종목 | 분위기 | 그 달 주요 이벤트 |
 |---|---|---|
-| <span class="has-tip" data-tip="애플" tabindex="0"><span class="ticker-logo"><img src="https://cdn.simpleicons.org/apple/000000" alt=""></span>AAPL</span> | 🟡 | 1분기 실적은 잘 나왔는데 AI 성장 기대를 못 채워서 주가 흐름 제한적. 메모리 반도체 부족이 아이폰 가격·마진에 영향 줄 수 있다는 우려도 있음 |
-| <span class="has-tip" data-tip="테슬라" tabindex="0"><span class="ticker-logo"><img src="https://cdn.simpleicons.org/tesla/cc0000" alt=""></span>TSLA</span> | 🟡 | 로봇택시·휴머노이드 로봇 쪽에 집중하면서 성장 스토리 다시 짜는 모습. 스페이스X-xAI 합병 가능성 얘기도 나옴. 중국 경쟁사 1월 판매량 주목 |
-| <span class="has-tip" data-tip="엔비디아" tabindex="0"><span class="ticker-logo"><img src="https://cdn.simpleicons.org/nvidia/76b900" alt=""></span>NVDA</span> | 🟢 | CEO 가 AI 메모리 수요 급증 중이라고 언급. AI 발전의 핵심이라는 점 재확인. OpenAI 투자 보도는 사실 아니라며 일축 |
-| <span class="has-tip" data-tip="유나이티드헬스" tabindex="0"><span class="ticker-logo ticker-logo--badge ticker-logo--unh">UNH</span>UNH</span> | 🔴 | 실적 전망이 예상보다 낮음 + 메디케어 어드밴티지 보험료 인상률 둔화 가능성 경고. 주가에 부담. 헬스케어 섹터 전체 투심에도 영향 |
-| <span class="has-tip" data-tip="팔란티어" tabindex="0"><span class="ticker-logo"><img src="https://cdn.simpleicons.org/palantir/000000" alt=""></span>PLTR</span> | 🟡 | Innodata 와 AI 데이터 서비스 계약 확대 등 AI 사업에서 성과. 피터 틸 등 주요 투자자 AI 전략 변화도 주목 |
-| <span class="has-tip" data-tip="컨스텔레이션" tabindex="0"><span class="ticker-logo ticker-logo--badge ticker-logo--ceg">CEG</span>CEG</span> | 🟢 | Calpine 인수 완료하면서 전력 생산 역량 확장. AI 로 전력 수요 늘면서 데이터센터 성장 수혜 기대 |
+| <span class="ticker-cell"><span class="ticker-logo"><img src="https://cdn.simpleicons.org/apple/000000" alt=""></span><span class="ticker-text"><span class="ticker-text__ko">애플</span><span class="ticker-text__sym">(AAPL)</span></span></span> | 🟡 | 1분기 실적은 잘 나왔는데 AI 성장 기대를 못 채워서 주가 흐름 제한적. 메모리 반도체 부족이 아이폰 가격·마진에 영향 줄 수 있다는 우려도 있음 |
+| <span class="ticker-cell"><span class="ticker-logo"><img src="https://cdn.simpleicons.org/tesla/cc0000" alt=""></span><span class="ticker-text"><span class="ticker-text__ko">테슬라</span><span class="ticker-text__sym">(TSLA)</span></span></span> | 🟡 | 로봇택시·휴머노이드 로봇 쪽에 집중하면서 성장 스토리 다시 짜는 모습. 스페이스X-xAI 합병 가능성 얘기도 나옴. 중국 경쟁사 1월 판매량 주목 |
+| <span class="ticker-cell"><span class="ticker-logo"><img src="https://cdn.simpleicons.org/nvidia/76b900" alt=""></span><span class="ticker-text"><span class="ticker-text__ko">엔비디아</span><span class="ticker-text__sym">(NVDA)</span></span></span> | 🟢 | CEO 가 AI 메모리 수요 급증 중이라고 언급. AI 발전의 핵심이라는 점 재확인. OpenAI 투자 보도는 사실 아니라며 일축 |
+| <span class="ticker-cell"><span class="ticker-logo ticker-logo--badge ticker-logo--unh">UNH</span><span class="ticker-text"><span class="ticker-text__ko">유나이티드헬스</span><span class="ticker-text__sym">(UNH)</span></span></span> | 🔴 | 실적 전망이 예상보다 낮음 + 메디케어 어드밴티지 보험료 인상률 둔화 가능성 경고. 주가에 부담. 헬스케어 섹터 전체 투심에도 영향 |
+| <span class="ticker-cell"><span class="ticker-logo"><img src="https://cdn.simpleicons.org/palantir/000000" alt=""></span><span class="ticker-text"><span class="ticker-text__ko">팔란티어</span><span class="ticker-text__sym">(PLTR)</span></span></span> | 🟡 | Innodata 와 AI 데이터 서비스 계약 확대 등 AI 사업에서 성과. 피터 틸 등 주요 투자자 AI 전략 변화도 주목 |
+| <span class="ticker-cell"><span class="ticker-logo ticker-logo--badge ticker-logo--ceg">CEG</span><span class="ticker-text"><span class="ticker-text__ko">컨스텔레이션</span><span class="ticker-text__sym">(CEG)</span></span></span> | 🟢 | Calpine 인수 완료하면서 전력 생산 역량 확장. AI 로 전력 수요 늘면서 데이터센터 성장 수혜 기대 |
 
 ## 다음 달로 이어진 이슈
 - AI 발전 + 반도체·인프라 산업 성장은 계속될 듯.

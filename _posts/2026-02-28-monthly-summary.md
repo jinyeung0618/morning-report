@@ -30,12 +30,12 @@ AI 산업 크면서 데이터센터 전력 수요도 폭증. 전력 공급 회�
 
 | 종목 | 분위기 | 그 달 주요 이벤트 |
 |---|---|---|
-| <span class="has-tip" data-tip="애플" tabindex="0"><span class="ticker-logo"><img src="https://cdn.simpleicons.org/apple/000000" alt=""></span>AAPL</span> | 🟡 | 트럼프 이란 공격 발언이랑 같이 지정학 긴장이 시장에 영향. 애플은 "AI 종목 중 하나"로 언급. "매그니피센트 7" 중 하나로 5년 후 가치 전망 나옴 |
-| <span class="has-tip" data-tip="테슬라" tabindex="0"><span class="ticker-logo"><img src="https://cdn.simpleicons.org/tesla/cc0000" alt=""></span>TSLA</span> | 🟡 | 로보택시 법적 분쟁 + 자율주행 소프트웨어 안전성 경고. 경쟁사 Xpeng 가 로보틱스 투자 확대 중. 벤치마크는 테슬라 "사도 됨" 의견 재확인 |
-| <span class="has-tip" data-tip="엔비디아" tabindex="0"><span class="ticker-logo"><img src="https://cdn.simpleicons.org/nvidia/76b900" alt=""></span>NVDA</span> | 🟢 | AI 분야 핵심 기업으로 계속 주목. OpenAI 대규모 투자 유치 덕에 AI 관련 기업 성장 기대. 시스코랑 협력해서 호주 첫 Secure AI Factory 출시 |
-| <span class="has-tip" data-tip="유나이티드헬스" tabindex="0"><span class="ticker-logo ticker-logo--badge ticker-logo--unh">UNH</span>UNH</span> | 🟡 | 직원 급여 인상 0%~2% 범위로 제한 소식. 배당금 지급 승인 |
-| <span class="has-tip" data-tip="팔란티어" tabindex="0"><span class="ticker-logo"><img src="https://cdn.simpleicons.org/palantir/000000" alt=""></span>PLTR</span> | 🟡 | AI 무기 개발 관련 논란으로 일부 연방 기관 접근 제한. 단 UBS는 "사도 됨" 의견 + 성장 기회 전망 |
-| <span class="has-tip" data-tip="컨스텔레이션" tabindex="0"><span class="ticker-logo ticker-logo--badge ticker-logo--ceg">CEG</span>CEG</span> | 🟢 | 데이터센터 운영사들이랑 신규 계약 체결. 전력 공급 확대 발표 |
+| <span class="ticker-cell"><span class="ticker-logo"><img src="https://cdn.simpleicons.org/apple/000000" alt=""></span><span class="ticker-text"><span class="ticker-text__ko">애플</span><span class="ticker-text__sym">(AAPL)</span></span></span> | 🟡 | 트럼프 이란 공격 발언이랑 같이 지정학 긴장이 시장에 영향. 애플은 "AI 종목 중 하나"로 언급. "매그니피센트 7" 중 하나로 5년 후 가치 전망 나옴 |
+| <span class="ticker-cell"><span class="ticker-logo"><img src="https://cdn.simpleicons.org/tesla/cc0000" alt=""></span><span class="ticker-text"><span class="ticker-text__ko">테슬라</span><span class="ticker-text__sym">(TSLA)</span></span></span> | 🟡 | 로보택시 법적 분쟁 + 자율주행 소프트웨어 안전성 경고. 경쟁사 Xpeng 가 로보틱스 투자 확대 중. 벤치마크는 테슬라 "사도 됨" 의견 재확인 |
+| <span class="ticker-cell"><span class="ticker-logo"><img src="https://cdn.simpleicons.org/nvidia/76b900" alt=""></span><span class="ticker-text"><span class="ticker-text__ko">엔비디아</span><span class="ticker-text__sym">(NVDA)</span></span></span> | 🟢 | AI 분야 핵심 기업으로 계속 주목. OpenAI 대규모 투자 유치 덕에 AI 관련 기업 성장 기대. 시스코랑 협력해서 호주 첫 Secure AI Factory 출시 |
+| <span class="ticker-cell"><span class="ticker-logo ticker-logo--badge ticker-logo--unh">UNH</span><span class="ticker-text"><span class="ticker-text__ko">유나이티드헬스</span><span class="ticker-text__sym">(UNH)</span></span></span> | 🟡 | 직원 급여 인상 0%~2% 범위로 제한 소식. 배당금 지급 승인 |
+| <span class="ticker-cell"><span class="ticker-logo"><img src="https://cdn.simpleicons.org/palantir/000000" alt=""></span><span class="ticker-text"><span class="ticker-text__ko">팔란티어</span><span class="ticker-text__sym">(PLTR)</span></span></span> | 🟡 | AI 무기 개발 관련 논란으로 일부 연방 기관 접근 제한. 단 UBS는 "사도 됨" 의견 + 성장 기회 전망 |
+| <span class="ticker-cell"><span class="ticker-logo ticker-logo--badge ticker-logo--ceg">CEG</span><span class="ticker-text"><span class="ticker-text__ko">컨스텔레이션</span><span class="ticker-text__sym">(CEG)</span></span></span> | 🟢 | 데이터센터 운영사들이랑 신규 계약 체결. 전력 공급 확대 발표 |
 
 ## 다음 달로 이어진 이슈
 - 중동 긴장 풀릴지 + 국제 유가 변동

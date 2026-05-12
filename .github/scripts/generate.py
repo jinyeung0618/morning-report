@@ -132,19 +132,19 @@ date: {TODAY} 10:03:00 +0900
 
 | 종목 | 분위기 | 한 줄 |
 |---|---|---|
-| <span class="has-tip" data-tip="애플" tabindex="0"><span class="ticker-logo"><img src="https://cdn.simpleicons.org/apple/000000" alt=""></span>AAPL</span> | 🟢/🟡/🔴 또는 — | 헤드라인 있으면 인용. 없으면 `🤷 뚜렷한 기사 없음` |
-| <span class="has-tip" data-tip="테슬라" tabindex="0"><span class="ticker-logo"><img src="https://cdn.simpleicons.org/tesla/cc0000" alt=""></span>TSLA</span> | ... | ... |
-| <span class="has-tip" data-tip="엔비디아" tabindex="0"><span class="ticker-logo"><img src="https://cdn.simpleicons.org/nvidia/76b900" alt=""></span>NVDA</span> | ... | ... |
-| <span class="has-tip" data-tip="유나이티드헬스" tabindex="0"><span class="ticker-logo ticker-logo--badge ticker-logo--unh">UNH</span>UNH</span> | ... | ... |
-| <span class="has-tip" data-tip="팔란티어" tabindex="0"><span class="ticker-logo"><img src="https://cdn.simpleicons.org/palantir/000000" alt=""></span>PLTR</span> | ... | ... |
-| <span class="has-tip" data-tip="컨스텔레이션" tabindex="0"><span class="ticker-logo ticker-logo--badge ticker-logo--ceg">CEG</span>CEG</span> | ... | ... |
+| <span class="ticker-cell"><span class="ticker-logo"><img src="https://cdn.simpleicons.org/apple/000000" alt=""></span><span class="ticker-text"><span class="ticker-text__ko">애플</span><span class="ticker-text__sym">(AAPL)</span></span></span> | 🟢/🟡/🔴 또는 — | 헤드라인 있으면 인용. 없으면 `🤷 뚜렷한 기사 없음` |
+| <span class="ticker-cell"><span class="ticker-logo"><img src="https://cdn.simpleicons.org/tesla/cc0000" alt=""></span><span class="ticker-text"><span class="ticker-text__ko">테슬라</span><span class="ticker-text__sym">(TSLA)</span></span></span> | ... | ... |
+| <span class="ticker-cell"><span class="ticker-logo"><img src="https://cdn.simpleicons.org/nvidia/76b900" alt=""></span><span class="ticker-text"><span class="ticker-text__ko">엔비디아</span><span class="ticker-text__sym">(NVDA)</span></span></span> | ... | ... |
+| <span class="ticker-cell"><span class="ticker-logo ticker-logo--badge ticker-logo--unh">UNH</span><span class="ticker-text"><span class="ticker-text__ko">유나이티드헬스</span><span class="ticker-text__sym">(UNH)</span></span></span> | ... | ... |
+| <span class="ticker-cell"><span class="ticker-logo"><img src="https://cdn.simpleicons.org/palantir/000000" alt=""></span><span class="ticker-text"><span class="ticker-text__ko">팔란티어</span><span class="ticker-text__sym">(PLTR)</span></span></span> | ... | ... |
+| <span class="ticker-cell"><span class="ticker-logo ticker-logo--badge ticker-logo--ceg">CEG</span><span class="ticker-text"><span class="ticker-text__ko">컨스텔레이션</span><span class="ticker-text__sym">(CEG)</span></span></span> | ... | ... |
 
 ### 🇰🇷 국내
 
 | 종목 | 분위기 | 한 줄 |
 |---|---|---|
-| <span class="has-tip" data-tip="KODEX 미국AI전력핵심인프라" tabindex="0"><span class="ticker-logo ticker-logo--badge ticker-logo--kodex">KODEX</span>487230</span> | 🟢/🟡/🔴 또는 — | 헤드라인 있으면 인용. 없으면 `🤷 뚜렷한 기사 없음` |
-| <span class="has-tip" data-tip="KODEX AI전력핵심설비" tabindex="0"><span class="ticker-logo ticker-logo--badge ticker-logo--kodex">KODEX</span>487240</span> | ... | ... |
+| <span class="ticker-cell"><span class="ticker-logo ticker-logo--badge ticker-logo--kodex">KODEX</span><span class="ticker-text"><span class="ticker-text__ko">미국AI전력</span><span class="ticker-text__sym">(487230)</span></span></span> | 🟢/🟡/🔴 또는 — | 헤드라인 있으면 인용. 없으면 `🤷 뚜렷한 기사 없음` |
+| <span class="ticker-cell"><span class="ticker-logo ticker-logo--badge ticker-logo--kodex">KODEX</span><span class="ticker-text"><span class="ticker-text__ko">AI전력설비</span><span class="ticker-text__sym">(487240)</span></span></span> | ... | ... |
 
 분위기 기준: 헤드라인 내용 자체가 호재면 🟢, 악재면 🔴, 양면이면 🟡. *주가 추세에서 유추하지 말 것.*
 뉴스 없는 종목: 분위기 칸 `—`, 한 줄 칸 `🤷 뚜렷한 기사 없음`.

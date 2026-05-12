@@ -366,16 +366,40 @@ blockquote p:last-child { margin-bottom: 0; }
   opacity: 1;
 }
 
+/* ---------- Ticker Cell (logo + 2-line text) ---------- */
+.ticker-cell {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2, 8px);
+  line-height: 1.2;
+  vertical-align: middle;
+}
+.ticker-text {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.ticker-text__ko {
+  font-size: var(--text-sm);
+  color: var(--text-primary);
+  font-weight: 500;
+  line-height: 1.2;
+}
+.ticker-text__sym {
+  font-size: 10px;
+  color: var(--text-tertiary);
+  font-family: var(--font-mono);
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+}
+
 /* ---------- Ticker Logo ---------- */
-/* 모든 로고는 동일 폭 슬롯 → 뒤 종목명이 같은 X 위치에서 시작 */
 .ticker-logo {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   width: 36px;
   height: 18px;
-  vertical-align: middle;
-  margin-right: 6px;
   flex-shrink: 0;
 }
 .ticker-logo img {
@@ -438,11 +462,11 @@ table td {
   word-break: break-word;
 }
 
-/* 첫째 열(종목): 약어 + 로고만 / 둘째 열(분위기): 좁게 / 셋째 열(설명): 나머지 */
+/* 첫째 열(종목): 로고 + 한글명/약어 2단 / 둘째 열(분위기): 좁게 / 셋째 열(설명): 나머지 */
 table td:first-child,
 table th:first-child {
-  width: 14ch;
-  min-width: 10ch;
+  width: 18ch;
+  min-width: 14ch;
 }
 
 table td:nth-child(2),
