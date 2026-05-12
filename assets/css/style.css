@@ -370,14 +370,14 @@ blockquote p:last-child { margin-bottom: 0; }
 .ticker-cell {
   display: inline-flex;
   align-items: center;
-  gap: var(--space-2, 8px);
+  gap: 10px;  /* 일관된 로고↔텍스트 간격 */
   line-height: 1.2;
   vertical-align: middle;
 }
 .ticker-text {
   display: inline-flex;
   flex-direction: column;
-  gap: 1px;
+  gap: 2px;
 }
 .ticker-text__ko {
   font-size: var(--text-sm);
@@ -387,10 +387,25 @@ blockquote p:last-child { margin-bottom: 0; }
 }
 .ticker-text__sym {
   font-size: 10px;
-  color: var(--text-tertiary);
+  color: var(--text-secondary);  /* tertiary 보다 진하게 */
   font-family: var(--font-mono);
   line-height: 1.2;
   letter-spacing: 0.02em;
+}
+
+/* chip 안에서도 동일한 cell 구조 (chip 은 ticker-cell wrapper 없이 직접) */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* 활성 chip: 텍스트 색상 반전 → 파란 배경 위에서도 잘 보이게 */
+.chip.is-active .ticker-text__ko {
+  color: #fff;
+}
+.chip.is-active .ticker-text__sym {
+  color: rgba(255, 255, 255, 0.75);
 }
 
 /* ---------- Ticker Logo ---------- */
@@ -465,8 +480,8 @@ table td {
 /* 첫째 열(종목): 로고 + 한글명/약어 2단 / 둘째 열(분위기): 좁게 / 셋째 열(설명): 나머지 */
 table td:first-child,
 table th:first-child {
-  width: 18ch;
-  min-width: 14ch;
+  width: 24ch;
+  min-width: 20ch;
 }
 
 table td:nth-child(2),

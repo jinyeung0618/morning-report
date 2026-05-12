@@ -528,6 +528,9 @@
       if (r) selectRegion(r.dataset.region);
     });
 
+    // 초기 chip 렌더링 (기본 region = 'us')
+    selectRegion('us');
+
     const container = document.getElementById('stocksChart');
     if (container && container.offsetParent !== null) {
       renderChart(currentTicker);
@@ -535,6 +538,8 @@
     }
 
     window._statsRender = () => {
+      // 통계 탭 진입 시 chip 도 다시 렌더 (DOM 이 처음 그려질 수 있어서)
+      selectRegion('us');
       if (currentTicker) {
         renderChart(currentTicker);
         const c = document.getElementById('stocksChart');

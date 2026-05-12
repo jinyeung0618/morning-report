@@ -69,7 +69,7 @@ charts: true
   </div>
 
   <div class="chip-list" id="statsTickers" role="tablist" aria-label="종목">
-    <button class="chip is-active" data-ticker="AAPL" type="button" role="tab">AAPL · Apple</button>
+    <!-- JS 가 진입 시 동적 렌더링 (selectRegion 호출). 초기 placeholder. -->
   </div>
 
   <div class="stats-chart-wrap" id="stocksChart">
