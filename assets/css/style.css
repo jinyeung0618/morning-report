@@ -858,9 +858,26 @@ hr {
 /* Chip list = standalone pill buttons (ticker selection, many items) */
 .chip-list {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: var(--space-2);
   margin-bottom: var(--space-5);
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-color) transparent;
+  padding-bottom: 4px;  /* 스크롤바 공간 */
+}
+.chip-list::-webkit-scrollbar {
+  height: 6px;
+}
+.chip-list::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 3px;
+}
+.chip-list::-webkit-scrollbar-thumb:hover {
+  background: var(--border-strong);
 }
 
 .chip {
@@ -877,6 +894,7 @@ hr {
   font-family: inherit;
   white-space: nowrap;
   transition: all var(--duration-fast) var(--easing-default);
+  flex-shrink: 0;  /* 가로 스크롤 시 chip 이 줄어들지 않게 */
 }
 
 .chip:hover {
