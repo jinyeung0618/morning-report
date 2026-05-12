@@ -192,17 +192,23 @@ def main():
     skipped = 0
     failed = []
     for i, (y, m) in enumerate(months, 1):
-        print(f"[{i}/{len(months)}] {y}-{m:02d}")
+        print(f"[{i}/{len(months)}] {y}-{m:02d}", flush=True)
         try:
             if generate_month(client, y, m):
                 written += 1
-                time.sleep(2)
+                time.sleep(4)  # rate-limit cushion (Gemini Flash free = 10 RPM)
             else:
                 skipped += 1
         except Exception as e:
-            print(f"  ERROR {y}-{m:02d}: {e}", file=sys.stderr)
+            print(f"  ERROR {y}-{m:02d}: {e}", file=sys.stderr, flush=True)
             failed.append((y, m, str(e)))
-            time.sleep(5)
+            # 429/quota 류면 더 오래 쉬기
+            err_str = str(e).lower()
+            if any(k in err_str for k in ("429", "quota", "rate", "resource_exhausted")):
+                print("  rate-limit suspected, sleeping 30s...", flush=True)
+                time.sleep(30)
+            else:
+                time.sleep(8)
 
     print(f"\nDone. wrote={written} skipped={skipped} failed={len(failed)}")
     if failed:

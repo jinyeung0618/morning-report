@@ -24,20 +24,29 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Run backfill
+        id: backfill
+        continue-on-error: true
         working-directory: .github/scripts
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           FINNHUB_API_KEY: ${{ secrets.FINNHUB_API_KEY }}
         run: python backfill_monthly.py
 
-      - name: Commit and push
+      - name: Commit and push (partial progress OK)
+        if: always()
         run: |
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git config user.name "Morning Report Bot"
           if git status --porcelain _posts/ | grep -q .; then
             git add _posts/
-            git commit -m "Backfill monthly summaries (2020-01 ~ 2026-04)"
+            git commit -m "Backfill monthly summaries (partial: $(ls _posts/*-monthly-summary.md 2>/dev/null | wc -l) files)"
             git push
           else
             echo "No new files to commit"
           fi
+
+      - name: Re-raise backfill status
+        if: steps.backfill.outcome == 'failure'
+        run: |
+          echo "::error::backfill script exited non-zero — partial files committed above. See 'Run backfill' log for failed months and re-run workflow to retry skipped ones."
+          exit 1
