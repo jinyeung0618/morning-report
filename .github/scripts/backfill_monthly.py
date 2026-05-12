@@ -82,9 +82,12 @@ def make_system_prompt(year: int, month: int, include_stocks: bool) -> str:
     if include_stocks:
         stocks_section = """
 ## Watchlist 주요 이벤트 (사전 수집된 헤드라인 안에서만)
+
 | 종목 | 분위기 | 그 달 주요 이벤트 |
 |---|---|---|
 | (헤드라인 있는 종목만 — 빈 종목은 빼라.) | 🟢/🟡/🔴 | (수집된 헤드라인 1-2개를 한 줄로 묶음) |
+
+**중요**: 헤딩과 표 사이, 표와 다음 단락 사이에 빈 줄 반드시 포함 (kramdown 파싱 조건).
 
 분위기 기준: 그 달 헤드라인 종합 결과. 헤드라인이 PR 류·중립이면 🟡, 호재 다수면 🟢, 악재 다수면 🔴.
 """
