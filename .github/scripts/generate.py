@@ -180,29 +180,46 @@ def generate():
 
 위 규칙대로 markdown 본문만 출력해."""
 
-    response = client.models.generate_content(
-        model="gemini-2.5-flash",
-        contents=user_prompt,
-        config=types.GenerateContentConfig(
-            system_instruction=SYSTEM_PROMPT,
-            tools=[types.Tool(google_search=types.GoogleSearch())],
-            temperature=0.5,
-        ),
-    )
-
-    full_text = (response.text or "").strip()
-    if not full_text:
-        # 빈 응답 — finish_reason 등 진단 출력
+    import time as _time
+    response = None
+    full_text = ""
+    for attempt in range(3):
+        response = client.models.generate_content(
+            model="gemini-2.5-flash",
+            contents=user_prompt,
+            config=types.GenerateContentConfig(
+                system_instruction=SYSTEM_PROMPT,
+                tools=[types.Tool(google_search=types.GoogleSearch())],
+                temperature=0.5,
+            ),
+        )
+        full_text = (response.text or "").strip()
+        # 일부 케이스: .text 가 비어도 parts 안에 text 있음
+        if not full_text and response.candidates:
+            parts_text = []
+            for c in response.candidates:
+                content = getattr(c, "content", None)
+                for p in getattr(content, "parts", []) or []:
+                    t = getattr(p, "text", None)
+                    if t:
+                        parts_text.append(t)
+            full_text = "\n".join(parts_text).strip()
+        if full_text:
+            break
+        # 빈 응답 — 재시도
         diag = []
         try:
             for i, c in enumerate(response.candidates or []):
-                diag.append(f"candidate[{i}].finish_reason={getattr(c, 'finish_reason', None)}")
-                diag.append(f"candidate[{i}].safety_ratings={getattr(c, 'safety_ratings', None)}")
+                diag.append(f"cand[{i}].finish_reason={getattr(c, 'finish_reason', None)}")
             if hasattr(response, "prompt_feedback"):
-                diag.append(f"prompt_feedback={response.prompt_feedback}")
-        except Exception as de:
-            diag.append(f"(diag error: {de})")
-        raise RuntimeError(f"Empty response from Gemini. Diagnostic: {' | '.join(diag) or '(no candidates)'}")
+                diag.append(f"feedback={response.prompt_feedback}")
+        except Exception:
+            pass
+        print(f"Empty response (attempt {attempt+1}/3). {' | '.join(diag)}", flush=True)
+        _time.sleep(5)
+
+    if not full_text:
+        raise RuntimeError("Gemini returned empty text after 3 attempts.")
 
     full_text = re.sub(r"^```(?:markdown|md)?\s*\n", "", full_text)
     full_text = re.sub(r"\n```\s*$", "", full_text)
