@@ -33,12 +33,12 @@ AI 연산 수요가 늘면서 반도체 산업, 특히 고성능 AI 칩 만드�
 
 | 종목 | 분위기 | 그 달 주요 이벤트 |
 |---|---|---|
-| <img class="ticker-logo" src="https://www.google.com/s2/favicons?domain=apple.com&sz=64" alt=""> 애플 (AAPL) | 🟡 | 2026년 AI 관련 과제 + 팀 쿡 CEO가 나이키 주식 산 소식 |
-| <img class="ticker-logo" src="https://www.google.com/s2/favicons?domain=tesla.com&sz=64" alt=""> 테슬라 (TSLA) | 🟡 | 머스크 xAI 데이터 센터 확장 소식. 모델 Y 가 2025년 세계 베스트셀러 차량이라는 주장 + 반박 동시 |
-| <img class="ticker-logo" src="https://www.google.com/s2/favicons?domain=nvidia.com&sz=64" alt=""> 엔비디아 (NVDA) | 🟢 | Groq 로부터 최대 규모 구매 앞둠. 중국 고객 관심 속 H200 칩 생산 확대 추진. 인텔 18 칩 테스트 중단 소식도 있음 |
-| <img class="ticker-logo" src="https://www.google.com/s2/favicons?domain=unitedhealthgroup.com&sz=64" alt=""> UNH 유나이티드헬스 | 🟡 | 2026년 CEO 인사 변동 가능성 + 규제 불확실성. 단 밸류에이션 재조정 이후에도 긍정적 전망 유지 |
-| <img class="ticker-logo" src="https://www.google.com/s2/favicons?domain=palantir.com&sz=64" alt=""> PLTR 팔란티어 | 🟢 | 액센츄어와 사업 그룹 형성 발표. 부트캠프로 AI 시장 지배력 강화 가능성 주목 |
-| <img class="ticker-logo" src="https://www.google.com/s2/favicons?domain=constellationenergy.com&sz=64" alt=""> CEG 컨스텔레이션 | 🟡 | 장기 원자력 발전 계약 체결. 단 주가는 시장 평균보다 빠지고 경쟁사 대비 낮은 평가 받음 |
+| <span class="ticker-logo"><img src="https://www.google.com/s2/favicons?domain=apple.com&sz=64" alt=""></span> 애플 (AAPL) | 🟡 | 2026년 AI 관련 과제 + 팀 쿡 CEO가 나이키 주식 산 소식 |
+| <span class="ticker-logo"><img src="https://www.google.com/s2/favicons?domain=tesla.com&sz=64" alt=""></span> 테슬라 (TSLA) | 🟡 | 머스크 xAI 데이터 센터 확장 소식. 모델 Y 가 2025년 세계 베스트셀러 차량이라는 주장 + 반박 동시 |
+| <span class="ticker-logo"><img src="https://www.google.com/s2/favicons?domain=nvidia.com&sz=64" alt=""></span> 엔비디아 (NVDA) | 🟢 | Groq 로부터 최대 규모 구매 앞둠. 중국 고객 관심 속 H200 칩 생산 확대 추진. 인텔 18 칩 테스트 중단 소식도 있음 |
+| <span class="ticker-logo"><img src="https://www.google.com/s2/favicons?domain=unitedhealthgroup.com&sz=64" alt=""></span> UNH 유나이티드헬스 | 🟡 | 2026년 CEO 인사 변동 가능성 + 규제 불확실성. 단 밸류에이션 재조정 이후에도 긍정적 전망 유지 |
+| <span class="ticker-logo"><img src="https://www.google.com/s2/favicons?domain=palantir.com&sz=64" alt=""></span> PLTR 팔란티어 | 🟢 | 액센츄어와 사업 그룹 형성 발표. 부트캠프로 AI 시장 지배력 강화 가능성 주목 |
+| <span class="ticker-logo"><img src="https://www.google.com/s2/favicons?domain=constellationenergy.com&sz=64" alt=""></span> CEG 컨스텔레이션 | 🟡 | 장기 원자력 발전 계약 체결. 단 주가는 시장 평균보다 빠지고 경쟁사 대비 낮은 평가 받음 |
 
 ## 다음 달로 이어진 이슈
 - 2026년 지정학적 리스크(중국/대만) 더 커질 수도 있다는 언급 있음.

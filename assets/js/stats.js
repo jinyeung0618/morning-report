@@ -486,7 +486,7 @@
     setStatsBodyVisible(true);
     wrap.innerHTML = visible.map((k, i) => {
       const logo = STOCKS[k].logo
-        ? `<img class="ticker-logo" src="https://www.google.com/s2/favicons?domain=${STOCKS[k].logo}&sz=64" alt="">`
+        ? `<span class="ticker-logo"><img src="https://www.google.com/s2/favicons?domain=${STOCKS[k].logo}&sz=64" alt=""></span>`
         : '';
       return `<button class="chip${i === 0 ? ' is-active' : ''}" data-ticker="${k}" type="button" role="tab">${logo}${escapeHtml(STOCKS[k].label)}</button>`;
     }).join('');

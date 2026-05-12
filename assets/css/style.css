@@ -324,14 +324,27 @@ blockquote p { color: inherit; margin-bottom: var(--space-2); }
 blockquote p:last-child { margin-bottom: 0; }
 
 /* ---------- Ticker Logo ---------- */
+/* span 으로 감싼 원형 컨테이너. 어떤 favicon 이든 동일한 모양/크기로 정규화 */
 .ticker-logo {
-  width: 18px;
-  height: 18px;
-  vertical-align: -3px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #fff;
+  border: 1px solid var(--border-color);
+  vertical-align: -6px;
   margin-right: 6px;
-  border-radius: 4px;
-  background: var(--bg-primary);
+  overflow: hidden;
   flex-shrink: 0;
+  box-sizing: border-box;
+}
+.ticker-logo img {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  display: block;
 }
 
 /* ---------- Tables ---------- */

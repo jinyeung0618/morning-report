@@ -25,12 +25,12 @@ UNH가 의료 사전승인 절차 30% 를 *없애겠다* 발표. 환자 입장�
 
 | 종목 | 분위기 | 한 줄 |
 |---|---|---|
-| <img class="ticker-logo" src="https://www.google.com/s2/favicons?domain=apple.com&sz=64" alt=""> 애플 (AAPL) | 🟢 | 2분기 실적 잘 나옴 + 자사주 1000억 달러어치 매입. 6/8~12 WWDC 임박 |
-| <img class="ticker-logo" src="https://www.google.com/s2/favicons?domain=tesla.com&sz=64" alt=""> 테슬라 (TSLA) | 🟡 | Semi 양산 + Terafab 계획 vs 주가 약세 + 머스크 거래 논란. 양면 |
-| <img class="ticker-logo" src="https://www.google.com/s2/favicons?domain=nvidia.com&sz=64" alt=""> 엔비디아 (NVDA) | 🟢 | Corning과 협력 +5.41%. 5/20 실적 임박 |
-| <img class="ticker-logo" src="https://www.google.com/s2/favicons?domain=unitedhealthgroup.com&sz=64" alt=""> UNH 유나이티드헬스 | 🟢 | 실적 가이던스 올림 + 사전승인 30% 폐지 발표 |
-| <img class="ticker-logo" src="https://www.google.com/s2/favicons?domain=palantir.com&sz=64" alt=""> PLTR 팔란티어 | 🟢 | 1분기 매출 +85%, 2026년 가이던스 올림 |
-| <img class="ticker-logo" src="https://www.google.com/s2/favicons?domain=constellationenergy.com&sz=64" alt=""> CEG 컨스텔레이션 | 🟡 | 5/11 실적 발표 임박. 5/7 -3.56% |
+| <span class="ticker-logo"><img src="https://www.google.com/s2/favicons?domain=apple.com&sz=64" alt=""></span> 애플 (AAPL) | 🟢 | 2분기 실적 잘 나옴 + 자사주 1000억 달러어치 매입. 6/8~12 WWDC 임박 |
+| <span class="ticker-logo"><img src="https://www.google.com/s2/favicons?domain=tesla.com&sz=64" alt=""></span> 테슬라 (TSLA) | 🟡 | Semi 양산 + Terafab 계획 vs 주가 약세 + 머스크 거래 논란. 양면 |
+| <span class="ticker-logo"><img src="https://www.google.com/s2/favicons?domain=nvidia.com&sz=64" alt=""></span> 엔비디아 (NVDA) | 🟢 | Corning과 협력 +5.41%. 5/20 실적 임박 |
+| <span class="ticker-logo"><img src="https://www.google.com/s2/favicons?domain=unitedhealthgroup.com&sz=64" alt=""></span> UNH 유나이티드헬스 | 🟢 | 실적 가이던스 올림 + 사전승인 30% 폐지 발표 |
+| <span class="ticker-logo"><img src="https://www.google.com/s2/favicons?domain=palantir.com&sz=64" alt=""></span> PLTR 팔란티어 | 🟢 | 1분기 매출 +85%, 2026년 가이던스 올림 |
+| <span class="ticker-logo"><img src="https://www.google.com/s2/favicons?domain=constellationenergy.com&sz=64" alt=""></span> CEG 컨스텔레이션 | 🟡 | 5/11 실적 발표 임박. 5/7 -3.56% |
 
 ## 오늘 알아야 할 것
 - 호르무즈/이란 상황 — 시장 변동성 1순위

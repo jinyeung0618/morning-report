@@ -30,12 +30,12 @@ type: monthly
 
 | 종목 | 분위기 | 그 달 주요 이벤트 |
 |---|---|---|
-| <img class="ticker-logo" src="https://www.google.com/s2/favicons?domain=apple.com&sz=64" alt=""> 애플 (AAPL) | 🟡 | 폴더블 아이폰 기대감 + AI 전략 강화 소식. 밸류에이션 재평가도 같이 이루어짐. 워렌 버핏 포트폴리오에 포함됐다는 보도 |
-| <img class="ticker-logo" src="https://www.google.com/s2/favicons?domain=tesla.com&sz=64" alt=""> 테슬라 (TSLA) | 🟡 | 1분기 인도량 늘었다는 소식 + 로보택시에 집중하는 모습. 머스크의 테슬라-스페이스X 합병 가능성에 대한 예측 시장 평가 주목 |
-| <img class="ticker-logo" src="https://www.google.com/s2/favicons?domain=nvidia.com&sz=64" alt=""> 엔비디아 (NVDA) | 🟢 | 마벨과 20억 달러 AI 인프라 협력으로 주가 상승. OpenAI 대규모 펀딩 라운드에 참여한 사실도 알려짐 |
-| <img class="ticker-logo" src="https://www.google.com/s2/favicons?domain=unitedhealthgroup.com&sz=64" alt=""> UNH 유나이티드헬스 | 🔴 | AI 컴패니언 'Avery' 출시. 단 대형 헬스케어 기업 분할 요구하는 법안 발의 + 소송 직면. 주가 빠짐 |
-| <img class="ticker-logo" src="https://www.google.com/s2/favicons?domain=palantir.com&sz=64" alt=""> PLTR 팔란티어 | 🟡 | 펜타곤과 새 프로그램 지정 + 골드만삭스 AI 추천 종목 목록에 포함. 단 이란의 보복 위협 대상 기업 목록에도 들어감 |
-| <img class="ticker-logo" src="https://www.google.com/s2/favicons?domain=constellationenergy.com&sz=64" alt=""> CEG 컨스텔레이션 | 🔴 | 2026년 실적 가이던스 내리면서 주가 빠짐. 투자자 이벤트에서도 시장 기대 못 채움 |
+| <span class="ticker-logo"><img src="https://www.google.com/s2/favicons?domain=apple.com&sz=64" alt=""></span> 애플 (AAPL) | 🟡 | 폴더블 아이폰 기대감 + AI 전략 강화 소식. 밸류에이션 재평가도 같이 이루어짐. 워렌 버핏 포트폴리오에 포함됐다는 보도 |
+| <span class="ticker-logo"><img src="https://www.google.com/s2/favicons?domain=tesla.com&sz=64" alt=""></span> 테슬라 (TSLA) | 🟡 | 1분기 인도량 늘었다는 소식 + 로보택시에 집중하는 모습. 머스크의 테슬라-스페이스X 합병 가능성에 대한 예측 시장 평가 주목 |
+| <span class="ticker-logo"><img src="https://www.google.com/s2/favicons?domain=nvidia.com&sz=64" alt=""></span> 엔비디아 (NVDA) | 🟢 | 마벨과 20억 달러 AI 인프라 협력으로 주가 상승. OpenAI 대규모 펀딩 라운드에 참여한 사실도 알려짐 |
+| <span class="ticker-logo"><img src="https://www.google.com/s2/favicons?domain=unitedhealthgroup.com&sz=64" alt=""></span> UNH 유나이티드헬스 | 🔴 | AI 컴패니언 'Avery' 출시. 단 대형 헬스케어 기업 분할 요구하는 법안 발의 + 소송 직면. 주가 빠짐 |
+| <span class="ticker-logo"><img src="https://www.google.com/s2/favicons?domain=palantir.com&sz=64" alt=""></span> PLTR 팔란티어 | 🟡 | 펜타곤과 새 프로그램 지정 + 골드만삭스 AI 추천 종목 목록에 포함. 단 이란의 보복 위협 대상 기업 목록에도 들어감 |
+| <span class="ticker-logo"><img src="https://www.google.com/s2/favicons?domain=constellationenergy.com&sz=64" alt=""></span> CEG 컨스텔레이션 | 🔴 | 2026년 실적 가이던스 내리면서 주가 빠짐. 투자자 이벤트에서도 시장 기대 못 채움 |
 
 ## 다음 달로 이어진 이슈
 - 중동 긴장 완화가 실제 평화 협상으로 이어질지
