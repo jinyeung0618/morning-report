@@ -27,6 +27,7 @@ jobs:
         working-directory: .github/scripts
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          FINNHUB_API_KEY: ${{ secrets.FINNHUB_API_KEY }}
         run: python backfill_monthly.py
 
       - name: Commit and push
