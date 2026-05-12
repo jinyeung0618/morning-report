@@ -400,12 +400,13 @@ blockquote p:last-child { margin-bottom: 0; }
   gap: 10px;
 }
 
-/* 활성 chip: 텍스트 색상 반전 → 파란 배경 위에서도 잘 보이게 */
+/* 활성 chip: 옅은 primary 배경 위 — 텍스트는 primary 색으로 */
 .chip.is-active .ticker-text__ko {
-  color: #fff;
+  color: var(--color-primary);
 }
 .chip.is-active .ticker-text__sym {
-  color: rgba(255, 255, 255, 0.75);
+  color: var(--color-primary);
+  opacity: 0.7;
 }
 
 /* ---------- Ticker Logo ---------- */
@@ -884,9 +885,9 @@ hr {
 }
 
 .chip.is-active {
-  background: var(--color-primary);
-  color: var(--color-white);
-  border-color: var(--color-primary);
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+  border-color: var(--color-primary-light);
 }
 
 .chip-empty {
