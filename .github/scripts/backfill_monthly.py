@@ -157,7 +157,8 @@ def generate_month(client: genai.Client, year: int, month: int) -> bool:
     user_prompt = "\n".join(user_prompt_parts)
 
     response = client.models.generate_content(
-        model="gemini-2.5-flash",
+        # 2.0 Flash: 무료 등급 1500 RPD (2.5 Flash 의 20 RPD 한도 회피)
+        model="gemini-2.0-flash",
         contents=user_prompt,
         config=types.GenerateContentConfig(
             system_instruction=make_system_prompt(year, month, include_stocks),
