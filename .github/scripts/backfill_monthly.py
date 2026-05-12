@@ -309,13 +309,20 @@ def generate_month(client: genai.Client, year: int, month: int) -> bool:
             raise
 
     full_text = (response.text or "").strip()
+    # 코드펜스 + Google Search 인용 마커 제거
     full_text = re.sub(r"^```(?:markdown|md)?\s*\n", "", full_text)
     full_text = re.sub(r"\n```\s*$", "", full_text)
+    full_text = re.sub(r"\s*\[cite:\s*[\d,\s]+\]", "", full_text)
+    full_text = full_text.strip()
 
     fm_match = re.search(r"^---\s*$", full_text, re.MULTILINE)
-    if not fm_match:
-        raise RuntimeError(f"No frontmatter for {year}-{month:02d}:\n{full_text[:400]}")
-    markdown = full_text[fm_match.start():]
+    if fm_match:
+        markdown = full_text[fm_match.start():]
+    else:
+        last_day = calendar.monthrange(year, month)[1]
+        front = f'---\nlayout: default\ntitle: "월간 요약 — {year}년 {month}월"\ndate: {year}-{month:02d}-{last_day:02d} 18:00:00 +0900\ntype: monthly\n---\n\n'
+        markdown = front + full_text
+        print(f"  Note: model skipped frontmatter for {year}-{month:02d}, inserted programmatically.", flush=True)
 
     out.write_text(markdown, encoding="utf-8")
     print(f"  WROTE {out.name} ({len(markdown)} chars)")

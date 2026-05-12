@@ -222,13 +222,20 @@ def generate():
     if not full_text:
         raise RuntimeError("Gemini returned empty text after 3 attempts.")
 
+    # 코드펜스 / Google Search 인용 마커 제거
     full_text = re.sub(r"^```(?:markdown|md)?\s*\n", "", full_text)
     full_text = re.sub(r"\n```\s*$", "", full_text)
+    full_text = re.sub(r"\s*\[cite:\s*[\d,\s]+\]", "", full_text)
+    full_text = full_text.strip()
 
+    # 프론트매터 있으면 거기서부터, 없으면 우리가 붙임
     fm_match = re.search(r"^---\s*$", full_text, re.MULTILINE)
-    if not fm_match:
-        raise RuntimeError(f"No frontmatter in non-empty response:\n{full_text[:500]}")
-    markdown = full_text[fm_match.start():]
+    if fm_match:
+        markdown = full_text[fm_match.start():]
+    else:
+        front = f'---\nlayout: default\ntitle: "모닝 리포트 — {TODAY}"\ndate: {TODAY} 10:03:00 +0900\n---\n\n'
+        markdown = front + full_text
+        print("  Note: model skipped frontmatter, inserted programmatically.", flush=True)
 
     POSTS_DIR.mkdir(parents=True, exist_ok=True)
     OUTPUT_PATH.write_text(markdown, encoding="utf-8")
