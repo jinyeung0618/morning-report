@@ -30,12 +30,12 @@ AI 가 전력을 많이 먹다 보니 원자력이랑 청정 에너지 회사들
 
 | 종목 | 분위기 | 그 달 주요 이벤트 |
 |---|---|---|
-| <span title="애플"><span class="ticker-logo"><img src="https://cdn.simpleicons.org/apple/000000" alt=""></span> AAPL</span> | 🟡 | 연말 주가 300달러 넘을 수 있다는 분석 + 워렌 버핏 포트폴리오 변화가 주목받음 |
-| <span title="테슬라"><span class="ticker-logo"><img src="https://cdn.simpleicons.org/tesla/cc0000" alt=""></span> TSLA</span> | 🟡 | 일본에서 50MW 에너지 저장 시스템 상업 가동 시작. 단 "EV 시장 겨울 올 수도" 우려랑 주가 고점 논란 있음 |
-| <span title="엔비디아"><span class="ticker-logo"><img src="https://cdn.simpleicons.org/nvidia/76b900" alt=""></span> NVDA</span> | 🟢 | AI 기술의 큰 전환점이라는 평가. AI 지출 늘면 수혜 받을 회사로 계속 주목 |
-| <span title="유나이티드헬스"><span class="ticker-logo ticker-logo--badge ticker-logo--unh">UNH</span> UNH</span> | 🔴 | 남미 사업부 매각 소식. 워싱턴 정책 변화 + 규제 불확실성이 주가에 부담 |
-| <span title="팔란티어"><span class="ticker-logo"><img src="https://cdn.simpleicons.org/palantir/000000" alt=""></span> PLTR</span> | 🟢 | AI 계약 늘면서 주가 계속 위로. 단 "너무 비싸다" 논쟁 있음 |
-| <span title="컨스텔레이션"><span class="ticker-logo ticker-logo--badge ticker-logo--ceg">CEG</span> CEG</span> | 🟢 | 미국 정부의 청정 에너지 센터 지원 소식. 원자력·청정 에너지 섹터 성장 기대 |
+| <span title="애플"><span class="ticker-logo"><img src="https://cdn.simpleicons.org/apple/000000" alt=""></span>AAPL</span> | 🟡 | 연말 주가 300달러 넘을 수 있다는 분석 + 워렌 버핏 포트폴리오 변화가 주목받음 |
+| <span title="테슬라"><span class="ticker-logo"><img src="https://cdn.simpleicons.org/tesla/cc0000" alt=""></span>TSLA</span> | 🟡 | 일본에서 50MW 에너지 저장 시스템 상업 가동 시작. 단 "EV 시장 겨울 올 수도" 우려랑 주가 고점 논란 있음 |
+| <span title="엔비디아"><span class="ticker-logo"><img src="https://cdn.simpleicons.org/nvidia/76b900" alt=""></span>NVDA</span> | 🟢 | AI 기술의 큰 전환점이라는 평가. AI 지출 늘면 수혜 받을 회사로 계속 주목 |
+| <span title="유나이티드헬스"><span class="ticker-logo ticker-logo--badge ticker-logo--unh">UNH</span>UNH</span> | 🔴 | 남미 사업부 매각 소식. 워싱턴 정책 변화 + 규제 불확실성이 주가에 부담 |
+| <span title="팔란티어"><span class="ticker-logo"><img src="https://cdn.simpleicons.org/palantir/000000" alt=""></span>PLTR</span> | 🟢 | AI 계약 늘면서 주가 계속 위로. 단 "너무 비싸다" 논쟁 있음 |
+| <span title="컨스텔레이션"><span class="ticker-logo ticker-logo--badge ticker-logo--ceg">CEG</span>CEG</span> | 🟢 | 미국 정부의 청정 에너지 센터 지원 소식. 원자력·청정 에너지 섹터 성장 기대 |
 
 ## 다음 달로 이어진 이슈
 - 연말 시즌이라 연준 통화 정책 + 미국 경제 지표에 계속 관심.
