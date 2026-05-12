@@ -18,6 +18,24 @@ from google.genai import types
 
 import news_fetchers
 
+# 무료 등급 한도 (검증: 2026-05-12)
+#   gemini-2.5-flash-lite: 15 RPM, 1000 RPD
+#   gemini-2.0-flash: RETIRED 2026-03-03, 쓰면 limit:0
+MODEL = "gemini-2.5-flash-lite"
+MAX_RETRIES = 3
+MIN_SLEEP_BETWEEN_CALLS = 5  # 분당 15 RPM 에 여유 둠
+
+
+def _extract_retry_delay(err_str: str) -> float:
+    """429 응답에서 retryDelay 초 추출. 없으면 60s 기본."""
+    m = re.search(r"retry in (\d+(?:\.\d+)?)s", err_str)
+    if m:
+        return float(m.group(1)) + 2  # 안전 마진
+    m = re.search(r"'retryDelay':\s*'(\d+)s'", err_str)
+    if m:
+        return float(m.group(1)) + 2
+    return 60.0
+
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 POSTS_DIR = REPO_ROOT / "_posts"
 
@@ -156,16 +174,29 @@ def generate_month(client: genai.Client, year: int, month: int) -> bool:
 
     user_prompt = "\n".join(user_prompt_parts)
 
-    response = client.models.generate_content(
-        # 2.0 Flash: 무료 등급 1500 RPD (2.5 Flash 의 20 RPD 한도 회피)
-        model="gemini-2.0-flash",
-        contents=user_prompt,
-        config=types.GenerateContentConfig(
-            system_instruction=make_system_prompt(year, month, include_stocks),
-            tools=[types.Tool(google_search=types.GoogleSearch())],
-            temperature=0.5,
-        ),
-    )
+    # 429 시 retryDelay 만큼 대기 후 같은 월 재시도
+    response = None
+    for attempt in range(MAX_RETRIES):
+        try:
+            response = client.models.generate_content(
+                model=MODEL,
+                contents=user_prompt,
+                config=types.GenerateContentConfig(
+                    system_instruction=make_system_prompt(year, month, include_stocks),
+                    tools=[types.Tool(google_search=types.GoogleSearch())],
+                    temperature=0.5,
+                ),
+            )
+            break
+        except Exception as e:
+            err_str = str(e)
+            is_rate = any(k in err_str.lower() for k in ("429", "quota", "rate", "resource_exhausted"))
+            if is_rate and attempt < MAX_RETRIES - 1:
+                delay = _extract_retry_delay(err_str)
+                print(f"  rate-limited, retrying same month in {delay:.0f}s (attempt {attempt+1}/{MAX_RETRIES})", flush=True)
+                time.sleep(delay)
+                continue
+            raise
 
     full_text = (response.text or "").strip()
     full_text = re.sub(r"^```(?:markdown|md)?\s*\n", "", full_text)
@@ -197,19 +228,13 @@ def main():
         try:
             if generate_month(client, y, m):
                 written += 1
-                time.sleep(4)  # rate-limit cushion (Gemini Flash free = 10 RPM)
+                time.sleep(MIN_SLEEP_BETWEEN_CALLS)
             else:
                 skipped += 1
         except Exception as e:
             print(f"  ERROR {y}-{m:02d}: {e}", file=sys.stderr, flush=True)
             failed.append((y, m, str(e)))
-            # 429/quota 류면 더 오래 쉬기
-            err_str = str(e).lower()
-            if any(k in err_str for k in ("429", "quota", "rate", "resource_exhausted")):
-                print("  rate-limit suspected, sleeping 30s...", flush=True)
-                time.sleep(30)
-            else:
-                time.sleep(8)
+            time.sleep(8)
 
     print(f"\nDone. wrote={written} skipped={skipped} failed={len(failed)}")
     if failed:
