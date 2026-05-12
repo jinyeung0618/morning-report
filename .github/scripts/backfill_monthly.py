@@ -26,12 +26,20 @@ MODEL = "gemini-2.5-flash-lite"
 MAX_RETRIES = 3
 MIN_SLEEP_BETWEEN_CALLS = 5  # 분당 15 RPM 에 여유 둠
 
+# 짧은 한도 (분당 RPM/TPM): retryDelay 이만큼 이하면 자리에서 대기
+# 긴 한도 (일일 RPD/TPD): 이상이면 graceful exit → 다음 워크플로 트리거 때 이어서
+SHORT_QUOTA_THRESHOLD_SEC = 300  # 5분
+
+
+class DailyQuotaExhausted(Exception):
+    """retryDelay 가 길어서 (>5min) 일일 한도 도달로 판단. 깔끔하게 종료해야 함."""
+
 
 def _extract_retry_delay(err_str: str) -> float:
-    """429 응답에서 retryDelay 초 추출. 없으면 60s 기본."""
+    """429 응답에서 retryDelay 초 추출. 없으면 60s 기본 (per-minute 추정)."""
     m = re.search(r"retry in (\d+(?:\.\d+)?)s", err_str)
     if m:
-        return float(m.group(1)) + 2  # 안전 마진
+        return float(m.group(1)) + 2
     m = re.search(r"'retryDelay':\s*'(\d+)s'", err_str)
     if m:
         return float(m.group(1)) + 2
@@ -193,6 +201,7 @@ def generate_month(client: genai.Client, year: int, month: int) -> bool:
     user_prompt = "\n".join(user_prompt_parts)
 
     # 429 시 retryDelay 만큼 대기 후 같은 월 재시도
+    # retryDelay 가 SHORT_QUOTA_THRESHOLD_SEC 초과면 일일 한도 → graceful exit
     response = None
     for attempt in range(MAX_RETRIES):
         try:
@@ -209,9 +218,13 @@ def generate_month(client: genai.Client, year: int, month: int) -> bool:
         except Exception as e:
             err_str = str(e)
             is_rate = any(k in err_str.lower() for k in ("429", "quota", "rate", "resource_exhausted"))
-            if is_rate and attempt < MAX_RETRIES - 1:
-                delay = _extract_retry_delay(err_str)
-                print(f"  rate-limited, retrying same month in {delay:.0f}s (attempt {attempt+1}/{MAX_RETRIES})", flush=True)
+            if not is_rate:
+                raise
+            delay = _extract_retry_delay(err_str)
+            if delay > SHORT_QUOTA_THRESHOLD_SEC:
+                raise DailyQuotaExhausted(f"retry in {delay:.0f}s (~{delay/3600:.1f}h)")
+            if attempt < MAX_RETRIES - 1:
+                print(f"  rate-limited (short), retrying same month in {delay:.0f}s (attempt {attempt+1}/{MAX_RETRIES})", flush=True)
                 time.sleep(delay)
                 continue
             raise
@@ -267,6 +280,7 @@ def main():
     written = 0
     skipped = 0
     failed = []
+    quota_exhausted_at = None
     for i, (y, m) in enumerate(months, 1):
         print(f"[{i}/{len(months)}] {y}-{m:02d}", flush=True)
         try:
@@ -277,12 +291,28 @@ def main():
                 time.sleep(MIN_SLEEP_BETWEEN_CALLS)
             else:
                 skipped += 1
+        except DailyQuotaExhausted as e:
+            quota_exhausted_at = (y, m, str(e), months[i-1:])
+            print(f"  DAILY QUOTA EXHAUSTED at {y}-{m:02d}: {e}", file=sys.stderr, flush=True)
+            break
         except Exception as e:
             print(f"  ERROR {y}-{m:02d}: {e}", file=sys.stderr, flush=True)
             failed.append((y, m, str(e)))
             time.sleep(8)
 
     print(f"\nDone. wrote={written} skipped={skipped} failed={len(failed)}")
+
+    if quota_exhausted_at:
+        y, m, err_msg, remaining = quota_exhausted_at
+        print(f"\nDaily quota exhausted at {y}-{m:02d}: {err_msg}")
+        print(f"Remaining {len(remaining)} months will retry on next workflow run:")
+        for ry, rm in remaining[:10]:
+            print(f"  - {ry}-{rm:02d}")
+        if len(remaining) > 10:
+            print(f"  ... ({len(remaining)-10} more)")
+        print("(Cron 으로 매일 자동 재시도되거나 수동 트리거 가능. 종료 코드 0 로 정상 종료.)")
+        return  # exit 0 — 일일 한도는 예상된 종료
+
     if failed:
         for y, m, err in failed:
             print(f"  FAILED {y}-{m:02d}: {err}")

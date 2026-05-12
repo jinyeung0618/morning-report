@@ -13,6 +13,10 @@ on:
         required: false
         type: string
         default: ''
+  schedule:
+    # 17:00 KST = 08:00 UTC, Gemini 무료 quota 가 자정 PST(=16:00 KST)에 리셋된 직후
+    # 일일 한도로 일부 월이 미생성됐을 경우 자동 이어서 채움
+    - cron: '0 8 * * *'
 
 permissions:
   contents: write
