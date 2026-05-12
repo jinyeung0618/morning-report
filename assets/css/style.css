@@ -375,7 +375,7 @@ table thead {
 
 table th {
   padding: var(--space-3) var(--space-4);
-  text-align: left;
+  text-align: center;
   font-weight: 600;
   color: var(--text-secondary);
   font-size: var(--text-xs);
@@ -395,11 +395,11 @@ table td {
   word-break: break-word;
 }
 
-/* 첫째 열(종목)은 좁고 고정, 둘째 열(분위기)은 더 좁게, 셋째 열(설명)이 나머지 차지 */
+/* 첫째 열(종목): 약어 + 로고 + 한글명 다 들어가도록 충분히 / 둘째 열(분위기): 좁게 / 셋째 열(설명): 나머지 */
 table td:first-child,
 table th:first-child {
-  width: 14ch;
-  min-width: 9ch;
+  width: 22ch;
+  min-width: 18ch;
 }
 
 table td:nth-child(2),

@@ -21,25 +21,25 @@ date: 2026-05-12 10:03:00 +0900
 487240(국내 AI 전력 설비) 에 6000억 넘게 들어오면서 한 달 새 수익률 100% 가까이 찍었고, 487230(미국 AI 전력 인프라) 도 연초 대비 +58%, 순자산 곧 2조 돌파. 두 ETF 다 신고가권에서 움직이는 중.
 → 들어갈지 말지 결정할 거면 지금이 잠시 숨 고르는 자리인지, 더 올라갈 자리인지 확인할 시점.
 
-## Watchlist (8종목 전부 표에 포함)
+## Watchlist
 
 ### 🌐 해외
 
 | 종목 | 분위기 | 한 줄 |
 |---|---|---|
-| <span class="ticker-logo"><img src="https://cdn.simpleicons.org/apple/000000" alt=""></span> 애플 (AAPL) | 🟢 | AI 서비스 잠재력 + 맥 미니 3개월 백오더 (가격 인상에도). 월가 평가 좋음. |
-| <span class="ticker-logo"><img src="https://cdn.simpleicons.org/tesla/cc0000" alt=""></span> 테슬라 (TSLA) | 🟢 | 4월 중국 판매량 36% 더 팔림. 옵티머스 로봇 잠재력도 긍정 분석. |
-| <span class="ticker-logo"><img src="https://cdn.simpleicons.org/nvidia/76b900" alt=""></span> 엔비디아 (NVDA) | 🟢 | AI 수요 더 늘었음. 골드만삭스가 "사도 됨" 의견 + 목표가 더 높게 잡음. |
-| <span class="ticker-logo ticker-logo--badge ticker-logo--unh">UNH</span> UNH 유나이티드헬스 | 🟢 | Optum Rx 가 약값 투명하게 보여주는 모델 처음 도입. 시장 호평. |
-| <span class="ticker-logo"><img src="https://cdn.simpleicons.org/palantir/000000" alt=""></span> PLTR 팔란티어 | 🟢 | 1분기 잘 나옴. 목표가 올라감. AI 플랫폼이 사업 바꾸는 중이라는 평가. |
-| <span class="ticker-logo ticker-logo--badge ticker-logo--ceg">CEG</span> CEG 컨스텔레이션 | 🟢 | 1분기 실적이 시장 예상보다 잘 나옴. AI 데이터센터 전력 수요가 진짜 실적에 잡힘. |
+| <span class="ticker-logo"><img src="https://cdn.simpleicons.org/apple/000000" alt=""></span> AAPL (애플) | 🟢 | AI 서비스 잠재력 + 맥 미니 3개월 백오더 (가격 인상에도). 월가 평가 좋음. |
+| <span class="ticker-logo"><img src="https://cdn.simpleicons.org/tesla/cc0000" alt=""></span> TSLA (테슬라) | 🟢 | 4월 중국 판매량 36% 더 팔림. 옵티머스 로봇 잠재력도 긍정 분석. |
+| <span class="ticker-logo"><img src="https://cdn.simpleicons.org/nvidia/76b900" alt=""></span> NVDA (엔비디아) | 🟢 | AI 수요 더 늘었음. 골드만삭스가 "사도 됨" 의견 + 목표가 더 높게 잡음. |
+| <span class="ticker-logo ticker-logo--badge ticker-logo--unh">UNH</span> UNH (유나이티드헬스) | 🟢 | Optum Rx 가 약값 투명하게 보여주는 모델 처음 도입. 시장 호평. |
+| <span class="ticker-logo"><img src="https://cdn.simpleicons.org/palantir/000000" alt=""></span> PLTR (팔란티어) | 🟢 | 1분기 잘 나옴. 목표가 올라감. AI 플랫폼이 사업 바꾸는 중이라는 평가. |
+| <span class="ticker-logo ticker-logo--badge ticker-logo--ceg">CEG</span> CEG (컨스텔레이션) | 🟢 | 1분기 실적이 시장 예상보다 잘 나옴. AI 데이터센터 전력 수요가 진짜 실적에 잡힘. |
 
 ### 🇰🇷 국내
 
 | 종목 | 분위기 | 한 줄 |
 |---|---|---|
-| <span class="ticker-logo ticker-logo--badge ticker-logo--kodex">230</span> 487230 미국AI전력인프라 | 🟢 | 연초 대비 +58%. 순자산 곧 2조 돌파할 분위기. |
-| <span class="ticker-logo ticker-logo--badge ticker-logo--kodex">240</span> 487240 AI전력핵심설비 | 🟢 | 한 달 새 6000억 넘게 자금 들어옴. AI 열풍 직접 수혜 중. |
+| <span class="ticker-logo ticker-logo--badge ticker-logo--kodex">230</span> 487230 (미국AI전력) | 🟢 | 연초 대비 +58%. 순자산 곧 2조 돌파할 분위기. |
+| <span class="ticker-logo ticker-logo--badge ticker-logo--kodex">240</span> 487240 (AI전력설비) | 🟢 | 한 달 새 6000억 넘게 자금 들어옴. AI 열풍 직접 수혜 중. |
 
 ## 오늘 알아야 할 것
 - AI 관련주가 칩→서비스→전력 으로 확산되는 패턴. 너 watchlist 구성이 이 흐름 정확히 따라감.
