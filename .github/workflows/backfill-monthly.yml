@@ -1,0 +1,42 @@
+name: Backfill Monthly Summaries
+
+on:
+  workflow_dispatch:  # 수동 트리거 전용
+
+permissions:
+  contents: write
+
+jobs:
+  backfill:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        working-directory: .github/scripts
+        run: pip install -r requirements.txt
+
+      - name: Run backfill
+        working-directory: .github/scripts
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: python backfill_monthly.py
+
+      - name: Commit and push
+        run: |
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "Morning Report Bot"
+          if git status --porcelain _posts/ | grep -q .; then
+            git add _posts/
+            git commit -m "Backfill monthly summaries (2020-01 ~ 2026-04)"
+            git push
+          else
+            echo "No new files to commit"
+          fi

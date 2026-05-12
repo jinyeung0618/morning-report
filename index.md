@@ -31,9 +31,14 @@ charts: true
       <ul class="report-list">
         {% for post in month.items %}
           <li>
-            <a href="{{ post.url | relative_url }}">
-              <span class="date">{{ post.date | date: "%Y. %-m. %-d" }}</span>
-              <span class="weekday">{{ post.date | date: "%a" | replace: "Mon", "월요일" | replace: "Tue", "화요일" | replace: "Wed", "수요일" | replace: "Thu", "목요일" | replace: "Fri", "금요일" | replace: "Sat", "토요일" | replace: "Sun", "일요일" }}</span>
+            <a href="{{ post.url | relative_url }}"{% if post.type == "monthly" %} class="is-monthly"{% endif %}>
+              {% if post.type == "monthly" %}
+                <span class="date">월간 요약</span>
+                <span class="weekday">{{ post.date | date: "%Y년 %-m월" }} 회고</span>
+              {% else %}
+                <span class="date">{{ post.date | date: "%Y. %-m. %-d" }}</span>
+                <span class="weekday">{{ post.date | date: "%a" | replace: "Mon", "월요일" | replace: "Tue", "화요일" | replace: "Wed", "수요일" | replace: "Thu", "목요일" | replace: "Fri", "금요일" | replace: "Sat", "토요일" | replace: "Sun", "일요일" }}</span>
+              {% endif %}
               <span class="arrow" aria-hidden="true">→</span>
             </a>
           </li>

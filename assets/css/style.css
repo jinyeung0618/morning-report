@@ -597,6 +597,20 @@ hr {
   min-width: 12ch;
 }
 
+.report-list a.is-monthly {
+  background: var(--bg-tertiary);
+}
+
+.report-list a.is-monthly .date {
+  font-family: var(--font-sans);
+  letter-spacing: normal;
+  color: var(--text-primary);
+}
+
+.report-list a.is-monthly .weekday {
+  color: var(--text-tertiary);
+}
+
 .report-list .weekday {
   font-size: var(--text-sm);
   color: var(--text-secondary);
