@@ -185,7 +185,8 @@ def generate():
     full_text = ""
     for attempt in range(3):
         response = client.models.generate_content(
-            model="gemini-2.5-flash",
+            # flash-lite: 무료 1000 RPD (flash 의 20 RPD 한도 회피 + 백필과 통일)
+            model="gemini-2.5-flash-lite",
             contents=user_prompt,
             config=types.GenerateContentConfig(
                 system_instruction=SYSTEM_PROMPT,
