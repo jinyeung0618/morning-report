@@ -356,6 +356,21 @@ table td {
   vertical-align: top;
   color: var(--text-primary);
   line-height: var(--leading-snug);
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+/* 첫째 열(종목)은 좁고 고정, 둘째 열(분위기)은 더 좁게, 셋째 열(설명)이 나머지 차지 */
+table td:first-child,
+table th:first-child {
+  width: 14ch;
+  min-width: 9ch;
+}
+
+table td:nth-child(2),
+table th:nth-child(2) {
+  width: 6ch;
+  text-align: center;
 }
 
 table tbody tr:last-child td { border-bottom: none; }
