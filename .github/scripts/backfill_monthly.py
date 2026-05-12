@@ -230,16 +230,26 @@ def generate_month(client: genai.Client, year: int, month: int) -> bool:
             break
         except Exception as e:
             err_str = str(e)
-            is_rate = any(k in err_str.lower() for k in ("429", "quota", "rate", "resource_exhausted"))
-            if not is_rate:
+            err_lower = err_str.lower()
+            is_rate = any(k in err_lower for k in ("429", "quota", "rate", "resource_exhausted"))
+            is_transient = any(k in err_lower for k in ("503", "500", "502", "504", "unavailable", "deadline", "internal"))
+            if is_rate:
+                delay = _extract_retry_delay(err_str)
+                if delay > SHORT_QUOTA_THRESHOLD_SEC:
+                    raise DailyQuotaExhausted(f"retry in {delay:.0f}s (~{delay/3600:.1f}h)")
+                if attempt < MAX_RETRIES - 1:
+                    print(f"  rate-limited (short), retrying same month in {delay:.0f}s (attempt {attempt+1}/{MAX_RETRIES})", flush=True)
+                    time.sleep(delay)
+                    continue
                 raise
-            delay = _extract_retry_delay(err_str)
-            if delay > SHORT_QUOTA_THRESHOLD_SEC:
-                raise DailyQuotaExhausted(f"retry in {delay:.0f}s (~{delay/3600:.1f}h)")
-            if attempt < MAX_RETRIES - 1:
-                print(f"  rate-limited (short), retrying same month in {delay:.0f}s (attempt {attempt+1}/{MAX_RETRIES})", flush=True)
-                time.sleep(delay)
-                continue
+            if is_transient:
+                # 5xx, 일시 서버 장애 — 지수 backoff 로 재시도
+                if attempt < MAX_RETRIES - 1:
+                    backoff = 5 * (2 ** attempt)  # 5s, 10s, 20s
+                    print(f"  transient error ({err_str[:80]}), retrying in {backoff}s (attempt {attempt+1}/{MAX_RETRIES})", flush=True)
+                    time.sleep(backoff)
+                    continue
+                raise
             raise
 
     full_text = (response.text or "").strip()
