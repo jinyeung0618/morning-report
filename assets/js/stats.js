@@ -7,6 +7,7 @@
     AAPL: {
       label: 'AAPL · Apple',
       iconSlug: 'apple', iconColor: '000000',
+      nameKo: '애플',
       region: 'us',
       currency: '$',
       refs: [
@@ -36,6 +37,7 @@
     TSLA: {
       label: 'TSLA · Tesla',
       iconSlug: 'tesla', iconColor: 'cc0000',
+      nameKo: '테슬라',
       region: 'us',
       currency: '$',
       refs: [
@@ -60,6 +62,7 @@
     NVDA: {
       label: 'NVDA · NVIDIA',
       iconSlug: 'nvidia', iconColor: '76b900',
+      nameKo: '엔비디아',
       region: 'us',
       currency: '$',
       refs: [
@@ -84,6 +87,7 @@
     UNH: {
       label: 'UNH · UnitedHealth',
       badge: { cls: 'unh', text: 'UNH' },
+      nameKo: '유나이티드헬스',
       region: 'us',
       currency: '$',
       refs: [
@@ -106,6 +110,7 @@
     PLTR: {
       label: 'PLTR · Palantir',
       iconSlug: 'palantir', iconColor: '000000',
+      nameKo: '팔란티어',
       region: 'us',
       currency: '$',
       refs: [
@@ -126,6 +131,7 @@
     CEG: {
       label: 'CEG · Constellation Energy',
       badge: { cls: 'ceg', text: 'CEG' },
+      nameKo: '컨스텔레이션',
       region: 'us',
       currency: '$',
       refs: [
@@ -146,6 +152,7 @@
     '487230': {
       label: '487230 · 미국AI전력핵심인프라',
       badge: { cls: 'kodex', text: '230' },
+      nameKo: 'KODEX 미국AI전력핵심인프라',
       region: 'kr',
       currency: '₩',
       refs: [
@@ -164,6 +171,7 @@
     '487240': {
       label: '487240 · AI전력핵심설비',
       badge: { cls: 'kodex', text: '240' },
+      nameKo: 'KODEX AI전력핵심설비',
       region: 'kr',
       currency: '₩',
       refs: [
@@ -486,13 +494,14 @@
     setStatsBodyVisible(true);
     wrap.innerHTML = visible.map((k, i) => {
       const s = STOCKS[k];
+      const titleAttr = s.nameKo ? ` title="${s.nameKo}"` : '';
       let logo = '';
       if (s.iconSlug) {
         // simple-icons CDN SVG
-        logo = `<span class="ticker-logo"><img src="https://cdn.simpleicons.org/${s.iconSlug}/${s.iconColor || '000000'}" alt=""></span>`;
+        logo = `<span class="ticker-logo"${titleAttr}><img src="https://cdn.simpleicons.org/${s.iconSlug}/${s.iconColor || '000000'}" alt=""></span>`;
       } else if (s.badge) {
         // 텍스트 badge
-        logo = `<span class="ticker-logo ticker-logo--badge ticker-logo--${s.badge.cls}">${s.badge.text}</span>`;
+        logo = `<span class="ticker-logo ticker-logo--badge ticker-logo--${s.badge.cls}"${titleAttr}>${s.badge.text}</span>`;
       }
       return `<button class="chip${i === 0 ? ' is-active' : ''}" data-ticker="${k}" type="button" role="tab">${logo}${escapeHtml(STOCKS[k].label)}</button>`;
     }).join('');

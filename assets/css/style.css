@@ -395,11 +395,11 @@ table td {
   word-break: break-word;
 }
 
-/* 첫째 열(종목): 약어 + 로고 + 한글명 다 들어가도록 충분히 / 둘째 열(분위기): 좁게 / 셋째 열(설명): 나머지 */
+/* 첫째 열(종목): 약어 + 로고만 / 둘째 열(분위기): 좁게 / 셋째 열(설명): 나머지 */
 table td:first-child,
 table th:first-child {
-  width: 22ch;
-  min-width: 18ch;
+  width: 14ch;
+  min-width: 10ch;
 }
 
 table td:nth-child(2),

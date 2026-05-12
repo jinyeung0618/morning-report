@@ -25,12 +25,12 @@ UNH가 의료 사전승인 절차 30% 를 *없애겠다* 발표. 환자 입장�
 
 | 종목 | 분위기 | 한 줄 |
 |---|---|---|
-| <span class="ticker-logo"><img src="https://cdn.simpleicons.org/apple/000000" alt=""></span> AAPL (애플) | 🟢 | 2분기 실적 잘 나옴 + 자사주 1000억 달러어치 매입. 6/8~12 WWDC 임박 |
-| <span class="ticker-logo"><img src="https://cdn.simpleicons.org/tesla/cc0000" alt=""></span> TSLA (테슬라) | 🟡 | Semi 양산 + Terafab 계획 vs 주가 약세 + 머스크 거래 논란. 양면 |
-| <span class="ticker-logo"><img src="https://cdn.simpleicons.org/nvidia/76b900" alt=""></span> NVDA (엔비디아) | 🟢 | Corning과 협력 +5.41%. 5/20 실적 임박 |
-| <span class="ticker-logo ticker-logo--badge ticker-logo--unh">UNH</span> UNH (유나이티드헬스) | 🟢 | 실적 가이던스 올림 + 사전승인 30% 폐지 발표 |
-| <span class="ticker-logo"><img src="https://cdn.simpleicons.org/palantir/000000" alt=""></span> PLTR (팔란티어) | 🟢 | 1분기 매출 +85%, 2026년 가이던스 올림 |
-| <span class="ticker-logo ticker-logo--badge ticker-logo--ceg">CEG</span> CEG (컨스텔레이션) | 🟡 | 5/11 실적 발표 임박. 5/7 -3.56% |
+| <span class="ticker-logo" title="애플"><img src="https://cdn.simpleicons.org/apple/000000" alt=""></span> AAPL | 🟢 | 2분기 실적 잘 나옴 + 자사주 1000억 달러어치 매입. 6/8~12 WWDC 임박 |
+| <span class="ticker-logo" title="테슬라"><img src="https://cdn.simpleicons.org/tesla/cc0000" alt=""></span> TSLA | 🟡 | Semi 양산 + Terafab 계획 vs 주가 약세 + 머스크 거래 논란. 양면 |
+| <span class="ticker-logo" title="엔비디아"><img src="https://cdn.simpleicons.org/nvidia/76b900" alt=""></span> NVDA | 🟢 | Corning과 협력 +5.41%. 5/20 실적 임박 |
+| <span class="ticker-logo ticker-logo--badge ticker-logo--unh" title="유나이티드헬스">UNH</span> UNH | 🟢 | 실적 가이던스 올림 + 사전승인 30% 폐지 발표 |
+| <span class="ticker-logo" title="팔란티어"><img src="https://cdn.simpleicons.org/palantir/000000" alt=""></span> PLTR | 🟢 | 1분기 매출 +85%, 2026년 가이던스 올림 |
+| <span class="ticker-logo ticker-logo--badge ticker-logo--ceg" title="컨스텔레이션">CEG</span> CEG | 🟡 | 5/11 실적 발표 임박. 5/7 -3.56% |
 
 ## 오늘 알아야 할 것
 - 호르무즈/이란 상황 — 시장 변동성 1순위
