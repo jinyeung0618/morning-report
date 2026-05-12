@@ -19,17 +19,28 @@ charts: true
 <section class="section-panel is-active" id="section-reports" role="tabpanel" aria-label="모닝 리포트">
   <p class="stats-meta">매일 평일 오전 10시 자동 발행. 시장 흐름과 watchlist 종목 정리.</p>
 
-  <ul class="report-list">
-  {% for post in site.posts %}
-    <li>
-      <a href="{{ post.url | relative_url }}">
-        <span class="date">{{ post.date | date: "%Y. %-m. %-d" }}</span>
-        <span class="weekday">{{ post.date | date: "%a" | replace: "Mon", "월요일" | replace: "Tue", "화요일" | replace: "Wed", "수요일" | replace: "Thu", "목요일" | replace: "Fri", "금요일" | replace: "Sat", "토요일" | replace: "Sun", "일요일" }}</span>
-        <span class="arrow" aria-hidden="true">→</span>
-      </a>
-    </li>
+  {% assign months = site.posts | group_by_exp: "post", "post.date | date: '%Y-%m'" %}
+  {% for month in months %}
+    {% assign first_post = month.items | first %}
+    <details class="report-month"{% if forloop.first %} open{% endif %}>
+      <summary>
+        <span class="month-label">{{ first_post.date | date: "%Y년 %-m월" }}</span>
+        <span class="month-count">{{ month.items | size }}건</span>
+        <span class="month-chevron" aria-hidden="true">▾</span>
+      </summary>
+      <ul class="report-list">
+        {% for post in month.items %}
+          <li>
+            <a href="{{ post.url | relative_url }}">
+              <span class="date">{{ post.date | date: "%Y. %-m. %-d" }}</span>
+              <span class="weekday">{{ post.date | date: "%a" | replace: "Mon", "월요일" | replace: "Tue", "화요일" | replace: "Wed", "수요일" | replace: "Thu", "목요일" | replace: "Fri", "금요일" | replace: "Sat", "토요일" | replace: "Sun", "일요일" }}</span>
+              <span class="arrow" aria-hidden="true">→</span>
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    </details>
   {% endfor %}
-  </ul>
 </section>
 
 <section class="section-panel" id="section-stats" role="tabpanel" aria-label="지수·종목 통계">

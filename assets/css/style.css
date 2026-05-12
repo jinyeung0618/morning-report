@@ -497,6 +497,63 @@ hr {
 }
 
 /* ---------- Report List ---------- */
+.report-month {
+  margin: var(--space-4) 0;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  background: var(--bg-primary);
+  overflow: hidden;
+}
+
+.report-month + .report-month { margin-top: var(--space-3); }
+
+.report-month > summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-5);
+  font-weight: 600;
+  color: var(--text-primary);
+  user-select: none;
+  transition: background var(--duration-fast) var(--easing-default);
+}
+
+.report-month > summary::-webkit-details-marker { display: none; }
+.report-month > summary::marker { content: ""; }
+
+.report-month > summary:hover {
+  background: var(--bg-secondary);
+}
+
+.report-month .month-label {
+  font-size: var(--text-base);
+}
+
+.report-month .month-count {
+  font-size: var(--text-sm);
+  color: var(--text-tertiary);
+  font-weight: 500;
+}
+
+.report-month .month-chevron {
+  margin-left: auto;
+  color: var(--text-tertiary);
+  font-size: var(--text-sm);
+  transition: transform var(--duration-normal) var(--easing-default);
+}
+
+.report-month[open] > summary .month-chevron {
+  transform: rotate(180deg);
+}
+
+.report-month > .report-list {
+  margin: 0;
+  padding: var(--space-2) var(--space-3) var(--space-4);
+  border-top: 1px solid var(--border-color);
+}
+
 .report-list {
   list-style: none;
   padding: 0;
