@@ -5,7 +5,13 @@ on:
     # 10:03 KST 평일 = 01:03 UTC 평일
     # GitHub Actions cron은 UTC. 최대 15~60분 지연 가능.
     - cron: '3 1 * * 1-5'
-  workflow_dispatch:  # 수동 트리거 (테스트용)
+  workflow_dispatch:
+    inputs:
+      date:
+        description: '특정 날짜로 재생성 (YYYY-MM-DD, 비우면 오늘)'
+        required: false
+        type: string
+        default: ''
 
 permissions:
   contents: write
@@ -32,6 +38,7 @@ jobs:
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           FINNHUB_API_KEY: ${{ secrets.FINNHUB_API_KEY }}
+          REPORT_DATE: ${{ inputs.date }}
         run: python generate.py
 
       - name: Commit and push
