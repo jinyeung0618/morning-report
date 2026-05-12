@@ -494,15 +494,16 @@
     setStatsBodyVisible(true);
     wrap.innerHTML = visible.map((k, i) => {
       const s = STOCKS[k];
-      const titleAttr = s.nameKo ? ` title="${s.nameKo}"` : '';
+      const tipCls = s.nameKo ? ' has-tip' : '';
+      const tipData = s.nameKo ? ` data-tip="${s.nameKo}"` : '';
+      const activeCls = i === 0 ? ' is-active' : '';
       let logo = '';
       if (s.iconSlug) {
         logo = `<span class="ticker-logo"><img src="https://cdn.simpleicons.org/${s.iconSlug}/${s.iconColor || '000000'}" alt=""></span>`;
       } else if (s.badge) {
         logo = `<span class="ticker-logo ticker-logo--badge ticker-logo--${s.badge.cls}">${s.badge.text}</span>`;
       }
-      // title 은 chip 버튼 전체에 → 호버·터치 영역 = 버튼 전체
-      return `<button class="chip${i === 0 ? ' is-active' : ''}" data-ticker="${k}" type="button" role="tab"${titleAttr}>${logo}${escapeHtml(STOCKS[k].label)}</button>`;
+      return `<button class="chip${activeCls}${tipCls}" data-ticker="${k}" type="button" role="tab"${tipData}>${logo}${escapeHtml(STOCKS[k].label)}</button>`;
     }).join('');
     selectTicker(visible[0]);
   }

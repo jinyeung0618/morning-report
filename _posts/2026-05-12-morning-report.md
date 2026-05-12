@@ -27,19 +27,19 @@ date: 2026-05-12 10:03:00 +0900
 
 | 종목 | 분위기 | 한 줄 |
 |---|---|---|
-| <span title="애플"><span class="ticker-logo"><img src="https://cdn.simpleicons.org/apple/000000" alt=""></span>AAPL</span> | 🟢 | AI 서비스 잠재력 + 맥 미니 3개월 백오더 (가격 인상에도). 월가 평가 좋음. |
-| <span title="테슬라"><span class="ticker-logo"><img src="https://cdn.simpleicons.org/tesla/cc0000" alt=""></span>TSLA</span> | 🟢 | 4월 중국 판매량 36% 더 팔림. 옵티머스 로봇 잠재력도 긍정 분석. |
-| <span title="엔비디아"><span class="ticker-logo"><img src="https://cdn.simpleicons.org/nvidia/76b900" alt=""></span>NVDA</span> | 🟢 | AI 수요 더 늘었음. 골드만삭스가 "사도 됨" 의견 + 목표가 더 높게 잡음. |
-| <span title="유나이티드헬스"><span class="ticker-logo ticker-logo--badge ticker-logo--unh">UNH</span>UNH</span> | 🟢 | Optum Rx 가 약값 투명하게 보여주는 모델 처음 도입. 시장 호평. |
-| <span title="팔란티어"><span class="ticker-logo"><img src="https://cdn.simpleicons.org/palantir/000000" alt=""></span>PLTR</span> | 🟢 | 1분기 잘 나옴. 목표가 올라감. AI 플랫폼이 사업 바꾸는 중이라는 평가. |
-| <span title="컨스텔레이션"><span class="ticker-logo ticker-logo--badge ticker-logo--ceg">CEG</span>CEG</span> | 🟢 | 1분기 실적이 시장 예상보다 잘 나옴. AI 데이터센터 전력 수요가 진짜 실적에 잡힘. |
+| <span class="has-tip" data-tip="애플" tabindex="0"><span class="ticker-logo"><img src="https://cdn.simpleicons.org/apple/000000" alt=""></span>AAPL</span> | 🟢 | AI 서비스 잠재력 + 맥 미니 3개월 백오더 (가격 인상에도). 월가 평가 좋음. |
+| <span class="has-tip" data-tip="테슬라" tabindex="0"><span class="ticker-logo"><img src="https://cdn.simpleicons.org/tesla/cc0000" alt=""></span>TSLA</span> | 🟢 | 4월 중국 판매량 36% 더 팔림. 옵티머스 로봇 잠재력도 긍정 분석. |
+| <span class="has-tip" data-tip="엔비디아" tabindex="0"><span class="ticker-logo"><img src="https://cdn.simpleicons.org/nvidia/76b900" alt=""></span>NVDA</span> | 🟢 | AI 수요 더 늘었음. 골드만삭스가 "사도 됨" 의견 + 목표가 더 높게 잡음. |
+| <span class="has-tip" data-tip="유나이티드헬스" tabindex="0"><span class="ticker-logo ticker-logo--badge ticker-logo--unh">UNH</span>UNH</span> | 🟢 | Optum Rx 가 약값 투명하게 보여주는 모델 처음 도입. 시장 호평. |
+| <span class="has-tip" data-tip="팔란티어" tabindex="0"><span class="ticker-logo"><img src="https://cdn.simpleicons.org/palantir/000000" alt=""></span>PLTR</span> | 🟢 | 1분기 잘 나옴. 목표가 올라감. AI 플랫폼이 사업 바꾸는 중이라는 평가. |
+| <span class="has-tip" data-tip="컨스텔레이션" tabindex="0"><span class="ticker-logo ticker-logo--badge ticker-logo--ceg">CEG</span>CEG</span> | 🟢 | 1분기 실적이 시장 예상보다 잘 나옴. AI 데이터센터 전력 수요가 진짜 실적에 잡힘. |
 
 ### 🇰🇷 국내
 
 | 종목 | 분위기 | 한 줄 |
 |---|---|---|
-| <span title="KODEX 미국AI전력핵심인프라"><span class="ticker-logo ticker-logo--badge ticker-logo--kodex">KODEX</span>487230</span> | 🟢 | 연초 대비 +58%. 순자산 곧 2조 돌파할 분위기. |
-| <span title="KODEX AI전력핵심설비"><span class="ticker-logo ticker-logo--badge ticker-logo--kodex">KODEX</span>487240</span> | 🟢 | 한 달 새 6000억 넘게 자금 들어옴. AI 열풍 직접 수혜 중. |
+| <span class="has-tip" data-tip="KODEX 미국AI전력핵심인프라" tabindex="0"><span class="ticker-logo ticker-logo--badge ticker-logo--kodex">KODEX</span>487230</span> | 🟢 | 연초 대비 +58%. 순자산 곧 2조 돌파할 분위기. |
+| <span class="has-tip" data-tip="KODEX AI전력핵심설비" tabindex="0"><span class="ticker-logo ticker-logo--badge ticker-logo--kodex">KODEX</span>487240</span> | 🟢 | 한 달 새 6000억 넘게 자금 들어옴. AI 열풍 직접 수혜 중. |
 
 ## 오늘 알아야 할 것
 - AI 관련주가 칩→서비스→전력 으로 확산되는 패턴. 너 watchlist 구성이 이 흐름 정확히 따라감.

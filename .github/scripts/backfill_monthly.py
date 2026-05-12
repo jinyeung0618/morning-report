@@ -97,12 +97,12 @@ def make_system_prompt(year: int, month: int, include_stocks: bool) -> str:
 
 | 종목 | 분위기 | 그 달 주요 이벤트 |
 |---|---|---|
-| <span title="애플"><span class="ticker-logo"><img src="https://cdn.simpleicons.org/apple/000000" alt=""></span>AAPL</span> | 🟢/🟡/🔴 또는 — | 헤드라인 있으면 1-2개 한 줄로 묶기. 없으면 `🤷 뚜렷한 기사 없음` |
-| <span title="테슬라"><span class="ticker-logo"><img src="https://cdn.simpleicons.org/tesla/cc0000" alt=""></span>TSLA</span> | ... | ... |
-| <span title="엔비디아"><span class="ticker-logo"><img src="https://cdn.simpleicons.org/nvidia/76b900" alt=""></span>NVDA</span> | ... | ... |
-| <span title="유나이티드헬스"><span class="ticker-logo ticker-logo--badge ticker-logo--unh">UNH</span>UNH</span> | ... | ... |
-| <span title="팔란티어"><span class="ticker-logo"><img src="https://cdn.simpleicons.org/palantir/000000" alt=""></span>PLTR</span> | ... | ... |
-| <span title="컨스텔레이션"><span class="ticker-logo ticker-logo--badge ticker-logo--ceg">CEG</span>CEG</span> | ... | ... |
+| <span class="has-tip" data-tip="애플" tabindex="0"><span class="ticker-logo"><img src="https://cdn.simpleicons.org/apple/000000" alt=""></span>AAPL</span> | 🟢/🟡/🔴 또는 — | 헤드라인 있으면 1-2개 한 줄로 묶기. 없으면 `🤷 뚜렷한 기사 없음` |
+| <span class="has-tip" data-tip="테슬라" tabindex="0"><span class="ticker-logo"><img src="https://cdn.simpleicons.org/tesla/cc0000" alt=""></span>TSLA</span> | ... | ... |
+| <span class="has-tip" data-tip="엔비디아" tabindex="0"><span class="ticker-logo"><img src="https://cdn.simpleicons.org/nvidia/76b900" alt=""></span>NVDA</span> | ... | ... |
+| <span class="has-tip" data-tip="유나이티드헬스" tabindex="0"><span class="ticker-logo ticker-logo--badge ticker-logo--unh">UNH</span>UNH</span> | ... | ... |
+| <span class="has-tip" data-tip="팔란티어" tabindex="0"><span class="ticker-logo"><img src="https://cdn.simpleicons.org/palantir/000000" alt=""></span>PLTR</span> | ... | ... |
+| <span class="has-tip" data-tip="컨스텔레이션" tabindex="0"><span class="ticker-logo ticker-logo--badge ticker-logo--ceg">CEG</span>CEG</span> | ... | ... |
 
 (국내 ETF 회고 뉴스는 자동 수집하지 않아 국내 섹션 생략.)
 

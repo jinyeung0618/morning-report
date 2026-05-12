@@ -25,12 +25,12 @@ UNH가 의료 사전승인 절차 30% 를 *없애겠다* 발표. 환자 입장�
 
 | 종목 | 분위기 | 한 줄 |
 |---|---|---|
-| <span title="애플"><span class="ticker-logo"><img src="https://cdn.simpleicons.org/apple/000000" alt=""></span>AAPL</span> | 🟢 | 2분기 실적 잘 나옴 + 자사주 1000억 달러어치 매입. 6/8~12 WWDC 임박 |
-| <span title="테슬라"><span class="ticker-logo"><img src="https://cdn.simpleicons.org/tesla/cc0000" alt=""></span>TSLA</span> | 🟡 | Semi 양산 + Terafab 계획 vs 주가 약세 + 머스크 거래 논란. 양면 |
-| <span title="엔비디아"><span class="ticker-logo"><img src="https://cdn.simpleicons.org/nvidia/76b900" alt=""></span>NVDA</span> | 🟢 | Corning과 협력 +5.41%. 5/20 실적 임박 |
-| <span title="유나이티드헬스"><span class="ticker-logo ticker-logo--badge ticker-logo--unh">UNH</span>UNH</span> | 🟢 | 실적 가이던스 올림 + 사전승인 30% 폐지 발표 |
-| <span title="팔란티어"><span class="ticker-logo"><img src="https://cdn.simpleicons.org/palantir/000000" alt=""></span>PLTR</span> | 🟢 | 1분기 매출 +85%, 2026년 가이던스 올림 |
-| <span title="컨스텔레이션"><span class="ticker-logo ticker-logo--badge ticker-logo--ceg">CEG</span>CEG</span> | 🟡 | 5/11 실적 발표 임박. 5/7 -3.56% |
+| <span class="has-tip" data-tip="애플" tabindex="0"><span class="ticker-logo"><img src="https://cdn.simpleicons.org/apple/000000" alt=""></span>AAPL</span> | 🟢 | 2분기 실적 잘 나옴 + 자사주 1000억 달러어치 매입. 6/8~12 WWDC 임박 |
+| <span class="has-tip" data-tip="테슬라" tabindex="0"><span class="ticker-logo"><img src="https://cdn.simpleicons.org/tesla/cc0000" alt=""></span>TSLA</span> | 🟡 | Semi 양산 + Terafab 계획 vs 주가 약세 + 머스크 거래 논란. 양면 |
+| <span class="has-tip" data-tip="엔비디아" tabindex="0"><span class="ticker-logo"><img src="https://cdn.simpleicons.org/nvidia/76b900" alt=""></span>NVDA</span> | 🟢 | Corning과 협력 +5.41%. 5/20 실적 임박 |
+| <span class="has-tip" data-tip="유나이티드헬스" tabindex="0"><span class="ticker-logo ticker-logo--badge ticker-logo--unh">UNH</span>UNH</span> | 🟢 | 실적 가이던스 올림 + 사전승인 30% 폐지 발표 |
+| <span class="has-tip" data-tip="팔란티어" tabindex="0"><span class="ticker-logo"><img src="https://cdn.simpleicons.org/palantir/000000" alt=""></span>PLTR</span> | 🟢 | 1분기 매출 +85%, 2026년 가이던스 올림 |
+| <span class="has-tip" data-tip="컨스텔레이션" tabindex="0"><span class="ticker-logo ticker-logo--badge ticker-logo--ceg">CEG</span>CEG</span> | 🟡 | 5/11 실적 발표 임박. 5/7 -3.56% |
 
 ## 오늘 알아야 할 것
 - 호르무즈/이란 상황 — 시장 변동성 1순위
