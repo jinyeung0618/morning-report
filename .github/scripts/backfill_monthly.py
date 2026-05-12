@@ -10,6 +10,7 @@ import sys
 import re
 import time
 import calendar
+import subprocess
 from datetime import datetime, timezone, timedelta, date
 from pathlib import Path
 
@@ -39,8 +40,25 @@ def _extract_retry_delay(err_str: str) -> float:
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 POSTS_DIR = REPO_ROOT / "_posts"
 
-START_YEAR, START_MONTH = 2020, 1
-END_YEAR, END_MONTH = 2026, 4
+DEFAULT_START = (2020, 1)
+DEFAULT_END = (2026, 4)
+
+
+def _parse_ym_env(var: str, fallback: tuple[int, int]) -> tuple[int, int]:
+    raw = os.environ.get(var, "").strip()
+    if not raw:
+        return fallback
+    m = re.match(r"^(\d{4})-(\d{1,2})$", raw)
+    if not m:
+        print(f"warning: {var}={raw!r} 형식 이상, 기본값 사용", file=sys.stderr)
+        return fallback
+    return (int(m.group(1)), int(m.group(2)))
+
+
+START_YEAR, START_MONTH = _parse_ym_env("BACKFILL_FROM", DEFAULT_START)
+END_YEAR, END_MONTH = _parse_ym_env("BACKFILL_TO", DEFAULT_END)
+
+COMMIT_PER_MONTH = os.environ.get("BACKFILL_COMMIT_PER_MONTH", "true").lower() == "true"
 
 # Finnhub 무료 티어는 약 1년 history. 안전하게 11개월로 컷.
 KST = timezone(timedelta(hours=9))
@@ -212,13 +230,39 @@ def generate_month(client: genai.Client, year: int, month: int) -> bool:
     return True
 
 
+def _git(*args: str) -> int:
+    """git 명령 실행. 실패해도 죽지 않음 (워크플로 commit 단계가 안전망)."""
+    try:
+        r = subprocess.run(["git", *args], capture_output=True, text=True, cwd=REPO_ROOT)
+        if r.returncode != 0:
+            print(f"  git {' '.join(args)} -> {r.returncode}: {r.stderr.strip()}", flush=True)
+        return r.returncode
+    except Exception as e:
+        print(f"  git {' '.join(args)} failed: {e}", flush=True)
+        return 1
+
+
+def commit_and_push_one(year: int, month: int, path: Path) -> bool:
+    """한 월의 파일을 add → commit → push. 실패해도 다음 월 진행."""
+    if _git("add", str(path)) != 0:
+        return False
+    if _git("commit", "-m", f"Monthly summary {year}-{month:02d}") != 0:
+        return False
+    if _git("push") != 0:
+        return False
+    print(f"  PUSHED {path.name}", flush=True)
+    return True
+
+
 def main():
     client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
     POSTS_DIR.mkdir(parents=True, exist_ok=True)
 
     months = list(month_iter(START_YEAR, START_MONTH, END_YEAR, END_MONTH))
-    print(f"Backfilling {len(months)} months: {months[0]} → {months[-1]}")
+    months.reverse()  # 최근부터 거꾸로 — 가치 큰 거 먼저, quota 막혀도 최근은 살아있음
+    print(f"Backfilling {len(months)} months (recent→old): {months[0]} → {months[-1]}")
     print(f"Finnhub cutoff: {FINNHUB_CUTOFF} (months on/after include stock headlines)")
+    print(f"Commit-per-month: {COMMIT_PER_MONTH}")
 
     written = 0
     skipped = 0
@@ -228,6 +272,8 @@ def main():
         try:
             if generate_month(client, y, m):
                 written += 1
+                if COMMIT_PER_MONTH:
+                    commit_and_push_one(y, m, output_path(y, m))
                 time.sleep(MIN_SLEEP_BETWEEN_CALLS)
             else:
                 skipped += 1

@@ -1,7 +1,18 @@
 name: Backfill Monthly Summaries
 
 on:
-  workflow_dispatch:  # 수동 트리거 전용
+  workflow_dispatch:
+    inputs:
+      from:
+        description: '시작 월 (YYYY-MM, 포함). 기본 2020-01'
+        required: false
+        type: string
+        default: ''
+      to:
+        description: '종료 월 (YYYY-MM, 포함). 기본 2026-04'
+        required: false
+        type: string
+        default: ''
 
 permissions:
   contents: write
@@ -23,30 +34,35 @@ jobs:
         working-directory: .github/scripts
         run: pip install -r requirements.txt
 
-      - name: Run backfill
+      - name: Configure git for bot commits
+        run: |
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "Morning Report Bot"
+
+      - name: Run backfill (commits each month inline)
         id: backfill
         continue-on-error: true
         working-directory: .github/scripts
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           FINNHUB_API_KEY: ${{ secrets.FINNHUB_API_KEY }}
+          BACKFILL_FROM: ${{ inputs.from }}
+          BACKFILL_TO: ${{ inputs.to }}
         run: python backfill_monthly.py
 
-      - name: Commit and push (partial progress OK)
+      - name: Safety-net commit (anything left uncommitted)
         if: always()
         run: |
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git config user.name "Morning Report Bot"
           if git status --porcelain _posts/ | grep -q .; then
             git add _posts/
-            git commit -m "Backfill monthly summaries (partial: $(ls _posts/*-monthly-summary.md 2>/dev/null | wc -l) files)"
+            git commit -m "Backfill leftover files"
             git push
           else
-            echo "No new files to commit"
+            echo "All monthly files already pushed inline."
           fi
 
       - name: Re-raise backfill status
         if: steps.backfill.outcome == 'failure'
         run: |
-          echo "::error::backfill script exited non-zero — partial files committed above. See 'Run backfill' log for failed months and re-run workflow to retry skipped ones."
+          echo "::error::backfill 일부 월 실패. 이전에 푸시된 파일은 보존됨. 실패 월만 다시 트리거하면 됨."
           exit 1
