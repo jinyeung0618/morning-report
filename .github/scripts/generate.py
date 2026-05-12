@@ -191,12 +191,25 @@ def generate():
     )
 
     full_text = (response.text or "").strip()
+    if not full_text:
+        # 빈 응답 — finish_reason 등 진단 출력
+        diag = []
+        try:
+            for i, c in enumerate(response.candidates or []):
+                diag.append(f"candidate[{i}].finish_reason={getattr(c, 'finish_reason', None)}")
+                diag.append(f"candidate[{i}].safety_ratings={getattr(c, 'safety_ratings', None)}")
+            if hasattr(response, "prompt_feedback"):
+                diag.append(f"prompt_feedback={response.prompt_feedback}")
+        except Exception as de:
+            diag.append(f"(diag error: {de})")
+        raise RuntimeError(f"Empty response from Gemini. Diagnostic: {' | '.join(diag) or '(no candidates)'}")
+
     full_text = re.sub(r"^```(?:markdown|md)?\s*\n", "", full_text)
     full_text = re.sub(r"\n```\s*$", "", full_text)
 
     fm_match = re.search(r"^---\s*$", full_text, re.MULTILINE)
     if not fm_match:
-        raise RuntimeError(f"No frontmatter:\n{full_text[:500]}")
+        raise RuntimeError(f"No frontmatter in non-empty response:\n{full_text[:500]}")
     markdown = full_text[fm_match.start():]
 
     POSTS_DIR.mkdir(parents=True, exist_ok=True)
