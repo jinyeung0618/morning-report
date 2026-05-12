@@ -38,8 +38,8 @@ Bank of America: "2026년 인하 없음, 2027 하반기에야 가능"으로 전�
 
 | 종목 | 분위기 | 한 줄 |
 |---|---|---|
-| <span title="KODEX 미국AI전력핵심인프라"><span class="ticker-logo ticker-logo--badge ticker-logo--kodex">230</span>487230</span> | 🟢 | 1월 종가 ₩18,120. 52주 저점 ₩8,675 → 고점 ₩20,960. 신고가권 부근. GE Vernova·Vertiv 비중 큼 |
-| <span title="KODEX AI전력핵심설비"><span class="ticker-logo ticker-logo--badge ticker-logo--kodex">240</span>487240</span> | 🟢 | 5/7 종가 ₩61,575, 시총 4.4조원. 52주 +498% 폭등. LS ELECTRIC·효성중공업 등 국내 AI 데이터센터 발주 수혜 |
+| <span title="KODEX 미국AI전력핵심인프라"><span class="ticker-logo ticker-logo--badge ticker-logo--kodex">KODEX</span>487230</span> | 🟢 | 1월 종가 ₩18,120. 52주 저점 ₩8,675 → 고점 ₩20,960. 신고가권 부근. GE Vernova·Vertiv 비중 큼 |
+| <span title="KODEX AI전력핵심설비"><span class="ticker-logo ticker-logo--badge ticker-logo--kodex">KODEX</span>487240</span> | 🟢 | 5/7 종가 ₩61,575, 시총 4.4조원. 52주 +498% 폭등. LS ELECTRIC·효성중공업 등 국내 AI 데이터센터 발주 수혜 |
 
 ## 오늘 알아야 할 것
 - CEG 오늘 실적 — 미국 AI 전력 테마 단기 분수령. 결과에 따라 487230·487240 분위기도 같이 흔들림

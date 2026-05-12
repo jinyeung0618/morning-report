@@ -151,7 +151,7 @@
     // 국내 ETF
     '487230': {
       label: '487230 · 미국AI전력핵심인프라',
-      badge: { cls: 'kodex', text: '230' },
+      badge: { cls: 'kodex', text: 'KODEX' },
       nameKo: 'KODEX 미국AI전력핵심인프라',
       region: 'kr',
       currency: '₩',
@@ -170,7 +170,7 @@
 
     '487240': {
       label: '487240 · AI전력핵심설비',
-      badge: { cls: 'kodex', text: '240' },
+      badge: { cls: 'kodex', text: 'KODEX' },
       nameKo: 'KODEX AI전력핵심설비',
       region: 'kr',
       currency: '₩',

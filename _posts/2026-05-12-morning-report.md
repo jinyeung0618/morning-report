@@ -38,8 +38,8 @@ date: 2026-05-12 10:03:00 +0900
 
 | 종목 | 분위기 | 한 줄 |
 |---|---|---|
-| <span title="KODEX 미국AI전력핵심인프라"><span class="ticker-logo ticker-logo--badge ticker-logo--kodex">230</span>487230</span> | 🟢 | 연초 대비 +58%. 순자산 곧 2조 돌파할 분위기. |
-| <span title="KODEX AI전력핵심설비"><span class="ticker-logo ticker-logo--badge ticker-logo--kodex">240</span>487240</span> | 🟢 | 한 달 새 6000억 넘게 자금 들어옴. AI 열풍 직접 수혜 중. |
+| <span title="KODEX 미국AI전력핵심인프라"><span class="ticker-logo ticker-logo--badge ticker-logo--kodex">KODEX</span>487230</span> | 🟢 | 연초 대비 +58%. 순자산 곧 2조 돌파할 분위기. |
+| <span title="KODEX AI전력핵심설비"><span class="ticker-logo ticker-logo--badge ticker-logo--kodex">KODEX</span>487240</span> | 🟢 | 한 달 새 6000억 넘게 자금 들어옴. AI 열풍 직접 수혜 중. |
 
 ## 오늘 알아야 할 것
 - AI 관련주가 칩→서비스→전력 으로 확산되는 패턴. 너 watchlist 구성이 이 흐름 정확히 따라감.

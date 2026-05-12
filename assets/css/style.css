@@ -347,12 +347,12 @@ blockquote p:last-child { margin-bottom: 0; }
   width: 36px;
   height: 18px;
   border-radius: 4px;
-  font-size: 9px;
+  font-size: 8.5px;
   font-weight: 700;
   color: #fff;
-  font-family: var(--font-mono, monospace);
+  font-family: var(--font-sans);
   background: var(--text-tertiary);
-  letter-spacing: 0;
+  letter-spacing: 0.02em;
 }
 .ticker-logo--unh { background: #002677; }
 .ticker-logo--ceg { background: #00609c; }
