@@ -4,6 +4,9 @@ author: 최진영(Kcarl)
 
 permalink: /:year/:month/:day/
 
+# KST 발행 포스트가 빌드 시점에 UTC 기준 '미래'로 보일 수 있어 활성화
+future: true
+
 # 커스텀 레이아웃 사용 (cayman 테마 제거)
 
 defaults:
