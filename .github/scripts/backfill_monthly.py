@@ -66,6 +66,16 @@ def _parse_ym_env(var: str, fallback: tuple[int, int]) -> tuple[int, int]:
 START_YEAR, START_MONTH = _parse_ym_env("BACKFILL_FROM", DEFAULT_START)
 END_YEAR, END_MONTH = _parse_ym_env("BACKFILL_TO", DEFAULT_END)
 
+# from > to 면 자동 교정 (입력 순서 실수 보호)
+if (START_YEAR, START_MONTH) > (END_YEAR, END_MONTH):
+    print(
+        f"warning: from ({START_YEAR}-{START_MONTH:02d}) > to ({END_YEAR}-{END_MONTH:02d}). 자동 교환.",
+        file=sys.stderr,
+    )
+    (START_YEAR, START_MONTH), (END_YEAR, END_MONTH) = (END_YEAR, END_MONTH), (START_YEAR, START_MONTH)
+
+print(f"Resolved range: {START_YEAR}-{START_MONTH:02d} → {END_YEAR}-{END_MONTH:02d}")
+
 COMMIT_PER_MONTH = os.environ.get("BACKFILL_COMMIT_PER_MONTH", "true").lower() == "true"
 
 # Finnhub 무료 티어는 약 1년 history. 안전하게 11개월로 컷.
