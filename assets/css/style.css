@@ -323,6 +323,17 @@ blockquote {
 blockquote p { color: inherit; margin-bottom: var(--space-2); }
 blockquote p:last-child { margin-bottom: 0; }
 
+/* ---------- Ticker Logo ---------- */
+.ticker-logo {
+  width: 18px;
+  height: 18px;
+  vertical-align: -3px;
+  margin-right: 6px;
+  border-radius: 4px;
+  background: var(--bg-primary);
+  flex-shrink: 0;
+}
+
 /* ---------- Tables ---------- */
 table {
   width: 100%;

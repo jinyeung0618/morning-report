@@ -30,12 +30,12 @@ AI 가 전력을 많이 먹다 보니 원자력이랑 청정 에너지 회사들
 
 | 종목 | 분위기 | 그 달 주요 이벤트 |
 |---|---|---|
-| 🍎 애플 (AAPL) | 🟡 | 연말 주가 300달러 넘을 수 있다는 분석 + 워렌 버핏 포트폴리오 변화가 주목받음 |
-| 🚗 테슬라 (TSLA) | 🟡 | 일본에서 50MW 에너지 저장 시스템 상업 가동 시작. 단 "EV 시장 겨울 올 수도" 우려랑 주가 고점 논란 있음 |
-| 🤖 엔비디아 (NVDA) | 🟢 | AI 기술의 큰 전환점이라는 평가. AI 지출 늘면 수혜 받을 회사로 계속 주목 |
-| 🏥 UNH 유나이티드헬스 | 🔴 | 남미 사업부 매각 소식. 워싱턴 정책 변화 + 규제 불확실성이 주가에 부담 |
-| 🦅 PLTR 팔란티어 | 🟢 | AI 계약 늘면서 주가 계속 위로. 단 "너무 비싸다" 논쟁 있음 |
-| ⚡ CEG 컨스텔레이션 | 🟢 | 미국 정부의 청정 에너지 센터 지원 소식. 원자력·청정 에너지 섹터 성장 기대 |
+| <img class="ticker-logo" src="https://www.google.com/s2/favicons?domain=apple.com&sz=64" alt=""> 애플 (AAPL) | 🟡 | 연말 주가 300달러 넘을 수 있다는 분석 + 워렌 버핏 포트폴리오 변화가 주목받음 |
+| <img class="ticker-logo" src="https://www.google.com/s2/favicons?domain=tesla.com&sz=64" alt=""> 테슬라 (TSLA) | 🟡 | 일본에서 50MW 에너지 저장 시스템 상업 가동 시작. 단 "EV 시장 겨울 올 수도" 우려랑 주가 고점 논란 있음 |
+| <img class="ticker-logo" src="https://www.google.com/s2/favicons?domain=nvidia.com&sz=64" alt=""> 엔비디아 (NVDA) | 🟢 | AI 기술의 큰 전환점이라는 평가. AI 지출 늘면 수혜 받을 회사로 계속 주목 |
+| <img class="ticker-logo" src="https://www.google.com/s2/favicons?domain=unitedhealthgroup.com&sz=64" alt=""> UNH 유나이티드헬스 | 🔴 | 남미 사업부 매각 소식. 워싱턴 정책 변화 + 규제 불확실성이 주가에 부담 |
+| <img class="ticker-logo" src="https://www.google.com/s2/favicons?domain=palantir.com&sz=64" alt=""> PLTR 팔란티어 | 🟢 | AI 계약 늘면서 주가 계속 위로. 단 "너무 비싸다" 논쟁 있음 |
+| <img class="ticker-logo" src="https://www.google.com/s2/favicons?domain=constellationenergy.com&sz=64" alt=""> CEG 컨스텔레이션 | 🟢 | 미국 정부의 청정 에너지 센터 지원 소식. 원자력·청정 에너지 섹터 성장 기대 |
 
 ## 다음 달로 이어진 이슈
 - 연말 시즌이라 연준 통화 정책 + 미국 경제 지표에 계속 관심.

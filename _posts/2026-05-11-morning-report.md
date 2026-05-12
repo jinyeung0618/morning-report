@@ -27,19 +27,19 @@ Bank of America: "2026년 인하 없음, 2027 하반기에야 가능"으로 전�
 
 | 종목 | 분위기 | 한 줄 |
 |---|---|---|
-| 🍎 애플 (AAPL) | 🟢 | 주가 $290+ 신고가권. 오늘이 분기 배당 ex-date. 인텔과 미국 내 칩 생산 협상 보도로 반도체 섹터 동반 강세 |
-| 🚗 테슬라 (TSLA) | 🟡 | $428. 1분기 인도량 35.8만대로 시장 예상 미달, 재고 5만대 늘었음. 단 로보택시 텍사스 3개 도시 확대 + 2026년 자본 지출 $25B 발표 |
-| 🤖 엔비디아 (NVDA) | 🟡 | $215, 연초 이후 +15%. 5/20 실적 9일 남음. 일부 매체에선 "AI 파티 곧 끝난다" 경고 등장 |
-| 🏥 UNH 유나이티드헬스 | 🟢 | $384, 최근 30일 +23.76% 급반등. 골드만삭스 추천 종목 등재 (목표가 $435). 사전승인 60% 폐지 발표 |
-| 🦅 PLTR 팔란티어 | 🟡 | 1분기 매출 +85% (역대 최고 성장률) BUT 연초 이후 -23%. 일부 애널리스트가 비싸다고 등급 내림 |
-| ⚡ CEG 컨스텔레이션 | 🔴→? | 오늘 미국 시간 10시 1분기 실적 발표. AI 데이터센터 전력 수요가 진짜 실적에 잡혔는지가 관전 포인트 |
+| <img class="ticker-logo" src="https://www.google.com/s2/favicons?domain=apple.com&sz=64" alt=""> 애플 (AAPL) | 🟢 | 주가 $290+ 신고가권. 오늘이 분기 배당 ex-date. 인텔과 미국 내 칩 생산 협상 보도로 반도체 섹터 동반 강세 |
+| <img class="ticker-logo" src="https://www.google.com/s2/favicons?domain=tesla.com&sz=64" alt=""> 테슬라 (TSLA) | 🟡 | $428. 1분기 인도량 35.8만대로 시장 예상 미달, 재고 5만대 늘었음. 단 로보택시 텍사스 3개 도시 확대 + 2026년 자본 지출 $25B 발표 |
+| <img class="ticker-logo" src="https://www.google.com/s2/favicons?domain=nvidia.com&sz=64" alt=""> 엔비디아 (NVDA) | 🟡 | $215, 연초 이후 +15%. 5/20 실적 9일 남음. 일부 매체에선 "AI 파티 곧 끝난다" 경고 등장 |
+| <img class="ticker-logo" src="https://www.google.com/s2/favicons?domain=unitedhealthgroup.com&sz=64" alt=""> UNH 유나이티드헬스 | 🟢 | $384, 최근 30일 +23.76% 급반등. 골드만삭스 추천 종목 등재 (목표가 $435). 사전승인 60% 폐지 발표 |
+| <img class="ticker-logo" src="https://www.google.com/s2/favicons?domain=palantir.com&sz=64" alt=""> PLTR 팔란티어 | 🟡 | 1분기 매출 +85% (역대 최고 성장률) BUT 연초 이후 -23%. 일부 애널리스트가 비싸다고 등급 내림 |
+| <img class="ticker-logo" src="https://www.google.com/s2/favicons?domain=constellationenergy.com&sz=64" alt=""> CEG 컨스텔레이션 | 🔴→? | 오늘 미국 시간 10시 1분기 실적 발표. AI 데이터센터 전력 수요가 진짜 실적에 잡혔는지가 관전 포인트 |
 
 ### 🇰🇷 국내
 
 | 종목 | 분위기 | 한 줄 |
 |---|---|---|
-| 🔌 487230 미국AI전력인프라 | 🟢 | 1월 종가 ₩18,120. 52주 저점 ₩8,675 → 고점 ₩20,960. 신고가권 부근. GE Vernova·Vertiv 비중 큼 |
-| ⚙️ 487240 AI전력핵심설비 | 🟢 | 5/7 종가 ₩61,575, 시총 4.4조원. 52주 +498% 폭등. LS ELECTRIC·효성중공업 등 국내 AI 데이터센터 발주 수혜 |
+| <img class="ticker-logo" src="https://www.google.com/s2/favicons?domain=kodex.com&sz=64" alt=""> 487230 미국AI전력인프라 | 🟢 | 1월 종가 ₩18,120. 52주 저점 ₩8,675 → 고점 ₩20,960. 신고가권 부근. GE Vernova·Vertiv 비중 큼 |
+| <img class="ticker-logo" src="https://www.google.com/s2/favicons?domain=kodex.com&sz=64" alt=""> 487240 AI전력핵심설비 | 🟢 | 5/7 종가 ₩61,575, 시총 4.4조원. 52주 +498% 폭등. LS ELECTRIC·효성중공업 등 국내 AI 데이터센터 발주 수혜 |
 
 ## 오늘 알아야 할 것
 - CEG 오늘 실적 — 미국 AI 전력 테마 단기 분수령. 결과에 따라 487230·487240 분위기도 같이 흔들림

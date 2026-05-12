@@ -6,6 +6,7 @@
   const STOCKS = {
     AAPL: {
       label: 'AAPL · Apple',
+      logo: 'apple.com',
       region: 'us',
       currency: '$',
       refs: [
@@ -34,6 +35,7 @@
 
     TSLA: {
       label: 'TSLA · Tesla',
+      logo: 'tesla.com',
       region: 'us',
       currency: '$',
       refs: [
@@ -57,6 +59,7 @@
 
     NVDA: {
       label: 'NVDA · NVIDIA',
+      logo: 'nvidia.com',
       region: 'us',
       currency: '$',
       refs: [
@@ -80,6 +83,7 @@
 
     UNH: {
       label: 'UNH · UnitedHealth',
+      logo: 'unitedhealthgroup.com',
       region: 'us',
       currency: '$',
       refs: [
@@ -101,6 +105,7 @@
 
     PLTR: {
       label: 'PLTR · Palantir',
+      logo: 'palantir.com',
       region: 'us',
       currency: '$',
       refs: [
@@ -120,6 +125,7 @@
 
     CEG: {
       label: 'CEG · Constellation Energy',
+      logo: 'constellationenergy.com',
       region: 'us',
       currency: '$',
       refs: [
@@ -139,6 +145,7 @@
     // 국내 ETF
     '487230': {
       label: '487230 · 미국AI전력핵심인프라',
+      logo: 'kodex.com',
       region: 'kr',
       currency: '₩',
       refs: [
@@ -156,6 +163,7 @@
 
     '487240': {
       label: '487240 · AI전력핵심설비',
+      logo: 'kodex.com',
       region: 'kr',
       currency: '₩',
       refs: [
@@ -476,9 +484,12 @@
       return;
     }
     setStatsBodyVisible(true);
-    wrap.innerHTML = visible.map((k, i) => `
-      <button class="chip${i === 0 ? ' is-active' : ''}" data-ticker="${k}" type="button" role="tab">${escapeHtml(STOCKS[k].label)}</button>
-    `).join('');
+    wrap.innerHTML = visible.map((k, i) => {
+      const logo = STOCKS[k].logo
+        ? `<img class="ticker-logo" src="https://www.google.com/s2/favicons?domain=${STOCKS[k].logo}&sz=64" alt="">`
+        : '';
+      return `<button class="chip${i === 0 ? ' is-active' : ''}" data-ticker="${k}" type="button" role="tab">${logo}${escapeHtml(STOCKS[k].label)}</button>`;
+    }).join('');
     selectTicker(visible[0]);
   }
 
