@@ -563,6 +563,44 @@ hr {
   transform: rotate(180deg);
 }
 
+/* 한 달에 월간 요약 1개만 있을 때 — 토글 대신 카드 자체가 링크 */
+.report-month--standalone {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-5);
+  font-weight: 600;
+  color: var(--text-primary);
+  text-decoration: none;
+  cursor: pointer;
+  transition: background var(--duration-fast) var(--easing-default);
+}
+
+.report-month--standalone:hover {
+  background: var(--bg-secondary);
+  text-decoration: none;
+  color: var(--text-primary);
+}
+
+.report-month--standalone .month-tag {
+  font-size: var(--text-sm);
+  color: var(--text-tertiary);
+  font-weight: 500;
+}
+
+.report-month--standalone .month-arrow {
+  margin-left: auto;
+  color: var(--text-tertiary);
+  font-size: var(--text-base);
+  transition: transform var(--duration-normal) var(--easing-default),
+              color var(--duration-normal) var(--easing-default);
+}
+
+.report-month--standalone:hover .month-arrow {
+  color: var(--color-primary);
+  transform: translateX(4px);
+}
+
 .report-month > .report-list {
   margin: 0;
   padding: var(--space-2) var(--space-3) var(--space-4);

@@ -21,30 +21,40 @@ charts: true
 
   {% assign months = site.posts | group_by_exp: "post", "post.date | date: '%Y-%m'" %}
   {% for month in months %}
+    {% assign count = month.items | size %}
     {% assign first_post = month.items | first %}
-    <details class="report-month"{% if forloop.first %} open{% endif %}>
-      <summary>
+
+    {% if count == 1 and first_post.type == "monthly" %}
+      <a class="report-month report-month--standalone" href="{{ first_post.url | relative_url }}">
         <span class="month-label">{{ first_post.date | date: "%Y년 %-m월" }}</span>
-        <span class="month-count">{{ month.items | size }}건</span>
-        <span class="month-chevron" aria-hidden="true">▾</span>
-      </summary>
-      <ul class="report-list">
-        {% for post in month.items %}
-          <li>
-            <a href="{{ post.url | relative_url }}"{% if post.type == "monthly" %} class="is-monthly"{% endif %}>
-              {% if post.type == "monthly" %}
-                <span class="date">월간 요약</span>
-                <span class="weekday">{{ post.date | date: "%Y년 %-m월" }} 회고</span>
-              {% else %}
-                <span class="date">{{ post.date | date: "%Y. %-m. %-d" }}</span>
-                <span class="weekday">{{ post.date | date: "%a" | replace: "Mon", "월요일" | replace: "Tue", "화요일" | replace: "Wed", "수요일" | replace: "Thu", "목요일" | replace: "Fri", "금요일" | replace: "Sat", "토요일" | replace: "Sun", "일요일" }}</span>
-              {% endif %}
-              <span class="arrow" aria-hidden="true">→</span>
-            </a>
-          </li>
-        {% endfor %}
-      </ul>
-    </details>
+        <span class="month-tag">월간 요약</span>
+        <span class="month-arrow" aria-hidden="true">→</span>
+      </a>
+    {% else %}
+      <details class="report-month"{% if forloop.first %} open{% endif %}>
+        <summary>
+          <span class="month-label">{{ first_post.date | date: "%Y년 %-m월" }}</span>
+          <span class="month-count">{{ count }}건</span>
+          <span class="month-chevron" aria-hidden="true">▾</span>
+        </summary>
+        <ul class="report-list">
+          {% for post in month.items %}
+            <li>
+              <a href="{{ post.url | relative_url }}"{% if post.type == "monthly" %} class="is-monthly"{% endif %}>
+                {% if post.type == "monthly" %}
+                  <span class="date">월간 요약</span>
+                  <span class="weekday">{{ post.date | date: "%Y년 %-m월" }} 회고</span>
+                {% else %}
+                  <span class="date">{{ post.date | date: "%Y. %-m. %-d" }}</span>
+                  <span class="weekday">{{ post.date | date: "%a" | replace: "Mon", "월요일" | replace: "Tue", "화요일" | replace: "Wed", "수요일" | replace: "Thu", "목요일" | replace: "Fri", "금요일" | replace: "Sat", "토요일" | replace: "Sun", "일요일" }}</span>
+                {% endif %}
+                <span class="arrow" aria-hidden="true">→</span>
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      </details>
+    {% endif %}
   {% endfor %}
 </section>
 
