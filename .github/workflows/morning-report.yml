@@ -2,11 +2,12 @@ name: Morning Report
 
 on:
   schedule:
-    # GH Actions cron 은 최대 60분 지연 가능 → 여러 시간대 등록해서 한 번은 발사 보장.
-    # 첫 슬롯에서 이미 생성됐으면 commit 스텝에서 "No new report" 로 종료 (idempotent).
-    - cron: '3 1 * * 1-5'   # 10:03 KST 목표
-    - cron: '33 1 * * 1-5'  # 10:33 KST (백업 1)
-    - cron: '3 2 * * 1-5'   # 11:03 KST (백업 2)
+    # 07:00 KST sweet spot (미국 마감 후속 기사 + 한국 조간 뉴스 모두 안착, 한국 장 시작 전).
+    # GH Actions cron 60분 지연 고려해 3 슬롯, idempotent (이미 생성됐으면 skip).
+    # KST = UTC + 9. 07:00 KST Mon-Fri = 22:00 UTC Sun-Thu.
+    - cron: '0 22 * * 0-4'   # 07:00 KST 목표
+    - cron: '30 22 * * 0-4'  # 07:30 KST (백업 1)
+    - cron: '0 23 * * 0-4'   # 08:00 KST (백업 2)
   workflow_dispatch:
     inputs:
       date:
