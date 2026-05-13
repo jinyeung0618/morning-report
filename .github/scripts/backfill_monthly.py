@@ -320,14 +320,34 @@ def generate_month(client: genai.Client, year: int, month: int) -> bool:
     full_text = re.sub(r"\s*\[cite:\s*[\d,\s]+\]", "", full_text)
     full_text = full_text.strip()
 
-    fm_match = re.search(r"^---\s*$", full_text, re.MULTILINE)
-    if fm_match:
-        markdown = full_text[fm_match.start():]
+    # frontmatter 검증: 첫 --- 이후 30줄 안에 닫는 --- 가 있고, 그 사이에 'type:' 키가 있어야 정상
+    last_day = calendar.monthrange(year, month)[1]
+    expected_front = (
+        f'---\nlayout: default\ntitle: "월간 요약 — {year}년 {month}월"\n'
+        f'date: {year}-{month:02d}-{last_day:02d} 18:00:00 +0900\ntype: monthly\n---\n\n'
+    )
+
+    def _has_valid_frontmatter(text: str) -> bool:
+        # ^--- 이후 30줄 안에 또 다른 ^--- 가 있고 그 사이에 'type:' 키가 들어있는지
+        lines = text.splitlines()
+        if not lines or lines[0].strip() != "---":
+            return False
+        for i in range(1, min(len(lines), 31)):
+            if lines[i].strip() == "---":
+                inner = "\n".join(lines[1:i])
+                return ("type:" in inner) and ("title:" in inner)
+        return False
+
+    if _has_valid_frontmatter(full_text):
+        markdown = full_text
     else:
-        last_day = calendar.monthrange(year, month)[1]
-        front = f'---\nlayout: default\ntitle: "월간 요약 — {year}년 {month}월"\ndate: {year}-{month:02d}-{last_day:02d} 18:00:00 +0900\ntype: monthly\n---\n\n'
-        markdown = front + full_text
-        print(f"  Note: model skipped frontmatter for {year}-{month:02d}, inserted programmatically.", flush=True)
+        # 빈/불완전 frontmatter — 본문만 추출해서 우리 frontmatter 부착
+        body = full_text
+        # 본문 앞에 ^---\n 만 있고 닫는 --- 가 30줄 안에 없는 케이스: 그 --- 제거
+        if body.startswith("---\n"):
+            body = body[len("---\n"):].lstrip()
+        markdown = expected_front + body
+        print(f"  Note: invalid/missing frontmatter for {year}-{month:02d}, inserted programmatically.", flush=True)
 
     out.write_text(markdown, encoding="utf-8")
     print(f"  WROTE {out.name} ({len(markdown)} chars)")

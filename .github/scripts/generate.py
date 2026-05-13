@@ -233,14 +233,30 @@ def generate():
     full_text = re.sub(r"\s*\[cite:\s*[\d,\s]+\]", "", full_text)
     full_text = full_text.strip()
 
-    # 프론트매터 있으면 거기서부터, 없으면 우리가 붙임
-    fm_match = re.search(r"^---\s*$", full_text, re.MULTILINE)
-    if fm_match:
-        markdown = full_text[fm_match.start():]
+    # frontmatter 검증: 빈 ---\n\n 만 있는 케이스도 감지해서 정상 frontmatter 부착
+    expected_front = (
+        f'---\nlayout: default\ntitle: "모닝 리포트 — {TODAY}"\n'
+        f'date: {TODAY} 10:03:00 +0900\n---\n\n'
+    )
+
+    def _has_valid_frontmatter(text: str) -> bool:
+        lines = text.splitlines()
+        if not lines or lines[0].strip() != "---":
+            return False
+        for i in range(1, min(len(lines), 31)):
+            if lines[i].strip() == "---":
+                inner = "\n".join(lines[1:i])
+                return ("title:" in inner) and ("date:" in inner)
+        return False
+
+    if _has_valid_frontmatter(full_text):
+        markdown = full_text
     else:
-        front = f'---\nlayout: default\ntitle: "모닝 리포트 — {TODAY}"\ndate: {TODAY} 10:03:00 +0900\n---\n\n'
-        markdown = front + full_text
-        print("  Note: model skipped frontmatter, inserted programmatically.", flush=True)
+        body = full_text
+        if body.startswith("---\n"):
+            body = body[len("---\n"):].lstrip()
+        markdown = expected_front + body
+        print("  Note: invalid/missing frontmatter, inserted programmatically.", flush=True)
 
     POSTS_DIR.mkdir(parents=True, exist_ok=True)
     OUTPUT_PATH.write_text(markdown, encoding="utf-8")
