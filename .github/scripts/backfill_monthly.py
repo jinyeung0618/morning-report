@@ -291,8 +291,13 @@ def generate_month(client: genai.Client, year: int, month: int) -> bool:
             is_transient = any(k in err_lower for k in ("503", "500", "502", "504", "unavailable", "deadline", "internal"))
             if is_rate:
                 delay = _extract_retry_delay(err_str)
-                if delay > SHORT_QUOTA_THRESHOLD_SEC:
-                    raise DailyQuotaExhausted(f"retry in {delay:.0f}s (~{delay/3600:.1f}h)")
+                # 일일 한도 시그널: quotaId 에 PerDay 포함 → retryDelay 무시하고 graceful exit
+                # (Gemini API 는 일일 quota 도 종종 짧은 retryDelay 를 줘서 short/long 만으로 구분 불가)
+                is_per_day = "perday" in err_lower or "per_day" in err_lower
+                if is_per_day or delay > SHORT_QUOTA_THRESHOLD_SEC:
+                    raise DailyQuotaExhausted(
+                        f"daily quota exhausted (quotaId contains PerDay or retryDelay {delay:.0f}s > {SHORT_QUOTA_THRESHOLD_SEC}s)"
+                    )
                 if attempt < MAX_RETRIES - 1:
                     print(f"  rate-limited (short), retrying same month in {delay:.0f}s (attempt {attempt+1}/{MAX_RETRIES})", flush=True)
                     time.sleep(delay)

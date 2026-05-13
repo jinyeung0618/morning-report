@@ -2,9 +2,11 @@ name: Morning Report
 
 on:
   schedule:
-    # 10:03 KST 평일 = 01:03 UTC 평일
-    # GitHub Actions cron은 UTC. 최대 15~60분 지연 가능.
-    - cron: '3 1 * * 1-5'
+    # GH Actions cron 은 최대 60분 지연 가능 → 여러 시간대 등록해서 한 번은 발사 보장.
+    # 첫 슬롯에서 이미 생성됐으면 commit 스텝에서 "No new report" 로 종료 (idempotent).
+    - cron: '3 1 * * 1-5'   # 10:03 KST 목표
+    - cron: '33 1 * * 1-5'  # 10:33 KST (백업 1)
+    - cron: '3 2 * * 1-5'   # 11:03 KST (백업 2)
   workflow_dispatch:
     inputs:
       date:
@@ -51,6 +53,6 @@ jobs:
             git commit -m "Morning report ${DATE}"
             git push
           else
-            echo "No new report to commit"
-            exit 1
+            # 같은 날 이미 생성·푸시됐으면 정상 종료 (백업 cron 들이 idempotent 하게 끝나도록)
+            echo "No new report to commit (today already generated)"
           fi

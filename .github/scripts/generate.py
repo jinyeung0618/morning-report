@@ -156,6 +156,11 @@ date: {TODAY} 10:03:00 +0900
 
 
 def generate():
+    # REPORT_DATE 명시되지 않은 평소 호출 + 파일 이미 존재 → 백업 cron 의 중복 호출 회피
+    if not os.environ.get("REPORT_DATE", "").strip() and OUTPUT_PATH.exists():
+        print(f"{OUTPUT_PATH.name} already exists for today. Skipping (idempotent).")
+        return
+
     client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
 
     print(f"Fetching news for {TODAY_DATE}...")
