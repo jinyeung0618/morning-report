@@ -233,29 +233,42 @@ def generate():
     full_text = re.sub(r"\s*\[cite:\s*[\d,\s]+\]", "", full_text)
     full_text = full_text.strip()
 
-    # frontmatter 검증: 빈 ---\n\n 만 있는 케이스도 감지해서 정상 frontmatter 부착
+    # frontmatter 정상화: 첫 ---..--- 블록 추출 + 본문 시작의 중복 frontmatter 흔적 제거
     expected_front = (
         f'---\nlayout: default\ntitle: "모닝 리포트 — {TODAY}"\n'
-        f'date: {TODAY} 10:03:00 +0900\n---\n\n'
+        f'date: {TODAY} 10:03:00 +0900\n---\n'
     )
 
-    def _has_valid_frontmatter(text: str) -> bool:
-        lines = text.splitlines()
+    def _split_frontmatter(text: str):
+        """첫 frontmatter 블록과 나머지 body 반환. 유효하지 않으면 (None, text)."""
+        lines = text.splitlines(keepends=True)
         if not lines or lines[0].strip() != "---":
-            return False
+            return None, text
         for i in range(1, min(len(lines), 31)):
             if lines[i].strip() == "---":
-                inner = "\n".join(lines[1:i])
-                return ("title:" in inner) and ("date:" in inner)
-        return False
+                inner = "".join(lines[1:i])
+                if "title:" in inner and "date:" in inner:
+                    return "".join(lines[:i + 1]), "".join(lines[i + 1:])
+                return None, text
+        return None, text
 
-    if _has_valid_frontmatter(full_text):
-        markdown = full_text
+    def _strip_leading_frontmatter_traces(body: str) -> str:
+        """본문 앞부분의 'layout:', 'title:', '---' 같은 중복 frontmatter 흔적 제거."""
+        body_lines = body.splitlines(keepends=True)
+        while body_lines:
+            first = body_lines[0].strip()
+            if not first or re.match(r"^[a-z_]+:\s", first) or first == "---":
+                body_lines.pop(0)
+            else:
+                break
+        return "".join(body_lines)
+
+    front, body = _split_frontmatter(full_text)
+    body = _strip_leading_frontmatter_traces(body)
+    if front:
+        markdown = front + "\n" + body
     else:
-        body = full_text
-        if body.startswith("---\n"):
-            body = body[len("---\n"):].lstrip()
-        markdown = expected_front + body
+        markdown = expected_front + "\n" + body
         print("  Note: invalid/missing frontmatter, inserted programmatically.", flush=True)
 
     POSTS_DIR.mkdir(parents=True, exist_ok=True)
