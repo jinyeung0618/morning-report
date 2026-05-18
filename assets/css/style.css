@@ -481,14 +481,50 @@ table td {
 /* 첫째 열(종목): 로고 + 한글명/약어 2단 / 둘째 열(분위기): 좁게 / 셋째 열(설명): 나머지 */
 table td:first-child,
 table th:first-child {
-  width: 24ch;
-  min-width: 20ch;
+  width: 20ch;
+  min-width: 17ch;
 }
 
 table td:nth-child(2),
 table th:nth-child(2) {
   width: 6ch;
   text-align: center;
+}
+
+/* 모바일: 종목 셀 축소 + 로고·텍스트 콤팩트 → 셋째 열 (한 줄) 여유 */
+@media (max-width: 640px) {
+  table td:first-child,
+  table th:first-child {
+    width: 13ch;
+    min-width: 12ch;
+  }
+  table td:nth-child(2),
+  table th:nth-child(2) {
+    width: 4ch;
+    min-width: 3ch;
+  }
+  .ticker-cell {
+    gap: 6px;
+  }
+  .ticker-logo {
+    width: 28px;
+    height: 16px;
+  }
+  .ticker-logo img {
+    width: 14px;
+    height: 14px;
+  }
+  .ticker-logo--badge {
+    width: 28px;
+    height: 16px;
+    font-size: 7.5px;
+  }
+  .ticker-text__ko {
+    font-size: 12px;
+  }
+  .ticker-text__sym {
+    font-size: 9px;
+  }
 }
 
 table tbody tr:last-child td { border-bottom: none; }
