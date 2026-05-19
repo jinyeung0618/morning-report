@@ -28,14 +28,14 @@ charts: true
       <a class="report-month report-month--standalone" href="{{ first_post.url | relative_url }}">
         <span class="month-label">{{ first_post.date | date: "%Y년 %-m월" }}</span>
         <span class="month-tag">월간 요약</span>
-        <svg class="month-arrow" aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        <svg class="month-arrow" aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       </a>
     {% else %}
       <details class="report-month"{% if forloop.first %} open{% endif %}>
         <summary>
           <span class="month-label">{{ first_post.date | date: "%Y년 %-m월" }}</span>
           <span class="month-count">{{ count }}건</span>
-          <svg class="month-chevron" aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+          <svg class="month-chevron" aria-hidden="true" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
         </summary>
         <ul class="report-list">
           {% for post in month.items %}

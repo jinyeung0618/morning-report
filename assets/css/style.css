@@ -325,21 +325,25 @@ blockquote p:last-child { margin-bottom: 0; }
 
 /* ---------- Sort Arrow (watchlist table headers) ---------- */
 .sort-arrow {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
   margin-left: 4px;
-  font-size: 10px;
   color: var(--text-tertiary);
-  vertical-align: 1px;
-  transition: color var(--duration-fast) var(--easing-default);
+  opacity: 0.45;
+  transition: color var(--duration-fast) var(--easing-default),
+              opacity var(--duration-fast) var(--easing-default);
+  vertical-align: middle;
 }
+.sort-arrow svg { display: block; }
 .sort-arrow.is-active {
   color: var(--color-primary);
+  opacity: 1;
 }
 table th:hover .sort-arrow {
-  color: var(--text-secondary);
+  opacity: 0.85;
 }
 table th:hover .sort-arrow.is-active {
-  color: var(--color-primary);
+  opacity: 1;
 }
 
 /* ---------- Custom Tooltip ---------- */
@@ -711,8 +715,21 @@ hr {
   transition: background var(--duration-fast) var(--easing-default);
 }
 
-.report-month > summary::-webkit-details-marker { display: none; }
-.report-month > summary::marker { content: ""; }
+/* 브라우저 기본 details disclosure marker 강제 제거 (Safari·Chrome·FF 모두) */
+details > summary,
+.report-month > summary {
+  list-style: none;
+  list-style-type: none;
+}
+.report-month > summary::-webkit-details-marker,
+details > summary::-webkit-details-marker {
+  display: none;
+}
+.report-month > summary::marker,
+details > summary::marker {
+  content: "";
+  display: none;
+}
 
 .report-month > summary:hover {
   background: var(--bg-secondary);

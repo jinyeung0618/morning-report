@@ -1,32 +1,27 @@
-// Watchlist 표 정렬 — 헤더 클릭 시 정렬, 화살표 표시
-// 첫 컬럼 헤더가 '종목' 인 표만 sortable 로 인식
+// Watchlist 표 정렬 — '종목', '분위기' 컬럼만 sortable. '한 줄' 은 X.
 (function () {
-  // 분위기 이모지 순위 (좋음 → 나쁨)
   const MOOD_RANK = { '🟢': 1, '🟡': 2, '🔴': 3, '—': 4 };
 
-  function getCellText(td) {
-    return (td.textContent || '').trim();
-  }
+  // 정렬 가능한 헤더만 화살표 + 핸들러 (한 줄 / 그 달 주요 이벤트 같은 free text 는 제외)
+  const SORTABLE_HEADERS = new Set(['종목', '분위기']);
 
-  // 종목 컬럼: 한글명 (있으면) > ticker symbol
+  // Lucide SVG icons
+  const SVG_INACTIVE = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg>';
+  const SVG_ASC      = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>';
+  const SVG_DESC     = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>';
+
   function getTickerSortKey(td) {
     const ko = td.querySelector('.ticker-text__ko');
     if (ko) return ko.textContent.trim();
-    return getCellText(td);
+    return (td.textContent || '').trim();
   }
 
-  // 분위기 컬럼: 이모지 추출 후 순위로 변환
   function getMoodSortKey(td) {
-    const text = getCellText(td);
+    const text = (td.textContent || '').trim();
     for (const emoji of Object.keys(MOOD_RANK)) {
       if (text.includes(emoji)) return MOOD_RANK[emoji];
     }
-    return 99; // unknown
-  }
-
-  // 일반 셀: 텍스트 비교
-  function getDefaultSortKey(td) {
-    return getCellText(td);
+    return 99;
   }
 
   function sortRows(tbody, colIdx, direction, getKey) {
@@ -37,23 +32,21 @@
       if (typeof ka === 'number' && typeof kb === 'number') {
         return direction === 'asc' ? ka - kb : kb - ka;
       }
-      // 한글·영문 모두 localeCompare ('ko' 가나다 + 영문 처리)
       const cmp = String(ka).localeCompare(String(kb), 'ko');
       return direction === 'asc' ? cmp : -cmp;
     });
     rows.forEach(r => tbody.appendChild(r));
   }
 
-  function updateArrows(thead, activeIdx, direction) {
-    const ths = thead.querySelectorAll('th');
+  function updateArrows(ths, activeIdx, direction) {
     ths.forEach((th, i) => {
       const arrow = th.querySelector('.sort-arrow');
       if (!arrow) return;
       if (i === activeIdx) {
-        arrow.textContent = direction === 'asc' ? '▲' : '▼';
+        arrow.innerHTML = direction === 'asc' ? SVG_ASC : SVG_DESC;
         arrow.classList.add('is-active');
       } else {
-        arrow.textContent = '↕';
+        arrow.innerHTML = SVG_INACTIVE;
         arrow.classList.remove('is-active');
       }
     });
@@ -68,37 +61,34 @@
     const headers = ths.map(t => (t.textContent || '').trim());
     if (headers[0] !== '종목') return; // watchlist 표만
 
-    // 각 th 에 sort 아이콘 + cursor + click handler
-    ths.forEach((th, idx) => {
+    // 정렬 가능한 컬럼에만 아이콘 + 클릭
+    const sortableIdx = ths.map((_, i) => SORTABLE_HEADERS.has(headers[i]) ? i : -1).filter(i => i !== -1);
+
+    sortableIdx.forEach(idx => {
+      const th = ths[idx];
       th.style.cursor = 'pointer';
       th.style.userSelect = 'none';
       const arrow = document.createElement('span');
       arrow.className = 'sort-arrow';
-      arrow.textContent = '↕';
+      arrow.innerHTML = SVG_INACTIVE;
       arrow.setAttribute('aria-hidden', 'true');
       th.appendChild(arrow);
     });
 
-    // 현재 정렬 상태
     let activeIdx = -1;
     let direction = 'asc';
 
-    ths.forEach((th, idx) => {
-      th.addEventListener('click', () => {
+    sortableIdx.forEach(idx => {
+      ths[idx].addEventListener('click', () => {
         if (activeIdx === idx) {
           direction = direction === 'asc' ? 'desc' : 'asc';
         } else {
           activeIdx = idx;
           direction = 'asc';
         }
-
-        const getKey =
-          idx === 0 ? getTickerSortKey :
-          idx === 1 ? getMoodSortKey :
-          getDefaultSortKey;
-
+        const getKey = idx === 0 ? getTickerSortKey : getMoodSortKey;
         sortRows(tbody, idx, direction, getKey);
-        updateArrows(thead, activeIdx, direction);
+        updateArrows(ths, activeIdx, direction);
       });
     });
   }
