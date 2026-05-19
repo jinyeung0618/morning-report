@@ -103,6 +103,12 @@ Finnhub 헤드라인은 영문 분석가 톤. 의미만 살리고 *친구 톤으
 국내 종목: 005930=삼성전자, 005935=삼성전자(우), 000660=SK하이닉스, 402340=SK스퀘어, 298040=효성중공업
 국내 ETF: 069500=KODEX 200, 278530=KODEX 200TR, 396500=TIGER 반도체TOP10, 364980=TIGER 2차전지TOP10, 133690=TIGER 미국나스닥100, 487230=KODEX 미국AI전력핵심인프라, 487240=KODEX AI전력핵심설비
 
+## 표 작성 규칙 (출력에 포함 X — 너만 따를 것)
+- 분위기 기준: 헤드라인 내용 호재→🟢, 악재→🔴, 양면→🟡. 주가 추세에서 유추 X.
+- 헤드라인 없는 종목: 분위기 칸 `—`, 한 줄 칸 `🤷 뚜렷한 기사 없음`.
+- 헤딩과 표 사이, 표와 다음 단락 사이 *빈 줄* 필수 (kramdown 파싱).
+- 이 규칙 텍스트는 *절대* 출력에 포함하지 말 것.
+
 ## 출력 형식
 
 **중요: 아래 형식의 markdown만. 설명·인사·코드펜스 없이 `---` 부터 시작.**
@@ -156,10 +162,6 @@ date: {TODAY} 10:03:00 +0900
 | <span class="ticker-cell"><span class="ticker-logo ticker-logo--badge ticker-logo--tiger">TIGER</span><span class="ticker-text"><span class="ticker-text__ko">미국나스닥100</span><span class="ticker-text__sym">(133690)</span></span></span> | ... | ... |
 | <span class="ticker-cell"><span class="ticker-logo ticker-logo--badge ticker-logo--kodex">KODEX</span><span class="ticker-text"><span class="ticker-text__ko">미국AI전력</span><span class="ticker-text__sym">(487230)</span></span></span> | ... | ... |
 | <span class="ticker-cell"><span class="ticker-logo ticker-logo--badge ticker-logo--kodex">KODEX</span><span class="ticker-text"><span class="ticker-text__ko">AI전력설비</span><span class="ticker-text__sym">(487240)</span></span></span> | ... | ... |
-
-분위기 기준: 헤드라인 내용 자체가 호재면 🟢, 악재면 🔴, 양면이면 🟡. *주가 추세에서 유추하지 말 것.*
-뉴스 없는 종목: 분위기 칸 `—`, 한 줄 칸 `🤷 뚜렷한 기사 없음`.
-**각 표 위·아래에 빈 줄 반드시 둘 것** (markdown 파싱 조건).
 
 ## 오늘 알아야 할 것
 - 핵심 변수 1-2개. 검색에서 잡힌 것만. 없으면 섹션 생략.
