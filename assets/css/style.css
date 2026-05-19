@@ -323,6 +323,25 @@ blockquote {
 blockquote p { color: inherit; margin-bottom: var(--space-2); }
 blockquote p:last-child { margin-bottom: 0; }
 
+/* ---------- Sort Arrow (watchlist table headers) ---------- */
+.sort-arrow {
+  display: inline-block;
+  margin-left: 4px;
+  font-size: 10px;
+  color: var(--text-tertiary);
+  vertical-align: 1px;
+  transition: color var(--duration-fast) var(--easing-default);
+}
+.sort-arrow.is-active {
+  color: var(--color-primary);
+}
+table th:hover .sort-arrow {
+  color: var(--text-secondary);
+}
+table th:hover .sort-arrow.is-active {
+  color: var(--color-primary);
+}
+
 /* ---------- Custom Tooltip ---------- */
 .has-tip {
   position: relative;

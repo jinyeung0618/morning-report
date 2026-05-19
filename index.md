@@ -28,14 +28,14 @@ charts: true
       <a class="report-month report-month--standalone" href="{{ first_post.url | relative_url }}">
         <span class="month-label">{{ first_post.date | date: "%Y년 %-m월" }}</span>
         <span class="month-tag">월간 요약</span>
-        <span class="month-arrow" aria-hidden="true">→</span>
+        <svg class="month-arrow" aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       </a>
     {% else %}
       <details class="report-month"{% if forloop.first %} open{% endif %}>
         <summary>
           <span class="month-label">{{ first_post.date | date: "%Y년 %-m월" }}</span>
           <span class="month-count">{{ count }}건</span>
-          <span class="month-chevron" aria-hidden="true">▾</span>
+          <svg class="month-chevron" aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
         </summary>
         <ul class="report-list">
           {% for post in month.items %}
@@ -48,7 +48,7 @@ charts: true
                   <span class="date">{{ post.date | date: "%Y. %-m. %-d" }}</span>
                   <span class="weekday">{{ post.date | date: "%a" | replace: "Mon", "월요일" | replace: "Tue", "화요일" | replace: "Wed", "수요일" | replace: "Thu", "목요일" | replace: "Fri", "금요일" | replace: "Sat", "토요일" | replace: "Sun", "일요일" }}</span>
                 {% endif %}
-                <span class="arrow" aria-hidden="true">→</span>
+                <svg class="arrow" aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
               </a>
             </li>
           {% endfor %}
