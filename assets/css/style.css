@@ -715,7 +715,7 @@ hr {
 .report-month .month-chevron {
   margin-left: auto;
   color: var(--text-tertiary);
-  font-size: var(--text-sm);
+  font-size: var(--text-lg);
   transition: transform var(--duration-normal) var(--easing-default);
 }
 
@@ -751,7 +751,7 @@ hr {
 .report-month--standalone .month-arrow {
   margin-left: auto;
   color: var(--text-tertiary);
-  font-size: var(--text-base);
+  font-size: var(--text-lg);
   transition: transform var(--duration-normal) var(--easing-default),
               color var(--duration-normal) var(--easing-default);
 }
@@ -832,7 +832,7 @@ hr {
 .report-list .arrow {
   margin-left: auto;
   color: var(--text-tertiary);
-  font-size: var(--text-base);
+  font-size: var(--text-lg);
   transition: transform var(--duration-normal) var(--easing-default),
               color var(--duration-normal) var(--easing-default);
 }
