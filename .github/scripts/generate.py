@@ -99,8 +99,9 @@ Finnhub 헤드라인은 영문 분석가 톤. 의미만 살리고 *친구 톤으
 - "왜 중요한가" 는 *사용자한테 뭐가 바뀌는지* 관점.
 
 ## 추적 종목 (이름 매핑)
-- AAPL=애플, TSLA=테슬라, NVDA=엔비디아, UNH=유나이티드헬스, PLTR=팔란티어, CEG=컨스텔레이션
-- 487230=KODEX 미국AI전력핵심인프라, 487240=KODEX AI전력핵심설비
+해외: AAPL=애플, TSLA=테슬라, NVDA=엔비디아, UNH=유나이티드헬스, PLTR=팔란티어, CEG=컨스텔레이션
+국내 종목: 005930=삼성전자, 005935=삼성전자(우), 000660=SK하이닉스, 402340=SK스퀘어, 298040=효성중공업
+국내 ETF: 069500=KODEX 200, 278530=KODEX 200TR, 396500=TIGER 반도체TOP10, 364980=TIGER 2차전지TOP10, 133690=TIGER 미국나스닥100, 487230=KODEX 미국AI전력핵심인프라, 487240=KODEX AI전력핵심설비
 
 ## 출력 형식
 
@@ -143,7 +144,17 @@ date: {TODAY} 10:03:00 +0900
 
 | 종목 | 분위기 | 한 줄 |
 |---|---|---|
-| <span class="ticker-cell"><span class="ticker-logo ticker-logo--badge ticker-logo--kodex">KODEX</span><span class="ticker-text"><span class="ticker-text__ko">미국AI전력</span><span class="ticker-text__sym">(487230)</span></span></span> | 🟢/🟡/🔴 또는 — | 헤드라인 있으면 인용. 없으면 `🤷 뚜렷한 기사 없음` |
+| <span class="ticker-cell"><span class="ticker-logo"><img src="https://cdn.simpleicons.org/samsung/1428a0" alt=""></span><span class="ticker-text"><span class="ticker-text__ko">삼성전자</span><span class="ticker-text__sym">(005930)</span></span></span> | 🟢/🟡/🔴 또는 — | 헤드라인 있으면 인용. 없으면 `🤷 뚜렷한 기사 없음` |
+| <span class="ticker-cell"><span class="ticker-logo"><img src="https://cdn.simpleicons.org/samsung/1428a0" alt=""></span><span class="ticker-text"><span class="ticker-text__ko">삼성전자(우)</span><span class="ticker-text__sym">(005935)</span></span></span> | ... | ... |
+| <span class="ticker-cell"><span class="ticker-logo ticker-logo--badge ticker-logo--sk">SK</span><span class="ticker-text"><span class="ticker-text__ko">SK하이닉스</span><span class="ticker-text__sym">(000660)</span></span></span> | ... | ... |
+| <span class="ticker-cell"><span class="ticker-logo ticker-logo--badge ticker-logo--sk">SK</span><span class="ticker-text"><span class="ticker-text__ko">SK스퀘어</span><span class="ticker-text__sym">(402340)</span></span></span> | ... | ... |
+| <span class="ticker-cell"><span class="ticker-logo ticker-logo--badge ticker-logo--hyosung">효성</span><span class="ticker-text"><span class="ticker-text__ko">효성중공업</span><span class="ticker-text__sym">(298040)</span></span></span> | ... | ... |
+| <span class="ticker-cell"><span class="ticker-logo ticker-logo--badge ticker-logo--kodex">KODEX</span><span class="ticker-text"><span class="ticker-text__ko">코스피200</span><span class="ticker-text__sym">(069500)</span></span></span> | ... | ... |
+| <span class="ticker-cell"><span class="ticker-logo ticker-logo--badge ticker-logo--kodex">KODEX</span><span class="ticker-text"><span class="ticker-text__ko">코스피200TR</span><span class="ticker-text__sym">(278530)</span></span></span> | ... | ... |
+| <span class="ticker-cell"><span class="ticker-logo ticker-logo--badge ticker-logo--tiger">TIGER</span><span class="ticker-text"><span class="ticker-text__ko">반도체TOP10</span><span class="ticker-text__sym">(396500)</span></span></span> | ... | ... |
+| <span class="ticker-cell"><span class="ticker-logo ticker-logo--badge ticker-logo--tiger">TIGER</span><span class="ticker-text"><span class="ticker-text__ko">2차전지TOP10</span><span class="ticker-text__sym">(364980)</span></span></span> | ... | ... |
+| <span class="ticker-cell"><span class="ticker-logo ticker-logo--badge ticker-logo--tiger">TIGER</span><span class="ticker-text"><span class="ticker-text__ko">미국나스닥100</span><span class="ticker-text__sym">(133690)</span></span></span> | ... | ... |
+| <span class="ticker-cell"><span class="ticker-logo ticker-logo--badge ticker-logo--kodex">KODEX</span><span class="ticker-text"><span class="ticker-text__ko">미국AI전력</span><span class="ticker-text__sym">(487230)</span></span></span> | ... | ... |
 | <span class="ticker-cell"><span class="ticker-logo ticker-logo--badge ticker-logo--kodex">KODEX</span><span class="ticker-text"><span class="ticker-text__ko">AI전력설비</span><span class="ticker-text__sym">(487240)</span></span></span> | ... | ... |
 
 분위기 기준: 헤드라인 내용 자체가 호재면 🟢, 악재면 🔴, 양면이면 🟡. *주가 추세에서 유추하지 말 것.*

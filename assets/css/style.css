@@ -440,6 +440,9 @@ blockquote p:last-child { margin-bottom: 0; }
 .ticker-logo--unh { background: #002677; }
 .ticker-logo--ceg { background: #00609c; }
 .ticker-logo--kodex { background: #1428a0; }
+.ticker-logo--sk { background: #EA002C; }       /* SK Group red */
+.ticker-logo--tiger { background: #f3661c; }    /* TIGER orange */
+.ticker-logo--hyosung { background: #00689D; }  /* 효성 blue */
 
 /* ---------- Tables ---------- */
 table {

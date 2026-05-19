@@ -18,13 +18,53 @@ FINNHUB_BASE = "https://finnhub.io/api/v1"
 US_TICKERS = ["AAPL", "TSLA", "NVDA", "UNH", "PLTR", "CEG"]
 
 KR_TICKERS = {
+    "005930": {
+        "name": "삼성전자",
+        "queries": ["삼성전자 실적", "삼성전자 HBM", "삼성전자 파운드리"],
+    },
+    "005935": {
+        "name": "삼성전자우",
+        "queries": ["삼성전자 우선주", "삼성전자 배당"],
+    },
+    "000660": {
+        "name": "SK하이닉스",
+        "queries": ["SK하이닉스 HBM", "SK하이닉스 실적", "SK하이닉스 메모리"],
+    },
+    "402340": {
+        "name": "SK스퀘어",
+        "queries": ["SK스퀘어 자회사 가치", "SK스퀘어 SK하이닉스 지분"],
+    },
+    "069500": {
+        "name": "KODEX 200",
+        "queries": ["코스피200 지수", "KODEX 200 자금 유입"],
+    },
+    "278530": {
+        "name": "KODEX 200TR",
+        "queries": ["KODEX 200TR", "코스피200 TR 지수"],
+    },
+    "396500": {
+        "name": "TIGER Fn반도체TOP10",
+        "queries": ["TIGER 반도체TOP10", "한국 반도체 ETF 수익률"],
+    },
+    "364980": {
+        "name": "TIGER 2차전지TOP10",
+        "queries": ["TIGER 2차전지TOP10", "2차전지 종목 동향", "삼성SDI 실적"],
+    },
+    "133690": {
+        "name": "TIGER 미국나스닥100",
+        "queries": ["TIGER 미국나스닥100", "나스닥 100 지수", "한국 상장 나스닥 ETF"],
+    },
+    "298040": {
+        "name": "효성중공업",
+        "queries": ["효성중공업 HVDC", "효성중공업 변압기 수출", "효성중공업 실적"],
+    },
     "487230": {
         "name": "KODEX 미국AI전력핵심인프라",
         "queries": ["KODEX 미국AI전력핵심인프라", "GE Vernova 수주", "Vertiv 데이터센터"],
     },
     "487240": {
         "name": "KODEX AI전력핵심설비",
-        "queries": ["KODEX AI전력핵심설비", "LS ELECTRIC 데이터센터", "효성중공업 HVDC"],
+        "queries": ["KODEX AI전력핵심설비", "LS ELECTRIC 데이터센터", "AI 전력 ETF"],
     },
 }
 
