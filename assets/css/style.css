@@ -513,8 +513,9 @@ table th:first-child {
 
 table td:nth-child(2),
 table th:nth-child(2) {
-  width: 6ch;
+  width: 8ch;
   text-align: center;
+  white-space: nowrap;
 }
 
 /* 모바일: 종목 셀 축소 + 로고·텍스트 콤팩트 → 셋째 열 (한 줄) 여유 */
@@ -526,8 +527,9 @@ table th:nth-child(2) {
   }
   table td:nth-child(2),
   table th:nth-child(2) {
-    width: 4ch;
-    min-width: 3ch;
+    width: 7ch;
+    min-width: 6ch;
+    white-space: nowrap;
   }
   .ticker-cell {
     gap: 6px;
